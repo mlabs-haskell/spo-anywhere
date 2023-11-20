@@ -10,9 +10,9 @@
   }: {
     devshells.default = {
       devshell = {
-        name = "SPO Anywhere";
+        name = "SPO-anywhere";
         motd = ''
-          ❄️ Welcome to the {14}{bold}SPO Anywhere{reset}'s shell ❄️
+          ❄️ Welcome to the {14}{bold}SPO-anywhere{reset}'s shell ❄️
           $(type -p menu &>/dev/null && menu)
         '';
       };
