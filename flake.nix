@@ -2,14 +2,11 @@
   inputs = {
     cardanoNix.url = "github:mlabs-haskell/cardano.nix";
 
-    # Follow versions from cardano.nix
     nixpkgs.follows = "cardanoNix/nixpkgs";
     flake-parts.follows = "cardanoNix/flake-parts";
 
-    # we use effects for CI and documentation
     hercules-ci-effects.follows = "cardanoNix/hercules-ci-effects";
 
-    # Utilities
     devshell = {
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,7 +25,7 @@
     flake-parts.lib.mkFlake {
       inherit inputs;
     } {
-      debug = true;
+      debug = true; # TODO: disable in the future
       imports = [
         ./lib
         ./checks
