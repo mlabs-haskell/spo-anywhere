@@ -1,6 +1,4 @@
 {inputs, ...}: {
-  imports = [
-  ];
   perSystem = {
     pkgs,
     config,
