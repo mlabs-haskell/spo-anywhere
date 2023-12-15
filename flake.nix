@@ -32,6 +32,7 @@
         ./ci
         ./formatter
         ./shell
+        ./modules
       ];
       systems = [
         "x86_64-linux"
