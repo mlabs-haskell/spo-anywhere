@@ -358,16 +358,16 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1701551630,
-        "narHash": "sha256-btqJhzXjk41bbOPmwfMxcf0hq4B0qIejLYPFg2oAvgk=",
-        "owner": "zmrocze",
+        "lastModified": 1702658590,
+        "narHash": "sha256-fP+MHU+IJoj2TEXydCug7ZG04a+oxmJODyZAVg9ZNp8=",
+        "owner": "mlabs-haskell",
         "repo": "hercules-ci-effects",
-        "rev": "e8082785073a0d23a09a114745365442e81492e4",
+        "rev": "2f9d9c766671d7426d3b77a2d69793d72cc11c86",
         "type": "github"
       },
       "original": {
-        "owner": "zmrocze",
-        "ref": "karol/push-cache-effect",
+        "owner": "mlabs-haskell",
+        "ref": "push-cache-effect",
         "repo": "hercules-ci-effects",
         "type": "github"
       }
