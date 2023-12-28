@@ -8,7 +8,7 @@
     # TODO: use upstream `hercules-ci-effects` once this is merged:
     # https://github.com/hercules-ci/hercules-ci-effects/pull/163/
     # hercules-ci-effects.follows = "cardanoNix/hercules-ci-effects";
-    hercules-ci-effects.url = "github:mlabs-haskell/hercules-ci-effects/push-cache-effect";
+    hercules-ci-effects.url = "github:zmrocze/hercules-ci-effects?ref=karol/push-cache-effect";
 
     devshell = {
       url = "github:numtide/devshell";
@@ -22,6 +22,10 @@
     devour-flake = {
       url = "github:srid/devour-flake";
       flake = false;
+    };
+    attic = {
+      url = "github:zhaofengli/attic";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
   outputs = inputs @ {flake-parts, ...}:
