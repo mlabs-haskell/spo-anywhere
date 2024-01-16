@@ -27,6 +27,12 @@
       url = "github:zhaofengli/attic";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    cardano-node.url = "github:intersectmbo/cardano-node?ref=8.7.3";
+
+    iohkNix = {
+      url = "github:input-output-hk/iohk-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {
