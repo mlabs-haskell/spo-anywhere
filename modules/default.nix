@@ -4,6 +4,10 @@
     system = "x86_64-linux";
     modules = [
       config.flake.nixosModules.relay-node
+      {
+        services.pipewire.enable = false;
+        hardware.pulseaudio.enable = false;
+      }
     ];
   };
 
