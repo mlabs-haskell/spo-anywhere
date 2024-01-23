@@ -12,7 +12,7 @@
           {
             accessPoints = relayAddrs;
             advertise = false;
-            valency = length (attrNames relayAddrs);
+            valency = length relayAddrs;
           }
       ];
       publicRoots = [
@@ -30,7 +30,7 @@ in
 {
   imports = [
     inputs.cardano-node.nixosModules.cardano-node
-    inputs.cardano-node.nixosModules.cardano-submit-api
+    # inputs.cardano-node.nixosModules.cardano-submit-api
     ];
 
   options = {
@@ -38,7 +38,7 @@ in
       enable = mkEnableOption "Enable cardano-node with some defaults.";
       environment = mkOption {
         type = types.enum (attrNames config.services.cardano-node.environments);
-        default = "testnet";
+        default = "preprod";
         description = ''
           environment node will connect to
         '';
@@ -67,7 +67,7 @@ in
   config = lib.mkIf cfg.enable {
     services.cardano-node = {
       enable = true;
-      systemdSocketActivation = true;
+      # systemdSocketActivation = fase;
       port = 3001;
       hostAddr = "127.0.0.1";
       environment = cfg.environment;

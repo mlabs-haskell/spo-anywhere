@@ -57,13 +57,14 @@ in {
         internal = true;
         default = test:
           (cfg._nixosLib.runTest {
-            hostPkgs = pkgs;
+            hostPkgs = pkgs; # Nixpkgs attrset used outside the nodes.
 
             # false by default, it speeds up evaluation by skipping docs generation
             defaults.documentation.enable = test.documentation;
 
             node = {
               inherit (test) specialArgs;
+              pkgs = pkgs; # Nixpkgs used in nodes
             };
 
             # import all of our flake nixos modules by default
