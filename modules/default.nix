@@ -1,8 +1,11 @@
-{ config, inputs, ...}: {
-
+{
+  config,
+  inputs,
+  ...
+}: {
   flake.nixosModules = {
     module = ./dummy;
-    block-producer-node = (import ./block-producer-node { inherit inputs; });
+    block-producer-node = import ./block-producer-node {inherit inputs;};
     # the default module imports all modules
     default = {
       imports = with builtins; attrValues (removeAttrs config.flake.nixosModules ["default"]);

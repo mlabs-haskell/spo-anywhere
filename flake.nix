@@ -26,7 +26,6 @@
       url = "github:input-output-hk/iohk-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
   };
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {

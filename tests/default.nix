@@ -1,9 +1,11 @@
-{ config, ...}:
 {
+  inputs,
+  ...
+}: {
   perSystem = _: {
     imports = [
       ./dummy.nix
-      (import ./block-producer.nix { node-module = config.flake.nixosModules.block-producer-node; })
+      (import ./block-producer.nix {inherit inputs;})
     ];
   };
 }
