@@ -1,37 +1,42 @@
-{ inputs, ... }:
-{ config, pkgs, lib, ... }: with lib; with builtins; let 
-
+{inputs, ...}: {
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+with lib;
+with builtins; let
   commonLib = inputs.iohkNix.lib;
   cfg = config.services.block-producer-node;
 
   # [{address : str, port : int}] -> topology file derivation
   # mimicks topology.json format
-  mkBlockProducerTopology = relayAddrs: toFile "topology.json" (toJSON 
-    {
-      localRoots = [
+  mkBlockProducerTopology = relayAddrs:
+    toFile "topology.json" (
+      toJSON
+      {
+        localRoots = [
           {
             accessPoints = relayAddrs;
             advertise = false;
             valency = length relayAddrs;
           }
-      ];
-      publicRoots = [
+        ];
+        publicRoots = [
           {
-            accessPoints = [  
+            accessPoints = [
             ];
             advertise = false;
           }
-      ];
-      useLedgerAfterSlot = -1;
-    }
-  );
-
-in 
-{
+        ];
+        useLedgerAfterSlot = -1;
+      }
+    );
+in {
   imports = [
     inputs.cardano-node.nixosModules.cardano-node
     # inputs.cardano-node.nixosModules.cardano-submit-api
-    ];
+  ];
 
   options = {
     services.block-producer-node = {
@@ -70,23 +75,27 @@ in
       # systemdSocketActivation = fase;
       port = 3001;
       hostAddr = "127.0.0.1";
-      environment = cfg.environment;
+      inherit (cfg) environment;
       topology = mkBlockProducerTopology cfg.relayAddrs;
-      nodeConfig = config.services.cardano-node.environments.${config.services.cardano-node.environment}.nodeConfig // {
-        hasPrometheus = [ config.services.cardano-node.hostAddr 12798 ];
-        # Use Journald output:
-        setupScribes = [{
-          scKind = "JournalSK";
-          scName = "cardano";
-          scFormat = "ScText";
-        }];
-        defaultScribes = [
-          [
-            "JournalSK"
-            "cardano"
-          ]
-        ];
-      };
+      nodeConfig =
+        config.services.cardano-node.environments.${config.services.cardano-node.environment}.nodeConfig
+        // {
+          hasPrometheus = [config.services.cardano-node.hostAddr 12798];
+          # Use Journald output:
+          setupScribes = [
+            {
+              scKind = "JournalSK";
+              scName = "cardano";
+              scFormat = "ScText";
+            }
+          ];
+          defaultScribes = [
+            [
+              "JournalSK"
+              "cardano"
+            ]
+          ];
+        };
     };
     # restart after process exits? i GUESS poeple do this in tests
     # systemd.services.cardano-node.serviceConfig.Restart = lib.mkForce "no";

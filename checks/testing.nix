@@ -64,7 +64,7 @@ in {
 
             node = {
               inherit (test) specialArgs;
-              pkgs = pkgs; # Nixpkgs used in nodes
+              inherit pkgs; # Nixpkgs used in nodes
             };
 
             # import all of our flake nixos modules by default
