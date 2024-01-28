@@ -97,28 +97,5 @@ in {
     };
     # restart after process exits? i GUESS poeple do this in tests
     # systemd.services.cardano-node.serviceConfig.Restart = lib.mkForce "no";
-
-    # services.cardano-submit-api = {
-    #   enable = true;
-    #   port = 8101;
-    #   network = "mainnet";
-    #   socketPath = config.services.cardano-node.socketPath 0;
-    # };
-    # systemd.services.cardano-submit-api.serviceConfig.SupplementaryGroups = "cardano-node";
   };
-  # testScript = ''
-  #   start_all()
-  #   machine.wait_for_unit("cardano-node.service")
-  #   machine.succeed("stat /run/cardano-node")
-  #   machine.succeed("stat /run/cardano-node/node.socket")
-  #   machine.wait_for_open_port(12798)
-  #   machine.wait_for_open_port(3001)
-  #   machine.succeed("systemctl status cardano-node")
-  #   # FIXME reenable and check the cli syntax when https://github.com/input-output-hk/cardano-node/pull/4664 is merged
-  #   #machine.succeed(
-  #   #    "${cardanoNodePackages.cardano-cli}/bin/cardano-cli ping -h 127.0.0.1 -c 1 -q --json | ${jq}/bin/jq -c"
-  #   #)
-  #   machine.wait_for_open_port(8101)
-  #   machine.succeed("systemctl status cardano-submit-api")
-  # '';
 }
