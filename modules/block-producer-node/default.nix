@@ -1,12 +1,10 @@
 {inputs, ...}: {
   config,
-  pkgs,
   lib,
   ...
 }:
 with lib;
 with builtins; let
-  commonLib = inputs.iohkNix.lib;
   cfg = config.services.block-producer-node;
 
   # [{address : str, port : int}] -> topology file derivation
