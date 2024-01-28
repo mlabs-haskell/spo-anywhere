@@ -8,7 +8,6 @@
 
         nodes = {
           machine = {
-            pkgs,
             config,
             ...
           }: {
