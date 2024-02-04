@@ -79,21 +79,14 @@ in {
         config.services.cardano-node.environments.${config.services.cardano-node.environment}.nodeConfig
         // {
           hasPrometheus = [config.services.cardano-node.hostAddr 12798];
-          # Use Journald output:
-          setupScribes = [
-            {
-              scKind = "JournalSK";
-              scName = "cardano";
-              scFormat = "ScText";
-            }
-          ];
-          defaultScribes = [
-            [
-              "JournalSK"
-              "cardano"
-            ]
-          ];
         };
+      # keys. Idea: These options can be set from a "node-keys" module that works on top of the secrets module like agenix
+      # signingKey = null;
+      # delegationCertificate = null;
+      # Setting these should allow block production:
+      kesKey = ./hardcoded-keys/kes.skey;
+      vrfKey = ./hardcoded-keys/vrf.skey;
+      operationalCertificate = ./hardcoded-keys/opcert.cert;
     };
     # restart after process exits? i GUESS poeple do this in tests
     # systemd.services.cardano-node.serviceConfig.Restart = lib.mkForce "no";
