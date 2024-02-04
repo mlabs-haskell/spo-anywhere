@@ -47,6 +47,7 @@
         ./shell
         ./modules
         ./tests
+        ./apps
       ];
       systems = [
         "x86_64-linux"
