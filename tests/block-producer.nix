@@ -1,24 +1,49 @@
 {inputs}: {pkgs, ...}: {
   spo-anywhere.tests = {
-    block-producer = {
+    block-producer = let 
+      pingTestScript = machine: ''
+        ${machine}.wait_for_unit("cardano-node.service")
+        ${machine}.wait_for_open_port(12798) # prometheus
+        ${machine}.wait_for_open_port(3001)  # node
+        ${machine}.succeed("stat /run/cardano-node")
+        ${machine}.succeed("stat /run/cardano-node/node.socket")
+        ${machine}.succeed("systemctl status cardano-node")
+        ${machine}.succeed(
+          "cardano-cli ping -h 127.0.0.1 -c 1 --magic 1 -q --json \
+            | ${pkgs.jq}/bin/jq '.pongs != null' \
+            | grep -e '^true$'"
+        )
+      '';
+    
+      # common module between block producer and relays
+      common = {config, ... }: {
+        virtualisation = {
+          cores = 2;
+          memorySize = 1024;
+          writableStore = false;
+        };
+        networking.firewall = {
+          enable = true;
+          allowedTCPPorts = [ 3001 ];
+        };
+        environment = {
+          systemPackages = [config.services.cardano-node.cardanoNodePackages.cardano-cli];
+        };
+      };
+      in {
       systems = ["x86_64-linux"];
 
       module = {
         name = "block producer starts";
 
         nodes = {
-          machine = {
+          block_producer = {
             config,
             pkgs,
             ...
           }: {
-            virtualisation = {
-              cores = 2;
-              memorySize = 1024;
-              writableStore = false;
-            };
+            imports = [ common ];
             environment = {
-              systemPackages = [config.services.cardano-node.cardanoNodePackages.cardano-cli];
               # We provide keys in copy mode with correct permissions - otherwise cardano-node rejects.
               etc = {
                 node-kes-skey = {
@@ -38,12 +63,16 @@
                 };
               };
             };
+            services.nginx = {
+              enable = true;
+              virtualHosts."block_producer" = {};
+            };
             services.block-producer-node = {
               enable = true;
               relayAddrs = [
                 {
-                  address = "x.x.x.x";
-                  port = 3000;
+                  address = "relay_node";
+                  port = 3001;
                 }
               ];
               key-paths = {
@@ -53,20 +82,32 @@
               };
             };
           };
+
+          relay_node = {
+            # config,
+            pkgs,
+            ...
+          }: {
+            imports = [ common ];
+            services.nginx = {
+              enable = true;
+              virtualHosts."relay_node" = {};
+            };
+            services.relay-node = {
+              enable = true;
+              localAddrs = [
+                {
+                  address = "block_producer";
+                  port = 3001;
+                }
+              ];
+            };
+          };
         };
 
         testScript = ''
-          machine.wait_for_unit("cardano-node.service")
-          machine.wait_for_open_port(12798) # prometheus
-          machine.wait_for_open_port(3001)  # node
-          machine.succeed("stat /run/cardano-node")
-          machine.succeed("stat /run/cardano-node/node.socket")
-          machine.succeed("systemctl status cardano-node")
-          machine.succeed(
-            "cardano-cli ping -h 127.0.0.1 -c 1 --magic 1 -q --json \
-              | ${pkgs.jq}/bin/jq '.pongs != null' \
-              | grep -e '^true$'"
-          )
+          ${pingTestScript "block_producer"}
+          ${pingTestScript "relay_node"}
         '';
         # ${jq}/bin/jq -c"
       };

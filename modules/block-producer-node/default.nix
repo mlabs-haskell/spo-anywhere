@@ -1,6 +1,7 @@
 {inputs, ...}: {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib;
@@ -9,13 +10,14 @@ with builtins; let
 
   # [{address : str, port : int}] -> topology file derivation
   # mimicks topology.json format
+  # Topology where every peer has single access point. TODO: allow to overwrite
   mkBlockProducerTopology = relayAddrs:
     toFile "topology.json" (
       toJSON
       {
         localRoots = map (addr:
           {
-            accessPoints = addr;
+            accessPoints = [ addr ];
             advertise = false;
             valency = 1;
           }
@@ -107,6 +109,7 @@ in {
         config.services.cardano-node.environments.${config.services.cardano-node.environment}.nodeConfig
         // {
           hasPrometheus = [config.services.cardano-node.hostAddr 12798];
+          # ShelleyGenesisFile = pkgs.writeText "my-file" ''Contents of File'';
         };
       # Keys.
       # [Idea1]: These options can be set from a "node-keys" module that works on top of the secrets module like agenix
