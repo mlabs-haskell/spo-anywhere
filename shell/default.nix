@@ -6,6 +6,7 @@
   perSystem = {
     pkgs,
     config,
+    system,
     ...
   }: {
     devshells.default = {
@@ -19,6 +20,7 @@
       packages = with pkgs; [
         statix
         config.treefmt.build.wrapper
+        inputs.agenix.packages.${system}.agenix
       ];
     };
   };
