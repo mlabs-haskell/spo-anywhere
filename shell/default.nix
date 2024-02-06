@@ -20,7 +20,6 @@
       packages = with pkgs; [
         statix
         config.treefmt.build.wrapper
-        inputs.agenix.packages.${system}.agenix
       ];
     };
   };
