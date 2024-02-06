@@ -13,13 +13,14 @@ with builtins; let
     toFile "topology.json" (
       toJSON
       {
-        localRoots = [
+        localRoots = map (addr:
           {
-            accessPoints = relayAddrs;
+            accessPoints = addr;
             advertise = false;
-            valency = length relayAddrs;
+            valency = 1;
           }
-        ];
+        )
+        relayAddrs;
         publicRoots = [
           {
             accessPoints = [
