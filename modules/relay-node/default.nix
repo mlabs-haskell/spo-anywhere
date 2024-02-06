@@ -7,29 +7,6 @@ with lib;
 with builtins; let
   cfg = config.services.relay-node;
 
-  # [{address : str, port : int}] -> topology file derivation
-  # mimicks topology.json format
-  mkBlockProducerTopology = relayAddrs:
-    toFile "topology.json" (
-      toJSON
-      {
-        localRoots = [
-          {
-            accessPoints = relayAddrs;
-            advertise = false;
-            valency = length relayAddrs;
-          }
-        ];
-        publicRoots = [
-          {
-            accessPoints = [
-            ];
-            advertise = false;
-          }
-        ];
-        useLedgerAfterSlot = -1;
-      }
-    );
 in {
   imports = [
     inputs.cardano-node.nixosModules.cardano-node
@@ -72,7 +49,13 @@ in {
       port = 3001;
       hostAddr = "127.0.0.1";
       inherit (cfg) environment;
-      topology = builtins.trace (config.services.cardano-node.environments.${config.services.cardano-node.environment}.topology) (mkBlockProducerTopology cfg.relayAddrs);
+      # topology: public roots from cardano-node repository
+      # local roots, bad naming:
+      producers = map (i: {
+        accessPoints = [ i ];
+        valency = 1; # how many listeners on this address
+        advertise = false; # maybe for other relays we want it true (certainly for producer false)? TODO: whats better?
+      }) cfg.localAddrs;
       nodeConfig =
         config.services.cardano-node.environments.${config.services.cardano-node.environment}.nodeConfig
         // {
