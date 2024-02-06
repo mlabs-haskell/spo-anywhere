@@ -12,51 +12,6 @@
             pkgs,
             ...
           }: {
-            imports = [
-              # secrets module:
-              # Ssh keys are provided in a derivation (not allowed in production!!)
-              # Node keys by agenix - even in tests node keys have to be set dynamically, because cardano-node complains about 0555 /nix/store paths.
-              # See [Note2 (node-keys)] for place of usage by node module.
-              {
-                imports = [ inputs.agenix.nixosModules.default ];
-                environment.etc = {
-                  "ssh_testnode" = {
-                    source = ./block-producer-keys/ssh_testnode;
-                    mode = "0555";
-                  };
-                  # "ssh-test-keys" = {
-                  #   source =
-                  #     let x = pkgs.runCommandLocal "testnode-ssh-keys" {} ''
-                  #       mkdir "$out"
-                  #       cp ${./block-producer-keys/ssh_testnode.pub} "$out"/ssh_testnode.pub
-                  #       cp ${./block-producer-keys/ssh_testnode} "$out"/ssh_testnode
-                  #     '';
-                  #     in builtins.trace (builtins.toString x) x;
-                  #   mode = "0555";
-                  # };
-                };
-
-                # age.identityPaths = [ "/etc/ssh-test-keys/ssh_testnode" ];
-                age.identityPaths = [ "/etc/ssh_testnode" ];
-
-                age.secrets.node-kes-skey = {
-                  file = ./block-producer-keys/kes.skey.age;
-                  mode = "500";
-                  owner = "cardano-node";
-                };
-                age.secrets.node-vrf-skey = {
-                  file = ./block-producer-keys/vrf.skey.age;
-                  # mode = "500";
-                  mode = "777";
-                  # owner = "cardano-node";
-                };
-                age.secrets.node-opcert-cert = {
-                  file = ./block-producer-keys/opcert.cert.age;
-                  mode = "500";
-                  owner = "cardano-node";
-                };
-              }
-            ];
             virtualisation = {
               cores = 2;
               memorySize = 1024;
@@ -64,6 +19,24 @@
             };
             environment = {
               systemPackages = [config.services.cardano-node.cardanoNodePackages.cardano-cli];
+              # We provide keys in copy mode with correct permissions - otherwise cardano-node rejects.
+              etc = {
+                node-kes-skey = {
+                  source = ./block-producer-keys/kes.skey;
+                  mode = "400";
+                  user = "cardano-node";
+                };
+                node-vrf-skey = {
+                  source = ./block-producer-keys/vrf.skey;
+                  mode = "400";
+                  user = "cardano-node";
+                };
+                node-opcert-cert = {
+                  source = ./block-producer-keys/opcert.cert;
+                  mode = "400";
+                  user = "cardano-node";
+                };
+              };
             };
             services.block-producer-node = {
               enable = true;
@@ -73,6 +46,11 @@
                   port = 3000;
                 }
               ];
+              key-paths = {
+                node-kes-skey = "/etc/node-kes-skey";
+                node-vrf-skey = "/etc/node-vrf-skey";
+                node-opcert-cert = "/etc/node-opcert-cert";
+              };
             };
           };
         };
