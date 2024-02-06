@@ -80,13 +80,18 @@ in {
         // {
           hasPrometheus = [config.services.cardano-node.hostAddr 12798];
         };
-      # keys. Idea: These options can be set from a "node-keys" module that works on top of the secrets module like agenix
+      # Keys.
+      # [Idea1]: These options can be set from a "node-keys" module that works on top of the secrets module like agenix
+      # [Note2 (node-keys)]: It turned out the secret can't be provided by derivation because cardano-node complains.
+      #        But if the secret is to be provided dynamically we might already just utilize agenix. I used agenix directly, would be better not to.
+      # 
+      # Setting these should allow block production:
+      kesKey = config.age.secrets.node-kes-skey.path;
+      vrfKey = config.age.secrets.node-vrf-skey.path;
+      operationalCertificate = config.age.secrets.node-opcert-cert.path;
+      # These are likely byron leftovers: 
       # signingKey = null;
       # delegationCertificate = null;
-      # Setting these should allow block production:
-      kesKey = ./hardcoded-keys/kes.skey;
-      vrfKey = ./hardcoded-keys/vrf.skey;
-      operationalCertificate = ./hardcoded-keys/opcert.cert;
     };
     # restart after process exits? i GUESS poeple do this in tests
     # systemd.services.cardano-node.serviceConfig.Restart = lib.mkForce "no";
