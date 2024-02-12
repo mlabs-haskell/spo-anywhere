@@ -103,6 +103,7 @@ in {
       # systemdSocketActivation = fase;
       port = 3001;
       hostAddr = "127.0.0.1";
+      # address = "0.0.0.0";
       inherit (cfg) environment;
       topology = mkBlockProducerTopology cfg.relayAddrs;
       nodeConfig =
