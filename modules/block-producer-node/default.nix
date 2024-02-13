@@ -49,6 +49,18 @@ in {
           environment node will connect to
         '';
       };
+      extraNodeConfig = mkOption {
+        type = types.attrs;
+        default = {};
+        description = ''
+          Attribute set of options passed to cardano node config.
+        '';
+        example = ''
+          {
+            ShelleyGenesisFile = ./my-genesis.yaml;
+          }
+        '';
+      };
       relayAddrs = mkOption {
         type = with types; listOf attrs;
         description = ''
@@ -107,8 +119,8 @@ in {
         config.services.cardano-node.environments.${config.services.cardano-node.environment}.nodeConfig
         // {
           hasPrometheus = [config.services.cardano-node.hostAddr 12798];
-          # ShelleyGenesisFile = pkgs.writeText "my-file" ''Contents of File'';
-        };
+        }
+        // cfg.extraNodeConfig;
       # Keys.
       # [Idea1]: These options can be set from a "node-keys" module that works on top of the secrets module like agenix
       # [Note2 (node-keys)]: It turned out the secret can't be provided by derivation because cardano-node complains.
