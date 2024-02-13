@@ -52,9 +52,7 @@
         name = "block producer starts";
 
         nodes = {
-          block_producer = {
-            ...
-          }: {
+          block_producer = {...}: {
             imports = [common];
             environment = {
               # We provide keys in copy mode with correct permissions - otherwise cardano-node rejects.

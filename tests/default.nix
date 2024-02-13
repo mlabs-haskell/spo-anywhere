@@ -1,7 +1,4 @@
-{
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   perSystem = _: {
     imports = [
       ./dummy.nix

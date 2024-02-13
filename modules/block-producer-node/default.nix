@@ -14,14 +14,15 @@ with builtins; let
     toFile "topology.json" (
       toJSON
       {
-        localRoots = map (addr:
-          {
-            accessPoints = [ addr ];
-            advertise = false;
-            valency = 1;
-          }
-        )
-        relayAddrs;
+        localRoots =
+          map (
+            addr: {
+              accessPoints = [addr];
+              advertise = false;
+              valency = 1;
+            }
+          )
+          relayAddrs;
         publicRoots = [
           {
             accessPoints = [
@@ -70,19 +71,17 @@ in {
         type = types.path;
         description = ''
           File path to a node KES private key file.
-          Give the file 400 permission for the `cardano-node` user. 
+          Give the file 400 permission for the `cardano-node` user.
           !Warning!: Don't provide a derivation as then the key is public.
-        ''
-        ;
+        '';
       };
       key-paths.node-vrf-skey = mkOption {
         type = types.path;
         description = ''
           File path to a node VRF private key file.
-          Give the file 400 permission for the `cardano-node` user. 
+          Give the file 400 permission for the `cardano-node` user.
           !Warning!: Don't provide a derivation as then the key is public.
-        ''
-        ;
+        '';
       };
       key-paths.node-opcert-cert = mkOption {
         type = types.path;
@@ -90,8 +89,7 @@ in {
           File path to a node operational certificate private key file.
           Give the file 400 permission for the `cardano-node` user.
           !Warning!: Don't provide a derivation as then the key is public.
-        ''
-        ;
+        '';
       };
     };
   };
@@ -115,12 +113,12 @@ in {
       # [Idea1]: These options can be set from a "node-keys" module that works on top of the secrets module like agenix
       # [Note2 (node-keys)]: It turned out the secret can't be provided by derivation because cardano-node complains.
       #                      Solution provide in `etc` with copy mode (see [test/block-producer.nix]).
-      # 
+      #
       # Setting these should allow block production:
       kesKey = cfg.key-paths.node-kes-skey;
       vrfKey = cfg.key-paths.node-vrf-skey;
       operationalCertificate = cfg.key-paths.node-opcert-cert;
-      # These are likely byron leftovers: 
+      # These are likely byron leftovers:
       # signingKey = null;
       # delegationCertificate = null;
     };

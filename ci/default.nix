@@ -5,12 +5,12 @@
   config = {
     herculesCI = {
       ciSystems = ["x86_64-linux" "x86_64-darwin"];
-      flake-update = {
-        enable = true;
-        when = {
-          hour = [23];
-          dayOfWeek = ["Sun"];
-        };
+    };
+    hercules-ci.flake-update = {
+      enable = true;
+      when = {
+        hour = [23];
+        dayOfWeek = ["Sun"];
       };
     };
   };
