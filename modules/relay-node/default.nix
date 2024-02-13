@@ -6,7 +6,6 @@
 with lib;
 with builtins; let
   cfg = config.services.relay-node;
-
 in {
   imports = [
     inputs.cardano-node.nixosModules.cardano-node
@@ -51,11 +50,13 @@ in {
       inherit (cfg) environment;
       # topology: public roots from cardano-node repository
       # local roots, bad naming:
-      producers = map (i: {
-        accessPoints = [ i ];
-        valency = 1; # how many listeners on this address
-        advertise = false; # maybe for other relays we want it true (certainly for producer false)? TODO: whats better?
-      }) cfg.localAddrs;
+      producers =
+        map (i: {
+          accessPoints = [i];
+          valency = 1; # how many listeners on this address
+          advertise = false; # maybe for other relays we want it true (certainly for producer false)? TODO: whats better?
+        })
+        cfg.localAddrs;
       nodeConfig =
         config.services.cardano-node.environments.${config.services.cardano-node.environment}.nodeConfig
         // {

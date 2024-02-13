@@ -1,6 +1,6 @@
 {inputs}: {pkgs, ...}: {
   spo-anywhere.tests = {
-    block-producer = let 
+    block-producer = let
       waitNodeScript = machine: ''
         ${machine}.wait_for_unit("cardano-node.service")
         ${machine}.wait_for_open_port(12798) # prometheus
@@ -16,9 +16,13 @@
             | grep -e '^true$'"
         )
       '';
-    
+
       # common module between block producer and relays
-      common = {config, pkgs, ... }: {
+      common = {
+        config,
+        pkgs,
+        ...
+      }: {
         networking = {
           useNetworkd = true;
           useDHCP = false;
@@ -28,7 +32,7 @@
           };
         };
         virtualisation = {
-          vlans = [ 1 ];
+          vlans = [1];
           cores = 2;
           memorySize = 1024;
           writableStore = false;
@@ -41,7 +45,7 @@
           ];
         };
       };
-      in {
+    in {
       systems = ["x86_64-linux"];
 
       module = {
@@ -49,11 +53,9 @@
 
         nodes = {
           block_producer = {
-            config,
-            pkgs,
             ...
           }: {
-            imports = [ common ];
+            imports = [common];
             environment = {
               # We provide keys in copy mode with correct permissions - otherwise cardano-node rejects.
               etc = {
@@ -106,10 +108,9 @@
 
           relay_node = {
             # config,
-            pkgs,
             ...
           }: {
-            imports = [ common ];
+            imports = [common];
             services.nginx = {
               enable = true;
               virtualHosts."relay_node" = {};
