@@ -20,6 +20,12 @@
       url = "github:srid/devour-flake";
       flake = false;
     };
+    cardano-node.url = "github:intersectmbo/cardano-node?ref=8.7.3";
+
+    iohkNix = {
+      url = "github:input-output-hk/iohk-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {
@@ -34,6 +40,7 @@
         ./shell
         ./modules
         ./tests
+        ./apps
       ];
       systems = [
         "x86_64-linux"
