@@ -6,7 +6,6 @@
   perSystem = {
     pkgs,
     config,
-    system,
     ...
   }: {
     devshells.default = {
