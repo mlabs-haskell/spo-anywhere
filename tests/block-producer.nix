@@ -32,6 +32,9 @@
           };
         };
         virtualisation = {
+          # Virtual networks to which the VM is connected.
+          # Each number «N» in this list causes the VM to have a virtual Ethernet interface attached to a separate virtual network
+          # on which it will be assigned IP address 192.168.«N».«M», where «M» is the index of this VM in the list of VMs.
           vlans = [1];
           cores = 2;
           memorySize = 1024;
@@ -42,6 +45,7 @@
             config.services.cardano-node.cardanoNodePackages.cardano-cli
             pkgs.lsof
             pkgs.nmap
+            pkgs.python3
           ];
         };
       };
