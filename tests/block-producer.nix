@@ -74,25 +74,11 @@
                 };
               };
             };
-            # services.nginx = {
-            #   enable = true;
-            #   virtualHosts."block_producer" = {};
-            # };
-            # networking = {  # static ip
-            #   interfaces = {
-            #     ens3.ipv6.addresses = [{
-            #       address = "2a01:4f8:1:4f8::";
-            #       prefixLength = 64;
-            #     }];
-            #   };
-            # };
             services.block-producer-node = {
               enable = true;
               relayAddrs = [
                 {
-                  # address = "2a01.4f8.2.4f8";
-                  address = "192.168.1.1";
-                  # address = "127.0.0.1";
+                  address = "192.168.1.2";
                   port = 3001;
                 }
               ];
@@ -113,21 +99,11 @@
               enable = true;
               virtualHosts."relay_node" = {};
             };
-            # networking = {
-            #   interfaces = {
-            #     ens3.ipv6.addresses = [{
-            #       address = "2a01:4f8:2:4f8::";
-            #       prefixLength = 64;
-            #     }];
-            #   };
-            # };
             services.relay-node = {
               enable = true;
               localAddrs = [
                 {
-                  # address = "2a01.4f8.1.4f8";
-                  # address = "127.0.0.1";
-                  address = "192.168.1.0";
+                  address = "192.168.1.1";
                   port = 3001;
                 }
               ];

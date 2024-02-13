@@ -21,6 +21,18 @@ in {
           environment node will connect to
         '';
       };
+      extraNodeConfig = mkOption {
+        type = types.attrs;
+        default = {};
+        description = ''
+          Attribute set of options passed to cardano node config.
+        '';
+        example = ''
+          {
+            ShelleyGenesisFile = ./my-genesis.yaml;
+          }
+        '';
+      };
       localAddrs = mkOption {
         type = with types; listOf attrs;
         description = ''
@@ -61,7 +73,8 @@ in {
         config.services.cardano-node.environments.${config.services.cardano-node.environment}.nodeConfig
         // {
           hasPrometheus = [config.services.cardano-node.hostAddr 12798];
-        };
+        }
+        // cfg.extraNodeConfig;
     };
     # restart after process exits? i GUESS poeple do this in tests
     # systemd.services.cardano-node.serviceConfig.Restart = lib.mkForce "no";
