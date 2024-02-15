@@ -344,11 +344,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1704313596,
-        "narHash": "sha256-qygHBNtVOoAMU84jFcqzI73eT2wzAXOLc/ZjZbnzAd8=",
+        "lastModified": 1707187737,
+        "narHash": "sha256-1vdTyh8dclFK/fVoxFnJmzQis370IteOKERRExn9wXU=",
         "owner": "mlabs-haskell",
         "repo": "hercules-ci-effects",
-        "rev": "e464c123d89a634dd4973b5c17b5a11cb7ea8fb0",
+        "rev": "832a4a30d646bf0a6fbbd7a0d88aa3f748584af8",
         "type": "github"
       },
       "original": {
