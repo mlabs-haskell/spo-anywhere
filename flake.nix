@@ -6,7 +6,7 @@
     flake-parts.follows = "cardanoNix/flake-parts";
 
     # TODO: use upstream `hercules-ci-effects` once this is merged:
-    # https://github.com/hercules-ci/hercules-ci-effects/pull/163/
+    # https://github.com/hercules-ci/hercules-ci-effects/pull/165/
     # hercules-ci-effects.follows = "cardanoNix/hercules-ci-effects";
     hercules-ci-effects.url = "github:mlabs-haskell/hercules-ci-effects/push-cache-effect";
 
