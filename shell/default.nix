@@ -12,7 +12,7 @@
       devshell = {
         name = "SPO-anywhere";
         motd = ''
-          ❄️ Welcome to the {14}{bold}SPO-anywhere{reset}'s shell ❄️
+          ❄️ Welcome to the {14}{bold}SPO-anywhere{reset} devshell ❄️
           $(type -p menu &>/dev/null && menu)
         '';
       };
