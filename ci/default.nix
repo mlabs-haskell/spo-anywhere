@@ -1,13 +1,12 @@
 {
-  inputs,
   config,
+  inputs,
   ...
 }: {
   imports = [
     inputs.hercules-ci-effects.flakeModule
     ./all-flake-drvs.nix
-    # to be updated to import a flake output
-    "${inputs.hercules-ci-effects}/effects/push-cache/default.nix"
+    inputs.hercules-ci-effects.push-cache-effect
   ];
   herculesCI.ciSystems = ["x86_64-linux" "x86_64-darwin"];
   allDrvs.systems = [
