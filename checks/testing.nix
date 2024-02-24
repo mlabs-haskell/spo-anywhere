@@ -2,10 +2,10 @@
   lib,
   inputs,
   config,
+  withSystem,
   ...
 }: let
   inherit (lib) mkOption types mapAttrs' nameValuePair;
-  inherit (config.flake) nixosModules;
 in {
   perSystem = {
     config,
@@ -14,90 +14,132 @@ in {
     pkgs,
     ...
   }: let
-    cfg = config.spo-anywhere;
+    cfg = config.vmTests;
   in {
-    options.spo-anywhere = {
+    options.vmTests = {
       tests = mkOption {
+        description = "Run integration tests in networks of virtual machines.";
         type = types.lazyAttrsOf (types.submodule ({config, ...}: {
           options = {
             name = mkOption {
+              description = "The name of the test. Defaults to attribute name.";
+              internal = true;
               type = types.str;
               default = config._module.args.name;
-              internal = true;
             };
             systems = mkOption {
+              description = "The systems to run the test on.";
               type = types.listOf types.str;
+              default = ["x86_64-linux"];
             };
             module = mkOption {
+              description = "The NixOS test module. Required. See https://nixos.org/manual/nixos/stable/#sec-nixos-tests .";
               type = types.deferredModule;
             };
-            documentation = mkOption {
+            impure = mkOption {
+              description = "Wether the test requires internet access and should be run as an effect instead of a nix build.";
               type = types.bool;
               default = false;
             };
-            specialArgs = mkOption {
-              type = types.attrsOf types.anything;
-              default = {};
+            check = mkOption {
+              description = "The test derivation. Result of calling `_mkCheck` with this test.";
+              type = types.package;
+              default = cfg._mkCheck config;
+            };
+            effect = mkOption {
+              description = "The test hercules-ci-effect. Result of calling `_mkEffect` with this test.";
+              type = types.package;
+              default = cfg._mkEffect config;
             };
           };
         }));
       };
-      runTestScript = mkOption {
+      runVmTestScript = mkOption {
+        description = "Script that lists and runs integration tests on networks of virtual machines.";
         type = types.package;
-        default = pkgs.callPackage ./run-test.nix {inherit (cfg) tests;};
-        description = "A convenience script to run tests";
+        default = pkgs.callPackage ./run-vm-test.nix {inherit (cfg) tests;};
       };
       _nixosLib = mkOption {
+        description = "Convenience access to `nixpkgs/nixos/lib`.";
+        internal = true;
         type = types.anything;
         default = import (inputs.nixpkgs.outPath + "/nixos/lib") {};
-        internal = true;
       };
-      _mkCheckFromTest = mkOption {
-        type = types.functionTo types.package;
+      _mkCheck = mkOption {
+        description = "Function that takes a test `module` and returns a derivation that runs the test when built.";
         internal = true;
+        type = types.functionTo types.package;
         default = test:
           (cfg._nixosLib.runTest {
-            hostPkgs = pkgs; # Nixpkgs attrset used outside the nodes.
-
-            # false by default, it speeds up evaluation by skipping docs generation
-            defaults.documentation.enable = test.documentation;
-
-            node = {
-              inherit (test) specialArgs;
-              inherit pkgs; # Nixpkgs used in nodes
-            };
-
-            # import all of our flake nixos modules by default
-            defaults.imports = [
-              nixosModules.default
-            ];
-
-            # import the test module
+            name = lib.mkDefault test.name;
             imports = [test.module];
+            hostPkgs = pkgs;
+            defaults = {
+              imports = [
+                # Fix missing `pkgs.system` in tests.
+                {nixpkgs.overlays = [(_: _: {inherit system;})];}
+              ];
+              documentation.enable = lib.mkDefault false;
+            };
           })
           .config
           .result;
+      };
+      _mkEffect = mkOption {
+        description = "Function that takes a test `module` and returns a Hercules CI effect that runs the test.";
+        internal = true;
+        type = types.functionTo types.package;
+        default = testModule:
+          withSystem system ({hci-effects, ...}:
+            hci-effects.modularEffect {
+              mounts."/dev/kvm" = "kvm";
+              effectScript = ''
+                ${testModule.check.driver}/bin/nixos-test-driver
+              '';
+            });
       };
     };
 
     config = {
       checks =
         mapAttrs'
-        (name: test: nameValuePair "testing-${test.name}" (cfg._mkCheckFromTest test))
+        (name: test:
+          nameValuePair
+          "vmTests-${test.name}"
+          test.check)
+        (lib.filterAttrs
+          (_: v: lib.elem system v.systems && !v.impure)
+          cfg.tests);
+
+      apps =
+        {run-vm-tests.program = lib.getExe cfg.runVmTestScript;}
+        // mapAttrs'
+        (name: test:
+          nameValuePair
+          "vmTests-${test.name}"
+          {program = "${test.check.driver}/bin/nixos-test-driver";})
         (lib.filterAttrs
           (_: v: lib.elem system v.systems)
           cfg.tests);
 
-      apps.run-test.program = lib.getExe cfg.runTestScript;
-
       devshells.default.commands = [
         {
-          name = "run-test";
-          category = "testing";
-          help = "Run tests";
-          command = "${lib.getExe cfg.runTestScript} $@";
+          name = "run-vm-test";
+          category = "tests";
+          help = "list and run virtual machine integration tests";
+          command = "${lib.getExe cfg.runVmTestScript} $@";
         }
       ];
     };
   };
+
+  herculesCI.onPush.default.outputs.effects =
+    mapAttrs'
+    (name: test:
+      nameValuePair
+      "vmTests-${test.name}"
+      test.effect)
+    (lib.filterAttrs
+      (_: v: lib.elem config.defaultEffectSystem v.systems && v.impure)
+      (config.perSystem config.defaultEffectSystem).vmTests.tests);
 }

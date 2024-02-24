@@ -1,9 +1,9 @@
 {
   inputs = {
-    cardanoNix.url = "github:mlabs-haskell/cardano.nix";
+    # cardanoNix.url = "github:mlabs-haskell/cardano.nix";
 
-    nixpkgs.follows = "cardanoNix/nixpkgs";
-    flake-parts.follows = "cardanoNix/flake-parts";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-parts.url = "github:hercules-ci/flake-parts";
 
     # TODO: use upstream `hercules-ci-effects` once this is merged:
     # https://github.com/hercules-ci/hercules-ci-effects/pull/165/
@@ -28,10 +28,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     cardano-node.url = "github:intersectmbo/cardano-node?ref=8.7.3";
-
-    iohkNix = {
-      url = "github:input-output-hk/iohk-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+    cardano-addressses.url = "github:intersectmbo/cardano-addresses";
+    cardano-world = {
+      url = "github:IntersectMBO/cardano-world";
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
   };
   outputs = inputs @ {flake-parts, ...}:
@@ -51,9 +51,9 @@
       ];
       systems = [
         "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
+        # "aarch64-linux"
+        # "x86_64-darwin"
+        # "aarch64-darwin"
       ];
     };
 }

@@ -1,8 +1,6 @@
-{inputs, ...}: {
-  perSystem = _: {
-    imports = [
-      ./dummy.nix
-      (import ./block-producer.nix {inherit inputs;})
-    ];
-  };
+{
+  imports = [
+    ./dummy.nix
+    ./block-producer.nix
+  ];
 }

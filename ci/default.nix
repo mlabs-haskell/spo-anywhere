@@ -26,11 +26,11 @@
       enable = true;
       attic-client-pkg = inputs.attic.packages.x86_64-linux.attic-client;
       caches = {
-	mlabs-spo-anywhere = {
+        mlabs-spo-anywhere = {
           type = "attic";
           secretName = "spo-anywhere-cache-push-token";
           packages = config.allDrvs.list;
-	};
+        };
       };
     };
   };

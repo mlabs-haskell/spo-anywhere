@@ -78,30 +78,33 @@ in {
             }
           ]
         '';
+        default = [];
       };
-      key-paths.node-kes-skey = mkOption {
-        type = types.path;
-        description = ''
-          File path to a node KES private key file.
-          Give the file 400 permission for the `cardano-node` user.
-          !Warning!: Don't provide a derivation as then the key is public.
-        '';
-      };
-      key-paths.node-vrf-skey = mkOption {
-        type = types.path;
-        description = ''
-          File path to a node VRF private key file.
-          Give the file 400 permission for the `cardano-node` user.
-          !Warning!: Don't provide a derivation as then the key is public.
-        '';
-      };
-      key-paths.node-opcert-cert = mkOption {
-        type = types.path;
-        description = ''
-          File path to a node operational certificate private key file.
-          Give the file 400 permission for the `cardano-node` user.
-          !Warning!: Don't provide a derivation as then the key is public.
-        '';
+      keyPaths = {
+        kes-skey = mkOption {
+          type = types.str;
+          description = ''
+            File path to a node KES private key file.
+            Give the file 400 permission for the `cardano-node` user.
+            !Warning!: Don't provide a derivation as then the key is public.
+          '';
+        };
+        vrf-skey = mkOption {
+          type = types.str;
+          description = ''
+            File path to a node VRF private key file.
+            Give the file 400 permission for the `cardano-node` user.
+            !Warning!: Don't provide a derivation as then the key is public.
+          '';
+        };
+        opcert-cert = mkOption {
+          type = types.str;
+          description = ''
+            File path to a node operational certificate private key file.
+            Give the file 400 permission for the `cardano-node` user.
+            !Warning!: Don't provide a derivation as then the key is public.
+          '';
+        };
       };
     };
   };
@@ -109,7 +112,7 @@ in {
   config = lib.mkIf cfg.enable {
     services.cardano-node = {
       enable = true;
-      # systemdSocketActivation = fase;
+      # systemdSocketActivation = false;
       port = 3001;
       hostAddr = "127.0.0.1";
       # address = "0.0.0.0";
@@ -127,9 +130,9 @@ in {
       #                      Solution provide in `etc` with copy mode (see [test/block-producer.nix]).
       #
       # Setting these should allow block production:
-      kesKey = cfg.key-paths.node-kes-skey;
-      vrfKey = cfg.key-paths.node-vrf-skey;
-      operationalCertificate = cfg.key-paths.node-opcert-cert;
+      kesKey = cfg.keyPaths.kes-skey;
+      vrfKey = cfg.keyPaths.vrf-skey;
+      operationalCertificate = cfg.keyPaths.opcert-cert;
       # These are likely byron leftovers:
       # signingKey = null;
       # delegationCertificate = null;

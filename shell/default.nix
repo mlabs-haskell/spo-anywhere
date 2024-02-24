@@ -6,6 +6,7 @@
   perSystem = {
     pkgs,
     config,
+    inputs',
     ...
   }: {
     devshells.default = {
@@ -18,7 +19,10 @@
       };
       packages = with pkgs; [
         statix
+        jq
         config.treefmt.build.wrapper
+        inputs'.cardano-node.packages.cardano-cli
+        inputs'.cardano-addressses.packages."cardano-addresses-cli:exe:cardano-address"
       ];
     };
   };
