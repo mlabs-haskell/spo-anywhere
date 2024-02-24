@@ -1,4 +1,6 @@
 {inputs, ...}: {
+  imports = [./test.nix];
+
   perSystem = {
     pkgs,
     system,
@@ -72,7 +74,7 @@
       };
       makePaymentAddress = makeKeysAux {
         name = "make-payment-keys";
-        filenames = ["payment.addr"];
+        files = ["payment.addr"];
         command = ''
           if [ -z "''${1+x}" ] || [ -z "''${2+x}" ];
           then

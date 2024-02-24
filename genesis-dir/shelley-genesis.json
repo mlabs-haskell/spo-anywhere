@@ -1,0 +1,72 @@
+{
+    "activeSlotsCoeff": 5.0e-2,
+    "epochLength": 86400,
+    "genDelegs": {
+        "0027b15a65714067621c10ce242de8846479b36cd6ae965235a5389c": {
+            "delegate": "2a8f23f9e6677728e1df69054aaa0cf03762fcd1d7a06f24b0e096cb",
+            "vrf": "9f238128c9f12a5250322c66389b904ad59489704b9ce11061ec9722bffa246d"
+        },
+        "0177e1285af6ad9aee9bfdd79e1811da5b0a253b26404becebec01ef": {
+            "delegate": "ccb8112d8c0ee0a5f80859fbd05e2a1298a67263cf14b2436de8d643",
+            "vrf": "e45c93774a4ffec595cb09622810180b62195b6a5704e39beccb7cfd927b41d9"
+        },
+        "0a0d8c62fbf670e6ece48e7b1f2fb003a5d457cdc984233653e27484": {
+            "delegate": "c9c3fe2bd769d36a3f8f0bf3ee58cb30d387ab27528aa5ad3b3f3c8d",
+            "vrf": "0a9aa61af25b4765b2774700a27efd1c967447023824b1798cb5b27669854632"
+        },
+        "272d8901337b20c932d99a3770f30459ff9ee3c48348a4d9047ed563": {
+            "delegate": "91c5528f0b0ca750a916e1b2a656344acfe1cc3d7a99cb4c868438ad",
+            "vrf": "83c7d9a8270995b65e55fac4c95cc6d6bd159d50920f8fe5017e47a2653592a2"
+        },
+        "7f6373b13360e804346f272a78d6dfbe4bea06c3766962202fdae199": {
+            "delegate": "f756953cc236dbe8886cc07bddee4a97926be4077ae115fe2461ce05",
+            "vrf": "75369ceb45a573e998bd0bef72da6b7767e426c84caff59572797348ba2b9efa"
+        },
+        "a65881baa49ef8999f76f87db9db867fc4190b5874f042875a99371a": {
+            "delegate": "9d89f0f79d2e1e2c79e1d4f8ea7924827bd516634270e587637ed41a",
+            "vrf": "e58468bdfd8fba2c8b5de6b232748c86a6cde7763afe3ce04cd3f2a958ffeca3"
+        },
+        "b64bff85e7ea9d9aacc53ffca0a6b071edba569dc231ad435baffa2e": {
+            "delegate": "d1a423d1813884668fb02e63a7a237bf25350fb923e61e8f73bf3337",
+            "vrf": "7e8a26355bbc26f93b1028ec5da349fde8d2a8a10df1a78326bcfba8152003fe"
+        }
+    },
+    "initialFunds": {},
+    "maxKESEvolutions": 62,
+    "maxLovelaceSupply": 45000000000000000,
+    "networkId": "Testnet",
+    "networkMagic": 42,
+    "protocolParams": {
+        "a0": 0.3,
+        "decentralisationParam": 1.0,
+        "eMax": 18,
+        "extraEntropy": {
+            "tag": "NeutralNonce"
+        },
+        "keyDeposit": 2000000,
+        "maxBlockBodySize": 65536,
+        "maxBlockHeaderSize": 1100,
+        "maxTxSize": 16384,
+        "minFeeA": 44,
+        "minFeeB": 155381,
+        "minPoolCost": 340000000,
+        "minUTxOValue": 1000000,
+        "nOpt": 150,
+        "poolDeposit": 500000000,
+        "protocolVersion": {
+            "major": 6,
+            "minor": 0
+        },
+        "rho": 3.0e-3,
+        "tau": 0.2
+    },
+    "securityParam": 432,
+    "slotLength": 1,
+    "slotsPerKESPeriod": 129600,
+    "staking": {
+        "pools": {},
+        "stake": {}
+    },
+    "systemStart": "2024-04-23T14:52:34Z",
+    "updateQuorum": 5
+}

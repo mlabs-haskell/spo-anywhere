@@ -1,0 +1,5 @@
+{
+    "type": "GenesisExtendedVerificationKey_ed25519_bip32",
+    "description": "",
+    "cborHex": "5840344e13b4d776ef1879357879633c8094f31e25c457e7eef8290c297e97253f065b31873b8e62d86ce38ee939acb407f95f87bdf8e0f40052c867312ef59ac287"
+}

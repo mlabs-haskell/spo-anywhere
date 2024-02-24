@@ -78,6 +78,7 @@ in {
             }
           ]
         '';
+        default = [];
       };
       key-paths.node-kes-skey = mkOption {
         type = types.path;
@@ -109,7 +110,7 @@ in {
   config = lib.mkIf cfg.enable {
     services.cardano-node = {
       enable = true;
-      # systemdSocketActivation = fase;
+      # systemdSocketActivation = false;
       port = 3001;
       hostAddr = "127.0.0.1";
       # address = "0.0.0.0";
