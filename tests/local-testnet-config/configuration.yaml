@@ -2,9 +2,7 @@
 ###############          Mainnet                 #########
 ############### Cardano Byron Node Configuration #########
 ##########################################################
-# copied from ${cardano-node}/configuration/defaults/byron-mainnet/configuration.yaml and updated here 
-
-
+# copied from ${cardano-node}/configuration/defaults/byron-mainnet/configuration.yaml and updated here
 
 ##### Locations #####
 
@@ -15,7 +13,6 @@ ConwayGenesisFile: genesis.conway.json
 # SocketPath: db/node.socket
 
 ##### Blockfetch Protocol
-PBftSignatureThreshold: 0.6
 
 # The maximum number of used peers during bulk sync.
 MaxConcurrencyBulkSync: 1
@@ -33,11 +30,9 @@ MaxConcurrencyDeadline: 2
 # "RealPBFT" is the real (permissive) OBFT protocol, which is what we use on
 # mainnet in Byron era.
 Protocol: Cardano
-PBftSignatureThreshold: 0.6
 
 # The mainnet does not include the network magic into addresses. Testnets do.
 RequiresNetworkMagic: RequiresMagic
-
 
 ##### Update system parameters #####
 
@@ -52,7 +47,6 @@ LastKnownBlockVersion-Minor: 0
 ApplicationName: cardano-sl
 ApplicationVersion: 1
 
-
 ##### Logging configuration #####
 
 # Enable or disable logging overall
@@ -65,7 +59,7 @@ TurnOnLogMetrics: True
 
 # Global logging severity filter. Messages must have at least this severity to
 # pass. Typical values would be Warning, Notice, Info or Debug.
-minSeverity: Info 
+minSeverity: Info
 
 # Log items can be rendered with more or less verbose detail.
 # Verbosity ranges from MinimalVerbosity, NormalVerbosity to MaximalVerbosity
@@ -87,7 +81,7 @@ defaultBackends:
 # EKG is a simple metrics monitoring system. Uncomment the following to enable
 # this backend and listen on the given local port and point your web browser to
 # http://localhost:12788/
-hasEKG: 
+hasEKG:
   - "0.0.0.0"
   - 12788
 
@@ -147,9 +141,8 @@ defaultScribes:
 # in the setupScribes above for specific scribes.
 rotation:
   rpLogLimitBytes: 5000000
-  rpKeepFilesNum:  3
-  rpMaxAgeHours:   24
-
+  rpKeepFilesNum: 3
+  rpMaxAgeHours: 24
 
 ##### Coarse grained logging control #####
 
@@ -165,11 +158,9 @@ TraceBlockFetchDecisions: False
 
 # Trace BlockFetch protocol messages.
 TraceBlockFetchProtocol: False
-PBftSignatureThreshold: 0.6
 
 # Serialised Trace BlockFetch protocol messages.
 TraceBlockFetchProtocolSerialised: False
-PBftSignatureThreshold: 0.6
 
 # Trace BlockFetch server.
 TraceBlockFetchServer: False
@@ -191,7 +182,6 @@ TraceChainSyncHeaderServer: False
 
 # Trace ChainSync protocol messages.
 TraceChainSyncProtocol: False
-PBftSignatureThreshold: 0.6
 
 # Trace DNS Resolver messages.
 TraceDNSResolver: True
@@ -218,7 +208,7 @@ TraceIpSubscription: True
 TraceLocalRootPeers: True
 
 # Trace public root peers
-TracePublicRootPeers: True 
+TracePublicRootPeers: True
 
 # Trace peer selection
 TracePeerSelection: True
@@ -244,7 +234,6 @@ TraceLocalServer: False
 
 # Trace local ChainSync protocol messages.
 TraceLocalChainSyncProtocol: False
-PBftSignatureThreshold: 0.6
 
 # Trace local Handshake protocol messages.
 TraceLocalHandshake: False
@@ -270,8 +259,6 @@ TraceTxOutbound: False
 
 # Trace TxSubmission protocol messages.
 TraceTxSubmissionProtocol: False
-PBftSignatureThreshold: 0.6
-
 
 ##### Fine grained logging control #####
 
@@ -281,7 +268,6 @@ PBftSignatureThreshold: 0.6
 # much more precise control.
 
 options:
-
   # This routes metrics matching specific names to particular backends.
   # This overrides the 'defaultBackends' listed above. And note that it is
   # an override and not an extension so anything matched here will not
@@ -295,7 +281,6 @@ options:
   mapSubtrace:
     cardano.node.metrics:
       subtrace: "Neutral"
-
 
   # redirects traced values to a specific scribe which is identified by its
   # type and its name, separated by "::":

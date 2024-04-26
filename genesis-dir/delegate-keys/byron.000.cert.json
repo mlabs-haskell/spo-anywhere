@@ -1,8 +1,6 @@
-{ "omega": 0
-, "issuerPk":
-    "PfK59JY2mWHWq/WuDJskkkMwGy8WNMIYl/kAYh0skhi9kzMXg4nfqqQ2B+ueSUPFVAxVo8/5NforprVIsHoLHw=="
-, "delegatePk":
-    "yeXKEeuLrjyXcEv1AgPCHUvQg+3Aj4Bo2SgJwSRJrDG1TZLS8Dnry526AeyOzYHh840kD8WgcLPNvOWqFPVupw=="
-, "cert":
-    "19603ecba33139ddee1d4954253781ba506b5349c4241fb022bf7a20238bbf7f647155bd0cb9bda65d5759576f30c079e5013bf154329650bf70a14773ac8e08"
+{
+  "omega": 0,
+  "issuerPk": "PfK59JY2mWHWq/WuDJskkkMwGy8WNMIYl/kAYh0skhi9kzMXg4nfqqQ2B+ueSUPFVAxVo8/5NforprVIsHoLHw==",
+  "delegatePk": "yeXKEeuLrjyXcEv1AgPCHUvQg+3Aj4Bo2SgJwSRJrDG1TZLS8Dnry526AeyOzYHh840kD8WgcLPNvOWqFPVupw==",
+  "cert": "19603ecba33139ddee1d4954253781ba506b5349c4241fb022bf7a20238bbf7f647155bd0cb9bda65d5759576f30c079e5013bf154329650bf70a14773ac8e08"
 }

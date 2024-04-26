@@ -1,5 +1,5 @@
 {
-  "systemStart": "2024-04-26T15:22:21.224922089Z",
+  "systemStart": "2024-04-26T15:27:21.109480241Z",
   "networkMagic": 2,
   "networkId": "Testnet",
   "activeSlotsCoeff": 0.05,
@@ -35,36 +35,36 @@
     "minUTxOValue": 1000000
   },
   "genDelegs": {
-    "07c2a8209077244ada37cbec1c55c36dc1a4382c86dd5e97ea5319d8": {
-      "delegate": "a40c2aec5f3df64ecc239688ab183a186c5d1ef1aa6ef40f766efe36",
-      "vrf": "b9424159b7765a6f1692cf18777c0255c17ab073ee0ff6ddbc9dc8392b95294d"
+    "6c0fdc3e2e3dcf0a3cac87eca4c86f3f454f0366fb7490d04c7717fe": {
+      "delegate": "dce6f2ac7dca9a410664143565d86fa09f5c98b7c7090ccad19dd300",
+      "vrf": "4a3b57deb796fbeb2000ab2e5217582d9436aaea53ff881af94c19c6a396c019"
     }
   },
   "initialFunds": {
-    "6015d15051a14d69ded6d9e6d3d39a23c38a649e28c436b6aa30bdc9ef": 14802069666338596454,
-    "00277b62ebaf1b94b3258c4aa9018b3a74f1da12e602cf8b7c070efe554ba091a1a1d85bf12fe828da3906c70dcfdb544a3189a80d0672eaea": 14802069666338596454
+    "60fc0859f6a261189ee1f9bf474601097ebf4733aa21a62220a71833aa": 14802069666338596454,
+    "002b867d4e06c593a8f15e8f21d8a3afb8de846393091dc22d647b0e267ef31a73408c8a1db6df3e4ff387d6c340c3f7f772987eb20dbf0527": 14802069666338596454
   },
   "staking": {
     "pools": {
-      "3c469e7862fefc2a0d004c3d91cda42b0696b48820a4fadf29e49ca9": {
+      "f7ad7046f3f54bbd2f1986115ba5b37ca3fdaeed73c4221790f2fd35": {
         "cost": 0,
         "margin": 0.0,
         "metadata": null,
         "owners": [],
         "pledge": 0,
-        "publicKey": "3c469e7862fefc2a0d004c3d91cda42b0696b48820a4fadf29e49ca9",
+        "publicKey": "f7ad7046f3f54bbd2f1986115ba5b37ca3fdaeed73c4221790f2fd35",
         "relays": [],
         "rewardAccount": {
           "credential": {
-            "key hash": "e4608da8c0712635d5bca5a99b096b07e93d3e23fa5978db4af265ac"
+            "key hash": "193c3016f35c73a291f4ce0ca375abda93d0600a3353d519a6cd4a04"
           },
           "network": "Testnet"
         },
-        "vrf": "74d2976aac002c3f06659dedd2116b016b22fc0fe6db4d3f427085705bd67134"
+        "vrf": "b387eead6a6c9e4fa7333ca7869b5afa416d98a2416f78f5927572a18f344013"
       }
     },
     "stake": {
-      "4ba091a1a1d85bf12fe828da3906c70dcfdb544a3189a80d0672eaea": "3c469e7862fefc2a0d004c3d91cda42b0696b48820a4fadf29e49ca9"
+      "7ef31a73408c8a1db6df3e4ff387d6c340c3f7f772987eb20dbf0527": "f7ad7046f3f54bbd2f1986115ba5b37ca3fdaeed73c4221790f2fd35"
     }
   }
 }
