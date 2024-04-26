@@ -1,5 +1,0 @@
-{
-    "type": "GenesisExtendedSigningKey_ed25519_bip32",
-    "description": "",
-    "cborHex": "5880e806b7dbf7925ddc01545fbed6b1e9f14d90bba3d5c08808df9dd2399177b65bfda7e56eedcc3f33963be52b10fceb2f92de10b1e8931bb496de1b1aadfef5f73395b2b40ffc0a6f58938090e88c91e047738e97db7ec87f618a9f2bf9c9a6257fb092ec762ed5acd7a387a784a56dbce75517c13afbcd38945587768bb6d0ec"
-}
