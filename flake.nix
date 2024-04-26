@@ -1,9 +1,9 @@
 {
   inputs = {
-    cardanoNix.url = "github:mlabs-haskell/cardano.nix";
+    # cardanoNix.url = "github:mlabs-haskell/cardano.nix";
 
-    nixpkgs.follows = "cardanoNix/nixpkgs";
-    flake-parts.follows = "cardanoNix/flake-parts";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-parts.url = "github:hercules-ci/flake-parts";
 
     # TODO: use upstream `hercules-ci-effects` once this is merged:
     # https://github.com/hercules-ci/hercules-ci-effects/pull/165/
@@ -23,16 +23,12 @@
       url = "github:srid/devour-flake";
       flake = false;
     };
-    attic = {
-      url = "github:zhaofengli/attic";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    cardano-node.url = "github:intersectmbo/cardano-node?ref=8.1.2";
   };
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {
       inherit inputs;
     } {
-      debug = true; # TODO: disable in the future
       imports = [
         ./lib
         ./checks
@@ -41,12 +37,11 @@
         ./shell
         ./modules
         ./tests
+        ./apps
       ];
       systems = [
         "x86_64-linux"
-        "aarch64-linux"
         "x86_64-darwin"
-        "aarch64-darwin"
       ];
     };
 }

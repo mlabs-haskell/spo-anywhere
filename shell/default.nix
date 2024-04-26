@@ -6,6 +6,7 @@
   perSystem = {
     pkgs,
     config,
+    inputs',
     ...
   }: {
     devshells.default = {
@@ -18,7 +19,23 @@
       };
       packages = with pkgs; [
         statix
+        jq
         config.treefmt.build.wrapper
+        inputs'.cardano-node.packages.cardano-cli
+      ];
+      commands = [
+        {
+          category = "Tools";
+          name = "build-all";
+          help = "Build all the checks";
+          command = config.apps.nix-build-all.program;
+        }
+        {
+          category = "Tools";
+          name = "check";
+          help = "Alias of `nix flake check`";
+          command = "nix flake check";
+        }
       ];
     };
   };

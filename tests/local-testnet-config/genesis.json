@@ -1,0 +1,70 @@
+{
+  "systemStart": "2024-04-26T15:27:21.109480241Z",
+  "networkMagic": 2,
+  "networkId": "Testnet",
+  "activeSlotsCoeff": 0.05,
+  "securityParam": 2160,
+  "epochLength": 432000,
+  "slotsPerKESPeriod": 129600,
+  "maxKESEvolutions": 60,
+  "slotLength": 1,
+  "updateQuorum": 2,
+  "maxLovelaceSupply": 18346744073709551615,
+  "protocolParams": {
+    "minFeeA": 44,
+    "minFeeB": 155381,
+    "maxBlockBodySize": 65536,
+    "maxTxSize": 16384,
+    "maxBlockHeaderSize": 1100,
+    "keyDeposit": 0,
+    "poolDeposit": 0,
+    "eMax": 18,
+    "nOpt": 100,
+    "a0": 0.0,
+    "rho": 0.003,
+    "tau": 0.2,
+    "protocolVersion": {
+      "major": 7,
+      "minor": 0
+    },
+    "minPoolCost": 0,
+    "decentralisationParam": 0.7,
+    "extraEntropy": {
+      "tag": "NeutralNonce"
+    },
+    "minUTxOValue": 1000000
+  },
+  "genDelegs": {
+    "6c0fdc3e2e3dcf0a3cac87eca4c86f3f454f0366fb7490d04c7717fe": {
+      "delegate": "dce6f2ac7dca9a410664143565d86fa09f5c98b7c7090ccad19dd300",
+      "vrf": "4a3b57deb796fbeb2000ab2e5217582d9436aaea53ff881af94c19c6a396c019"
+    }
+  },
+  "initialFunds": {
+    "60fc0859f6a261189ee1f9bf474601097ebf4733aa21a62220a71833aa": 14802069666338596454,
+    "002b867d4e06c593a8f15e8f21d8a3afb8de846393091dc22d647b0e267ef31a73408c8a1db6df3e4ff387d6c340c3f7f772987eb20dbf0527": 14802069666338596454
+  },
+  "staking": {
+    "pools": {
+      "f7ad7046f3f54bbd2f1986115ba5b37ca3fdaeed73c4221790f2fd35": {
+        "cost": 0,
+        "margin": 0.0,
+        "metadata": null,
+        "owners": [],
+        "pledge": 0,
+        "publicKey": "f7ad7046f3f54bbd2f1986115ba5b37ca3fdaeed73c4221790f2fd35",
+        "relays": [],
+        "rewardAccount": {
+          "credential": {
+            "key hash": "193c3016f35c73a291f4ce0ca375abda93d0600a3353d519a6cd4a04"
+          },
+          "network": "Testnet"
+        },
+        "vrf": "b387eead6a6c9e4fa7333ca7869b5afa416d98a2416f78f5927572a18f344013"
+      }
+    },
+    "stake": {
+      "7ef31a73408c8a1db6df3e4ff387d6c340c3f7f772987eb20dbf0527": "f7ad7046f3f54bbd2f1986115ba5b37ca3fdaeed73c4221790f2fd35"
+    }
+  }
+}

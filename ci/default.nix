@@ -1,25 +1,42 @@
 {
   config,
   inputs,
+  lib,
   ...
 }: {
   imports = [
     inputs.hercules-ci-effects.flakeModule
-    ./all-flake-drvs.nix
     inputs.hercules-ci-effects.push-cache-effect
   ];
-  herculesCI.ciSystems = ["x86_64-linux" "x86_64-darwin"];
-  allDrvs.systems = [
-    "x86_64-linux"
-  ];
-  push-cache-effect = {
-    enable = true;
-    attic-client-pkg = inputs.attic.packages.x86_64-linux.attic-client;
-    caches = {
-      mlabs-spo-anywhere = {
-        type = "attic";
-        secretName = "spo-anywhere-cache-push-token";
-        packages = config.allDrvs.list;
+  config = {
+    herculesCI = {
+      ciSystems = ["x86_64-linux" "x86_64-darwin"];
+    };
+    hercules-ci.flake-update = {
+      enable = true;
+      when = {
+        hour = [23];
+        dayOfWeek = ["Sun"];
+      };
+    };
+    push-cache-effect = {
+      enable = true;
+      caches = {
+        mlabs-spo-anywhere = {
+          type = "attic";
+          secretName = "spo-anywhere-cache-push-token";
+          packages = with lib;
+            flatten [
+              (forEach ["apps" "devShells" "packages"]
+                (attr:
+                  forEach config.systems
+                  (system:
+                    collect isDerivation (config.flake.${attr}.${system} or {}))))
+              (forEach (attrValues config.flake.nixosConfigurations)
+                (os:
+                  os.config.system.build.toplevel))
+            ];
+        };
       };
     };
   };
