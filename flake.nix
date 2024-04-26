@@ -29,7 +29,6 @@
     flake-parts.lib.mkFlake {
       inherit inputs;
     } {
-      debug = true; # TODO: disable in the future
       imports = [
         ./lib
         ./checks
