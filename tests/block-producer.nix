@@ -35,7 +35,7 @@
 
 	    systemd.tmpfiles.rules = [
 	      "C+ /etc/testnet - - - - ${./local-testnet-config}"
-	      "Z /etc/testnet 700 cardano-node cardano-node - ${../local-testnet-config}"
+	      "Z /etc/testnet 700 cardano-node cardano-node - ${./local-testnet-config}"
 	    ];
 	    
 	    services.cardano-node = {

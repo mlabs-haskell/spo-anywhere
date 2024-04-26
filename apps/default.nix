@@ -1,5 +1,7 @@
 {inputs, ...}: {
-  imports = [./test.nix];
+  imports = [
+    ./generate-testnet-config.nix
+  ];
 
   perSystem = {
     pkgs,

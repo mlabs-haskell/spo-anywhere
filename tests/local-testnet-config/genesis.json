@@ -1,0 +1,70 @@
+{
+  "systemStart": "2024-04-26T15:22:21.224922089Z",
+  "networkMagic": 2,
+  "networkId": "Testnet",
+  "activeSlotsCoeff": 0.05,
+  "securityParam": 2160,
+  "epochLength": 432000,
+  "slotsPerKESPeriod": 129600,
+  "maxKESEvolutions": 60,
+  "slotLength": 1,
+  "updateQuorum": 2,
+  "maxLovelaceSupply": 18346744073709551615,
+  "protocolParams": {
+    "minFeeA": 44,
+    "minFeeB": 155381,
+    "maxBlockBodySize": 65536,
+    "maxTxSize": 16384,
+    "maxBlockHeaderSize": 1100,
+    "keyDeposit": 0,
+    "poolDeposit": 0,
+    "eMax": 18,
+    "nOpt": 100,
+    "a0": 0.0,
+    "rho": 0.003,
+    "tau": 0.2,
+    "protocolVersion": {
+      "major": 7,
+      "minor": 0
+    },
+    "minPoolCost": 0,
+    "decentralisationParam": 0.7,
+    "extraEntropy": {
+      "tag": "NeutralNonce"
+    },
+    "minUTxOValue": 1000000
+  },
+  "genDelegs": {
+    "07c2a8209077244ada37cbec1c55c36dc1a4382c86dd5e97ea5319d8": {
+      "delegate": "a40c2aec5f3df64ecc239688ab183a186c5d1ef1aa6ef40f766efe36",
+      "vrf": "b9424159b7765a6f1692cf18777c0255c17ab073ee0ff6ddbc9dc8392b95294d"
+    }
+  },
+  "initialFunds": {
+    "6015d15051a14d69ded6d9e6d3d39a23c38a649e28c436b6aa30bdc9ef": 14802069666338596454,
+    "00277b62ebaf1b94b3258c4aa9018b3a74f1da12e602cf8b7c070efe554ba091a1a1d85bf12fe828da3906c70dcfdb544a3189a80d0672eaea": 14802069666338596454
+  },
+  "staking": {
+    "pools": {
+      "3c469e7862fefc2a0d004c3d91cda42b0696b48820a4fadf29e49ca9": {
+        "cost": 0,
+        "margin": 0.0,
+        "metadata": null,
+        "owners": [],
+        "pledge": 0,
+        "publicKey": "3c469e7862fefc2a0d004c3d91cda42b0696b48820a4fadf29e49ca9",
+        "relays": [],
+        "rewardAccount": {
+          "credential": {
+            "key hash": "e4608da8c0712635d5bca5a99b096b07e93d3e23fa5978db4af265ac"
+          },
+          "network": "Testnet"
+        },
+        "vrf": "74d2976aac002c3f06659dedd2116b016b22fc0fe6db4d3f427085705bd67134"
+      }
+    },
+    "stake": {
+      "4ba091a1a1d85bf12fe828da3906c70dcfdb544a3189a80d0672eaea": "3c469e7862fefc2a0d004c3d91cda42b0696b48820a4fadf29e49ca9"
+    }
+  }
+}
