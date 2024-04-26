@@ -16,14 +16,14 @@
         MAX_SUPPLY = "18346744073709551615";
       };
       text = ''
-               CONFIG="$(flake-root)"/tests/local-testnet-config
+        CONFIG="$(flake-root)"/tests/local-testnet-config
         START_TIME=$(date -d "now" +%s)  # irrelevant since we're going to change it just before starting the network
 
         echo "(Re-)generating configuration in $CONFIG"
         rm -rf "$CONFIG"
         mkdir -p "$CONFIG"
 
-               cp "${./testnet-template}"/* "$CONFIG"/
+        cp "${./testnet-template}"/* "$CONFIG"/
 
         cardano-cli byron genesis genesis \
           --protocol-magic $NETWORK_MAGIC \
