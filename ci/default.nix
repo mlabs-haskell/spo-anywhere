@@ -1,17 +1,14 @@
 {
   config,
   inputs,
+  lib,
   ...
 }: {
   imports = [
     inputs.hercules-ci-effects.flakeModule
-    ./all-flake-drvs.nix
     inputs.hercules-ci-effects.push-cache-effect
   ];
   config = {
-    allDrvs.systems = [
-      "x86_64-linux"
-    ];
     herculesCI = {
       ciSystems = ["x86_64-linux" "x86_64-darwin"];
     };
@@ -28,7 +25,17 @@
         mlabs-spo-anywhere = {
           type = "attic";
           secretName = "spo-anywhere-cache-push-token";
-          packages = config.allDrvs.list;
+          packages = with lib;
+            flatten [
+              (forEach ["apps" "devShells" "packages"]
+                (attr:
+                  forEach config.systems
+                  (system:
+                    collect isDerivation (config.flake.${attr}.${system} or {}))))
+              (forEach (attrValues config.flake.nixosConfigurations)
+                (os:
+                  os.config.system.build.toplevel))
+            ];
         };
       };
     };
