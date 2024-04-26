@@ -23,10 +23,6 @@
       url = "github:srid/devour-flake";
       flake = false;
     };
-    attic = {
-      url = "github:zhaofengli/attic";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     cardano-node.url = "github:intersectmbo/cardano-node?ref=8.1.2";
     cardano-addressses.url = "github:intersectmbo/cardano-addresses";
     cardano-world = {

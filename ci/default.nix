@@ -24,7 +24,6 @@
     };
     push-cache-effect = {
       enable = true;
-      attic-client-pkg = inputs.attic.packages.x86_64-linux.attic-client;
       caches = {
         mlabs-spo-anywhere = {
           type = "attic";
