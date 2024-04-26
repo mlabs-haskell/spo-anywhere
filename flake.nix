@@ -24,7 +24,6 @@
       flake = false;
     };
     cardano-node.url = "github:intersectmbo/cardano-node?ref=8.1.2";
-    cardano-addressses.url = "github:intersectmbo/cardano-addresses";
     cardano-world = {
       url = "github:IntersectMBO/cardano-world";
       # inputs.nixpkgs.follows = "nixpkgs";
