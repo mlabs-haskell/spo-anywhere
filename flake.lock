@@ -308,6 +308,26 @@
         "type": "github"
       }
     },
+    "disko": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1715217706,
+        "narHash": "sha256-yEB5SEHc+o3WJpUPw455OdLy9A+gffvCJX8DZ7NCkuo=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "8eb1b315eef89f3bdc5c9814d1b207c6d64f0046",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "disko",
+        "type": "github"
+      }
+    },
     "dmerge": {
       "inputs": {
         "nixlib": [
@@ -1300,6 +1320,7 @@
         "cardano-node": "cardano-node",
         "devour-flake": "devour-flake",
         "devshell": "devshell_2",
+        "disko": "disko",
         "flake-parts": "flake-parts",
         "flake-root": "flake-root",
         "hercules-ci-effects": "hercules-ci-effects",
