@@ -24,8 +24,13 @@
       flake = false;
     };
     cardano-node.url = "github:intersectmbo/cardano-node?ref=8.1.2";
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
-  outputs = inputs @ {flake-parts, ...}:
+  outputs = inputs @ {flake-parts, nixpkgs, ...}:
     flake-parts.lib.mkFlake {
       inherit inputs;
     } {
@@ -43,5 +48,16 @@
         "x86_64-linux"
         "x86_64-darwin"
       ];
+      flake = {
+        nixosConfigurations = {
+          deploy-test = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+              ./modules/deploy/default.nix
+              (import ./tests/disko.nix inputs)
+            ];
+          };
+        };
+      };
     };
 }
