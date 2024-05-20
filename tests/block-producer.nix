@@ -1,4 +1,4 @@
-{inputs}: _: {
+inputs: _: {
   spo-anywhere.tests = {
     block-producer = let
       common = {

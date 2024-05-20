@@ -1,4 +1,4 @@
-{inputs, ...}: {
+{ cardano-node, ... }@inputs: {
   config,
   lib,
   ...
@@ -6,7 +6,7 @@
   cfg = config.services.block-producer-node;
 in {
   imports = [
-    inputs.cardano-node.nixosModules.cardano-node
+    cardano-node.nixosModules.cardano-node
   ];
 
   # TODO consider not using a wrapper module if it's not necessary (we'll see in the future as the project shapes up)

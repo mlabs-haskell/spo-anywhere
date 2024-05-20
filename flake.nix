@@ -30,7 +30,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = inputs @ {flake-parts, nixpkgs, ...}:
+  outputs = inputs @ {flake-parts, nixpkgs, self, ...}:
     flake-parts.lib.mkFlake {
       inherit inputs;
     } {
@@ -53,8 +53,13 @@
           deploy-test = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = [
-              ./modules/deploy/default.nix
-              (import ./tests/disko.nix inputs)
+              {
+                imports = [ self.nixosModules.deploy-script ];
+                config = {
+                  spo-anywhere.deploy-script.enable = true;
+                };
+              }
+              ( import ./tests/disko.nix inputs)
             ];
           };
         };
