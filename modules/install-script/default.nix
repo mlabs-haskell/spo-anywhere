@@ -1,18 +1,18 @@
-# This module defines deployment script at `config.system.build.spoDeployScript`.
+# This module defines deployment script at `config.system.build.spoInstallScript`.
 { pkgs, config, lib, ... }: {
 
   options = {
-    spo-anywhere.deploy-script =  {
-      enable = lib.mkEnableOption "Create deployment script at `config.system.build.spoDeployScript`." //
+    spo-anywhere.install-script =  {
+      enable = lib.mkEnableOption "Create deployment script at `config.system.build.spoInstallScript`." //
         {default = config.spo-anywhere.enable or false;};
     };
   };
 
   config = let 
-    cfg = config.spo-anywhere.deploy-script;
+    cfg = config.spo-anywhere.install-script;
     in lib.mkIf cfg.enable {
-    system.build.spoDeployScript = pkgs.writeShellApplication {
-      name = "spo-deploy-script";
+    system.build.spoInstallScript = pkgs.writeShellApplication {
+      name = "spo-install-script";
       runtimeInputs = with pkgs; [ nixos-anywhere getopt ];
       text = ''
         # shellcheck disable=SC2154
@@ -20,10 +20,10 @@
         # ### command parsing ###
 
         usage() {
-          echo "Usage: spo-deploy-script --target <target> --ssh-key <filepath> --spo-keys <directory>"
+          echo "Usage: spo-install-script --target <target> --ssh-key <filepath> --spo-keys <directory>"
         }
 
-        args="$(getopt --name spo-deploy-script -o 'h' --longoptions target:,ssh-key:,spo-keys: -- "$@")"
+        args="$(getopt --name spo-install-script -o 'h' --longoptions target:,ssh-key:,spo-keys: -- "$@")"
         eval set -- "$args"
         while true; do
           case "$1" in
@@ -61,9 +61,12 @@
         #   2. make our key generation commands, generate the keys in a directory of this form
         #   3. Copy to tmp/dir/path/to/where/spo/expects/keys. set cleanup hook
         #   4. use scp instead
-        nixos-anywhere --store-paths ${config.system.build.toplevel} ${config.system.build.diskoScriptNoDeps} \
-          -i "$ssh_key" \
+        nixos-anywhere \
+          --debug \
+          --store-paths ${config.system.build.toplevel} ${config.system.build.diskoScript} \
           --extra-files "$spo_keys" \
+          -i "$ssh_key" \
+          --copy-host-keys \
           "$target"
       '';
     };

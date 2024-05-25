@@ -54,9 +54,9 @@
             system = "x86_64-linux";
             modules = [
               {
-                imports = [ self.nixosModules.deploy-script ];
+                imports = [ self.nixosModules.install-script ];
                 config = {
-                  spo-anywhere.deploy-script.enable = true;
+                  spo-anywhere.install-script.enable = true;
                 };
               }
               ( import ./tests/disko.nix inputs)

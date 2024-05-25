@@ -3,7 +3,7 @@
     imports = [
       ./dummy.nix
       (import ./block-producer.nix inputs)
-      (import ./deploy-script.nix inputs)
+      (import ./install-script.nix inputs)
     ];
   };
 }

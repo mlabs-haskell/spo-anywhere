@@ -7,7 +7,7 @@
     module = ./dummy;
     block-producer-node = import ./block-producer-node inputs;
     dummy = import ./dummy;
-    deploy-script = import ./deploy-script;
+    install-script = import ./install-script;
     # the default module imports all modules
     default = {
       imports = with builtins; attrValues (removeAttrs config.flake.nixosModules ["default"]);
