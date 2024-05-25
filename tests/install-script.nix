@@ -91,8 +91,8 @@ inputs: { config, pkgs, ... }: {
               root@installed cat {ssh_key_path}
           """)
           print(installer.execute("""
-            install-spo, timeout=15*60
-          """))
+            install-spo
+          """, timeout=15*60))
           try:
             installed.shutdown()
           except BrokenPipeError:
