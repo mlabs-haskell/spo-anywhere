@@ -43,9 +43,10 @@
               "Z /etc/testnet 700 cardano-node cardano-node - ${./local-testnet-config}"
             ];
 
-            services.block-producer-node = {
+            spo-anywhere.cardano-node = {
               enable = true;
               configFilesPath = "/etc/testnet";
+              block-producer-key-path = "/etc/testnet";
             };
 
             # This is a workaround to set a new start time for the ephemeral testnet created by the test
