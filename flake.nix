@@ -30,7 +30,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = inputs @ {flake-parts, nixpkgs, ...}:
+  outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {
       inherit inputs;
     } {
@@ -48,16 +48,5 @@
         "x86_64-linux"
         "x86_64-darwin"
       ];
-      flake = {
-        nixosConfigurations = {
-          deploy-test = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [
-              ./modules/deploy/default.nix
-              (import ./tests/disko.nix inputs)
-            ];
-          };
-        };
-      };
     };
 }
