@@ -4,8 +4,8 @@ with _lib; rec {
   # mimicks topology.json format
   # Topology where every peer has single access point. TODO: allow to overwrite
   mkBlockProducerTopology = relayAddrs:
-    toFile "topology.json" (
-      toJSON
+    builtins.toFile "topology.json" (
+      builtins.toJSON
       {
         localRoots =
           map (

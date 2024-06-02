@@ -39,7 +39,7 @@ in
         {
           enable = true;
           port = 3001;
-          hostAddr = "127.0.0.1"; # We don't want to expose the block producer ## todo: karol: how does this work?
+          hostAddr = "127.0.0.1"; # We don't want to expose the block producer
           nodeConfigFile = "${cfg.configFilesPath}/configuration.yaml";
           topology = "${cfg.configFilesPath}/topology-spo-1.json";
         }
