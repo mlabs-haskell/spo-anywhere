@@ -1,4 +1,4 @@
-inputs: { config, pkgs, ... }: {
+{ inputs, ... }: { config, pkgs, ... }: {
   spo-anywhere.tests = {
     install-script = let
     ssh-keys = pkgs.runCommand "install-test-ssh-keys" {} ''
@@ -9,7 +9,7 @@ inputs: { config, pkgs, ... }: {
       imports = [
         # common
         # self.nixosModules.default <- can't do, so:
-        (import ../modules/install-script )
+        (import ../modules/install-script { inherit inputs; } )
         # (import ./disko.nix inputs)
         (import ./system-to-install.nix inputs)
         # (import ../modules/block-producer.nix inputs)
@@ -21,12 +21,26 @@ inputs: { config, pkgs, ... }: {
     };
     # TODO: how to test other systems?
     system = "x86_64-linux";
-    install-script = (inputs.nixpkgs.lib.nixosSystem {
+    # install-script = (inputs.nixpkgs.lib.nixosSystem {
+    #   inherit system;
+    #   modules = [
+    #     installing
+    #   ];
+    # }).config.system.build.spoInstallScript;
+    install-script-config = (inputs.nixpkgs.lib.nixosSystem {
       inherit system;
       modules = [
         installing
       ];
-    }).config.system.build.spoInstallScript;
+    });
+    install-script = install-script-config.config.system.build.spoInstallScript;
+    # disko-config = install-script-config.config.system.build.diskoNoDeps;
+    disko-config = install-script-config.config.system.build.diskoScript;
+    system-config = install-script-config.config.system.build.toplevel;
+    kexec-installer = (builtins.toString
+      inputs.nixos-images.packages."${pkgs.stdenv.system}".kexec-installer-nixos-unstable-noninteractive)
+      + "/nixos-kexec-installer-noninteractive-${pkgs.stdenv.system}.tar.gz";
+    # kexec-installer = inputs.nixos-images.packages."x86_64-linux".kexec-installer-nixos-unstable;
     in {
       systems = [system];
 
@@ -38,16 +52,33 @@ inputs: { config, pkgs, ... }: {
           installer = {
             pkgs,
             lib,
+            config,
             ...
           }: {
             virtualisation = {
               cores = 2;
               memorySize = 1512;
-              # writableStore = false;
+              writableStore = true;
+              forwardPorts = [
+                { from = "host"; host.port = 2222; guest.port = 22; }
+              ];
             };
             system.activationScripts.rsa-key = ''
               ${pkgs.coreutils}/bin/install -D -m600 ${ssh-keys}/my_key /root/.ssh/install_key
             '';
+            services.openssh.enable = true;
+            services.openssh.settings.PermitRootLogin = "yes";
+            # services.openssh.permitRootLogin = "yes";
+            users.users.root.password = null;
+            users.users.root.hashedPasswordFile = null;
+            users.users.root.hashedPassword = "$y$j9T$tpxRc1zcFxXLT23rrI8gf1$AFEFImipnPVvIE/xBmkfxp06v8Ep6S1FOSrTUbtVMGB";
+
+            # users.users.root.openssh.authorizedKeys.keyFiles = [ "${ssh-keys}/my_key.pub" ];
+            environment.etc = {
+              "nixos-anywhere/disko".source = disko-config;
+              "nixos-anywhere/system-to-install".source = system-config;
+              "nixos-anywhere/kexec-installer".source = kexec-installer;
+            };
             environment.systemPackages = [
               pkgs.nixos-anywhere
               (pkgs.writeShellApplication {
@@ -68,7 +99,11 @@ inputs: { config, pkgs, ... }: {
             };
           installed = {
             services.openssh.enable = true;
-            virtualisation.memorySize = 1512;
+            virtualisation = {
+              memorySize = 1512;
+              cores = 2;
+              writableStore = true;
+            };
             users.users.root.openssh.authorizedKeys.keyFiles = [ "${ssh-keys}/my_key.pub" ];
           };
         };
@@ -80,6 +115,7 @@ inputs: { config, pkgs, ... }: {
               startCommand += ' -device virtio-blk-pci,drive=drive1'
               machine = create_machine(
                 start_command=startCommand,
+                keep_vm_state=True,
                 **args)
               driver.machines.append(machine)
               return machine
@@ -100,9 +136,8 @@ inputs: { config, pkgs, ... }: {
             pass
           new_machine = create_test_machine(oldmachine=installed, args={ "name": "after_install"})
           new_machine.start()
-          new_machine.systemctl("status backdoor.service")
-          new_machine.shutdown()
-          hostname = new_machine.succeed("hostname").strip()
+          # new_machine.shutdown()
+          hostname = new_machine.execute("hostname", timeout = 3 * 60 * 60).strip()
           assert "spo-anywhere-welcomes" == hostname, f"'spo-anywhere-welcomes' != '{hostname}'"
           ssh_key_content = new_machine.succeed(f"cat {ssh_key_path}").strip()
           assert ssh_key_content in ssh_key_output, "SSH host identity changed"

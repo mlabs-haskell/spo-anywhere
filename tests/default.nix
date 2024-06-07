@@ -3,7 +3,7 @@
     imports = [
       ./dummy.nix
       (import ./block-producer.nix inputs)
-      (import ./install-script.nix inputs)
+      (import ./install-script.nix { inherit inputs; } )
     ];
   };
 }

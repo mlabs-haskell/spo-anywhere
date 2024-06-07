@@ -29,6 +29,9 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-images = {
+      url = "github:nix-community/nixos-images";
+    };
   };
   outputs = inputs @ {flake-parts, nixpkgs, self, ...}:
     flake-parts.lib.mkFlake {
