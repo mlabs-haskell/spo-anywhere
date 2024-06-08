@@ -23,7 +23,7 @@
       url = "github:srid/devour-flake";
       flake = false;
     };
-    cardano-node.url = "github:intersectmbo/cardano-node?ref=8.1.2";
+    cardano-node.url = "github:intersectmbo/cardano-node?ref=8.7.3";
   };
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {
