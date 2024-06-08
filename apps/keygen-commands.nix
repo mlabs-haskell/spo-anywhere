@@ -155,7 +155,7 @@
           $(type -p menu &>/dev/null && menu)
         '';
       };
-      packages = with pkgs; [
+      packages = [
         inputs'.cardano-node.packages.cardano-cli
       ];
       commands =
