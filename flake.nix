@@ -51,21 +51,5 @@
         "x86_64-linux"
         "x86_64-darwin"
       ];
-      flake = {
-        nixosConfigurations = {
-          deploy-test = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [
-              {
-                imports = [ self.nixosModules.install-script ];
-                config = {
-                  spo-anywhere.install-script.enable = true;
-                };
-              }
-              ( import ./tests/disko.nix inputs)
-            ];
-          };
-        };
-      };
     };
 }
