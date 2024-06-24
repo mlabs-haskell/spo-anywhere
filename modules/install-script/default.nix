@@ -73,8 +73,8 @@
           -i "$ssh_key" \
           --kexec /etc/nixos-anywhere/kexec-installer \
           --copy-host-keys \
-          "$target" \
-          # 2>&1
+          "$target" >&2
+        # 2>&1
       '';
           # --store-paths ${config.system.build.diskoScript} ${config.system.build.toplevel} \
       # --kexec /etc/nixos-anywhere/kexec-installer \

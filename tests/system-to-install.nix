@@ -6,50 +6,40 @@
     (modulesPath + "/profiles/minimal.nix")
   ];
   documentation.enable = false;
-  hardware.enableAllFirmware = false;
-  networking.hostId = "8425e349"; # from profiles/base.nix, needed for zfs
-  boot.zfs.devNodes = "/dev/disk/by-uuid"; # needed because /dev/disk/by-id is empty in qemu-vms
-  boot.loader.grub.devices = [ "/dev/vda" ];
+  hardware.enableAllFirmware = true;
+  nixpkgs.config.allowUnfree = true;
+  # networking.hostId = "8425e349"; # from profiles/base.nix, needed for zfs
+  # boot.zfs.devNodes = "/dev/disk/by-uuid"; # needed because /dev/disk/by-id is empty in qemu-vms
   disko.devices = {
     disk = {
       vda = {
         device = "/dev/vda";
         type = "disk";
         content = {
-          type = "table";
-          format = "gpt";
-          partitions = [
-            {
-              name = "boot";
-              start = "0";
-              end = "1M";
-              part-type = "primary";
-              flags = [ "bios_grub" ];
-            }
-            {
-              name = "ESP";
-              start = "1MiB";
-              end = "100MiB";
-              bootable = true;
+          type = "gpt";
+          partitions = {
+            boot = {
+              size = "1M";
+              type = "EF02";
+            };
+            ESP = {
+              size = "100M";
+              type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
               };
-            }
-            {
-              name = "root";
-              start = "100MiB";
-              end = "100%";
-              part-type = "primary";
-              bootable = true;
+            };
+            root = {
+              size = "100%";
               content = {
                 type = "filesystem";
                 format = "ext4";
                 mountpoint = "/";
               };
-            }
-          ];
+            };
+          };
         };
       };
     };

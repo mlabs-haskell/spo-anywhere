@@ -63,6 +63,7 @@
                 { from = "host"; host.port = 2222; guest.port = 22; }
               ];
             };
+            networking.firewall.enable = false;
             system.activationScripts.rsa-key = ''
               ${pkgs.coreutils}/bin/install -D -m600 ${ssh-keys}/my_key /root/.ssh/install_key
             '';
@@ -99,8 +100,10 @@
             };
           installed = {
             services.openssh.enable = true;
+            networking.firewall.enable = false;
             virtualisation = {
               memorySize = 1512;
+              diskSize = 2048;
               cores = 2;
               writableStore = true;
             };
@@ -110,7 +113,7 @@
         testScript = ''
           def create_test_machine(oldmachine=None, args={}): # taken from <nixpkgs/nixos/tests/installer.nix>
               startCommand = "${pkgs.qemu_test}/bin/qemu-kvm"
-              startCommand += " -cpu max -m 1024 -virtfs local,path=/nix/store,security_model=none,mount_tag=nix-store"
+              startCommand += " -cpu max -m 5000 -virtfs local,path=/nix/store,security_model=none,mount_tag=nix-store"
               startCommand += f' -drive file={oldmachine.state_dir}/installed.qcow2,id=drive1,if=none,index=1,werror=report'
               startCommand += ' -device virtio-blk-pci,drive=drive1'
               machine = create_machine(
@@ -121,14 +124,11 @@
               return machine
           start_all()
           ssh_key_path = "/etc/ssh/ssh_host_ed25519_key.pub"
-          print("STOP before getting ssh keys")
           ssh_key_output = installer.wait_until_succeeds(f"""
             ssh -i /root/.ssh/install_key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
               root@installed cat {ssh_key_path}
           """)
-          print(installer.execute("""
-            install-spo
-          """, timeout=15*60))
+          print(installer.succeed("install-spo"))
           try:
             installed.shutdown()
           except BrokenPipeError:
@@ -136,8 +136,8 @@
             pass
           new_machine = create_test_machine(oldmachine=installed, args={ "name": "after_install"})
           new_machine.start()
-          # new_machine.shutdown()
-          hostname = new_machine.execute("hostname", timeout = 3 * 60 * 60).strip()
+          (_, hostname) = new_machine.execute("hostname")
+          hostname = hostname.strip()
           assert "spo-anywhere-welcomes" == hostname, f"'spo-anywhere-welcomes' != '{hostname}'"
           ssh_key_content = new_machine.succeed(f"cat {ssh_key_path}").strip()
           assert ssh_key_content in ssh_key_output, "SSH host identity changed"
