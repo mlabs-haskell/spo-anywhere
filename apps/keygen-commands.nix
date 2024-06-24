@@ -161,7 +161,7 @@
       commands =
         lib.attrsets.mapAttrsToList (name: value: {
           category = "Key generation";
-          name = apps'."${name}".name;
+          inherit (apps'."${name}") name;
           help = "Generates files: ${builtins.concatStringsSep " " apps'."${name}".files}";
           package = value.program;
         })
