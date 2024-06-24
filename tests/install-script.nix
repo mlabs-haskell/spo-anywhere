@@ -1,51 +1,55 @@
-{ inputs, ... }: { config, pkgs, ... }: {
+{inputs, ...}: {
+  config,
+  pkgs,
+  ...
+}: {
   spo-anywhere.tests = {
     install-script = let
-    ssh-keys = pkgs.runCommand "install-test-ssh-keys" {} ''
-      mkdir $out
-      ${pkgs.openssh}/bin/ssh-keygen -f $out/my_key -P ""
-    '';
-    installing = {
-      imports = [
-        # common
-        # self.nixosModules.default <- can't do, so:
-        (import ../modules/install-script { inherit inputs; } )
-        # (import ./disko.nix inputs)
-        (import ./system-to-install.nix inputs)
-        # (import ../modules/block-producer.nix inputs)
-      ];
-      config = {
-        networking.hostName = "spo-anywhere-welcomes";
-        spo-anywhere.install-script.enable = true;
+      ssh-keys = pkgs.runCommand "install-test-ssh-keys" {} ''
+        mkdir $out
+        ${pkgs.openssh}/bin/ssh-keygen -f $out/my_key -P ""
+      '';
+      installing = {
+        imports = [
+          # common
+          # self.nixosModules.default <- can't do, so:
+          (import ../modules/install-script {inherit inputs;})
+          # (import ./disko.nix inputs)
+          (import ./system-to-install.nix inputs)
+          # (import ../modules/block-producer.nix inputs)
+        ];
+        config = {
+          networking.hostName = "spo-anywhere-welcomes";
+          spo-anywhere.install-script.enable = true;
+        };
       };
-    };
-    # TODO: how to test other systems?
-    system = "x86_64-linux";
-    # install-script = (inputs.nixpkgs.lib.nixosSystem {
-    #   inherit system;
-    #   modules = [
-    #     installing
-    #   ];
-    # }).config.system.build.spoInstallScript;
-    install-script-config = (inputs.nixpkgs.lib.nixosSystem {
-      inherit system;
-      modules = [
-        installing
-      ];
-    });
-    install-script = install-script-config.config.system.build.spoInstallScript;
-    # disko-config = install-script-config.config.system.build.diskoNoDeps;
-    disko-config = install-script-config.config.system.build.diskoScript;
-    system-config = install-script-config.config.system.build.toplevel;
-    kexec-installer = (builtins.toString
-      inputs.nixos-images.packages."${pkgs.stdenv.system}".kexec-installer-nixos-unstable-noninteractive)
-      + "/nixos-kexec-installer-noninteractive-${pkgs.stdenv.system}.tar.gz";
-    # kexec-installer = inputs.nixos-images.packages."x86_64-linux".kexec-installer-nixos-unstable;
+      # TODO: how to test other systems?
+      system = "x86_64-linux";
+      # install-script = (inputs.nixpkgs.lib.nixosSystem {
+      #   inherit system;
+      #   modules = [
+      #     installing
+      #   ];
+      # }).config.system.build.spoInstallScript;
+      install-script-config = inputs.nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          installing
+        ];
+      };
+      install-script = install-script-config.config.system.build.spoInstallScript;
+      # disko-config = install-script-config.config.system.build.diskoNoDeps;
+      disko-config = install-script-config.config.system.build.diskoScript;
+      system-config = install-script-config.config.system.build.toplevel;
+      kexec-installer =
+        (builtins.toString
+          inputs.nixos-images.packages."${pkgs.stdenv.system}".kexec-installer-nixos-unstable-noninteractive)
+        + "/nixos-kexec-installer-noninteractive-${pkgs.stdenv.system}.tar.gz";
+      # kexec-installer = inputs.nixos-images.packages."x86_64-linux".kexec-installer-nixos-unstable;
     in {
       systems = [system];
 
-      module = {config, ...}:
-        {
+      module = {config, ...}: {
         name = "install script";
 
         nodes = {
@@ -60,7 +64,11 @@
               memorySize = 1512;
               writableStore = true;
               forwardPorts = [
-                { from = "host"; host.port = 2222; guest.port = 22; }
+                {
+                  from = "host";
+                  host.port = 2222;
+                  guest.port = 22;
+                }
               ];
             };
             networking.firewall.enable = false;
@@ -96,8 +104,8 @@
                 '';
                 # spo-install-script --target root@host --spo-keys . --ssh-key ./ssh-keys
               })
-              ];
-            };
+            ];
+          };
           installed = {
             services.openssh.enable = true;
             networking.firewall.enable = false;
@@ -107,7 +115,7 @@
               cores = 2;
               writableStore = true;
             };
-            users.users.root.openssh.authorizedKeys.keyFiles = [ "${ssh-keys}/my_key.pub" ];
+            users.users.root.openssh.authorizedKeys.keyFiles = ["${ssh-keys}/my_key.pub"];
           };
         };
         testScript = ''

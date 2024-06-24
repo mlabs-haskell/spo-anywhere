@@ -33,7 +33,7 @@
       url = "github:nix-community/nixos-images";
     };
   };
-  outputs = inputs @ {flake-parts, nixpkgs, self, ...}:
+  outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {
       inherit inputs;
     } {

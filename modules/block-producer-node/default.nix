@@ -1,4 +1,4 @@
-{ cardano-node, ... }@inputs: {
+{cardano-node, ...}: {
   config,
   lib,
   ...
