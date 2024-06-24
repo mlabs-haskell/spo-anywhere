@@ -1,8 +1,4 @@
-{disko, ...}: {
-  modulesPath,
-  self,
-  ...
-}: {
+{disko, ...}: {modulesPath, ...}: {
   imports = [
     disko.nixosModules.disko
     (modulesPath + "/testing/test-instrumentation.nix")

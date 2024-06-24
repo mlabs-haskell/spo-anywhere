@@ -11,12 +11,9 @@
       '';
       installing = {
         imports = [
-          # common
           # self.nixosModules.default <- can't do, so:
           (import ../modules/install-script {inherit inputs;})
-          # (import ./disko.nix inputs)
           (import ./system-to-install.nix inputs)
-          # (import ../modules/block-producer.nix inputs)
         ];
         config = {
           networking.hostName = "spo-anywhere-welcomes";
@@ -25,12 +22,6 @@
       };
       # TODO: how to test other systems?
       system = "x86_64-linux";
-      # install-script = (inputs.nixpkgs.lib.nixosSystem {
-      #   inherit system;
-      #   modules = [
-      #     installing
-      #   ];
-      # }).config.system.build.spoInstallScript;
       install-script-config = inputs.nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
@@ -38,27 +29,20 @@
         ];
       };
       install-script = install-script-config.config.system.build.spoInstallScript;
-      # disko-config = install-script-config.config.system.build.diskoNoDeps;
       disko-config = install-script-config.config.system.build.diskoScript;
       system-config = install-script-config.config.system.build.toplevel;
       kexec-installer =
         (builtins.toString
           inputs.nixos-images.packages."${pkgs.stdenv.system}".kexec-installer-nixos-unstable-noninteractive)
         + "/nixos-kexec-installer-noninteractive-${pkgs.stdenv.system}.tar.gz";
-      # kexec-installer = inputs.nixos-images.packages."x86_64-linux".kexec-installer-nixos-unstable;
     in {
       systems = [system];
 
-      module = {config, ...}: {
+      module = _: {
         name = "install script";
 
         nodes = {
-          installer = {
-            pkgs,
-            lib,
-            config,
-            ...
-          }: {
+          installer = {pkgs, ...}: {
             virtualisation = {
               cores = 2;
               memorySize = 1512;
