@@ -43,7 +43,7 @@ inputs: _: {
               "Z /etc/testnet 700 cardano-node cardano-node - ${./local-testnet-config}"
             ];
 
-            services.block-producer-node = {
+            spo-anywhere.node = {
               enable = true;
               configFilesPath = "/etc/testnet";
             };

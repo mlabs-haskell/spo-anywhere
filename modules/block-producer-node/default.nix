@@ -3,7 +3,7 @@
   lib,
   ...
 }: let
-  cfg = config.services.block-producer-node;
+  cfg = config.spo-anywhere.node;
 in {
   imports = [
     cardano-node.nixosModules.cardano-node
@@ -12,8 +12,12 @@ in {
   # TODO consider not using a wrapper module if it's not necessary (we'll see in the future as the project shapes up)
 
   options = {
-    services.block-producer-node = {
-      enable = lib.mkEnableOption "Enable block producer cardano-node with some defaults.";
+    spo-anywhere.node = {
+      enable =
+        lib.mkEnableOption "Enable block producer cardano-node with some defaults."
+        // {
+          default = config.spo-anywhere.enable or false;
+        };
       configFilesPath = lib.mkOption {
         type = lib.types.path;
         description = "Path to the network configuration directory";
