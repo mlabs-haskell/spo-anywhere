@@ -14,10 +14,17 @@
           # self.nixosModules.default <- can't do, so:
           (import ../modules/install-script {inherit inputs;})
           (import ./system-to-install.nix inputs)
+          (import ../modules/block-producer-node inputs)
         ];
         config = {
           networking.hostName = "spo-anywhere-welcomes";
-          spo-anywhere.install-script.enable = true;
+          spo-anywhere = {
+            install-script.enable = true;
+            node = {
+              enable = true;
+              configFilesPath = ./local-testnet-config;
+            };
+          };
         };
       };
       # TODO: how to test other systems?
@@ -77,7 +84,7 @@
             networking.firewall.enable = false;
             virtualisation = {
               memorySize = 1512;
-              diskSize = 2048;
+              diskSize = 3500;
               cores = 2;
               writableStore = true;
             };
