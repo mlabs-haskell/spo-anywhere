@@ -1,5 +1,5 @@
 # This module defines deployment script at `config.system.build.spoInstallScript`.
-_: {
+{inputs}: {
   pkgs,
   config,
   lib,
@@ -20,7 +20,12 @@ _: {
       system.build.spoInstallScript = pkgs.writeShellApplication {
         name = "spo-install-script";
         runtimeInputs = with pkgs; [nixos-anywhere getopt];
-        text = ''
+        text = let
+          kexec-installer =
+            (builtins.toString
+              inputs.nixos-images.packages."${pkgs.stdenv.system}".kexec-installer-nixos-unstable-noninteractive)
+            + "/nixos-kexec-installer-noninteractive-${pkgs.stdenv.system}.tar.gz";
+        in ''
           # shellcheck disable=SC2154
 
           # ### command parsing ###
@@ -69,10 +74,10 @@ _: {
           #   4. use scp instead
           nixos-anywhere \
             --debug \
-            --store-paths /etc/nixos-anywhere/disko /etc/nixos-anywhere/system-to-install \
+            --store-paths ${config.system.build.diskoScript} ${config.system.build.toplevel} \
             --extra-files "$spo_keys" \
             -i "$ssh_key" \
-            --kexec /etc/nixos-anywhere/kexec-installer \
+            --kexec ${kexec-installer} \
             --copy-host-keys \
             "$target" >&2
         '';

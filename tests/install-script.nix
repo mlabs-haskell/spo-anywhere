@@ -29,12 +29,6 @@
         ];
       };
       install-script = install-script-config.config.system.build.spoInstallScript;
-      disko-config = install-script-config.config.system.build.diskoScript;
-      system-config = install-script-config.config.system.build.toplevel;
-      kexec-installer =
-        (builtins.toString
-          inputs.nixos-images.packages."${pkgs.stdenv.system}".kexec-installer-nixos-unstable-noninteractive)
-        + "/nixos-kexec-installer-noninteractive-${pkgs.stdenv.system}.tar.gz";
     in {
       systems = [system];
 
@@ -60,18 +54,7 @@
               ${pkgs.coreutils}/bin/install -D -m600 ${ssh-keys}/my_key /root/.ssh/install_key
             '';
             services.openssh.enable = true;
-            services.openssh.settings.PermitRootLogin = "yes";
-            # services.openssh.permitRootLogin = "yes";
-            users.users.root.password = null;
-            users.users.root.hashedPasswordFile = null;
-            users.users.root.hashedPassword = "$y$j9T$tpxRc1zcFxXLT23rrI8gf1$AFEFImipnPVvIE/xBmkfxp06v8Ep6S1FOSrTUbtVMGB";
 
-            # users.users.root.openssh.authorizedKeys.keyFiles = [ "${ssh-keys}/my_key.pub" ];
-            environment.etc = {
-              "nixos-anywhere/disko".source = disko-config;
-              "nixos-anywhere/system-to-install".source = system-config;
-              "nixos-anywhere/kexec-installer".source = kexec-installer;
-            };
             environment.systemPackages = [
               pkgs.nixos-anywhere
               (pkgs.writeShellApplication {
@@ -86,7 +69,6 @@
 
                   spo-install-script --target root@installed --spo-keys ./spo-keys --ssh-key /root/.ssh/install_key
                 '';
-                # spo-install-script --target root@host --spo-keys . --ssh-key ./ssh-keys
               })
             ];
           };
