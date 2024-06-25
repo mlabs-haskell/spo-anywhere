@@ -36,20 +36,48 @@
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {
       inherit inputs;
-    } {
-      imports = [
-        ./lib
-        ./checks
-        ./ci
-        ./formatter
-        ./shell
-        ./modules
-        ./tests
-        ./apps
-      ];
-      systems = [
-        "x86_64-linux"
-        "x86_64-darwin"
-      ];
-    };
+    } (
+      {config, ...}: let
+        spo-anywhere = {
+          imports = [
+            config.flake.nixosModules.spo-anywhere
+            config.flake.nixosModules.block-producer-node
+            config.flake.nixosModules.install-script
+          ];
+        };
+      in {
+        imports = [
+          ./lib
+          ./checks
+          ./ci
+          ./formatter
+          ./shell
+          ./modules
+          ./tests
+          ./apps
+        ];
+        systems = [
+          "x86_64-linux"
+          "x86_64-darwin"
+        ];
+        flake.nixosConfigurations.spo = let
+          spo = {
+            imports = [
+              (import ./modules/disko.nix {inherit (inputs) disko;})
+              spo-anywhere
+            ];
+            config = {
+              spo-anywhere = {
+                enable = true;
+                node.configFilesPath = ./tests/local-testnet-config;
+              };
+            };
+          };
+        in
+          inputs.nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [ spo ];
+          };
+      }
+    );
 }
