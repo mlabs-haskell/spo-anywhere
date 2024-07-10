@@ -1,4 +1,4 @@
-{inputs}: _: {
+inputs: _: {
   spo-anywhere.tests = {
     block-producer = let
       common = {
@@ -43,7 +43,7 @@
               "Z /etc/testnet 700 cardano-node cardano-node - ${./local-testnet-config}"
             ];
 
-            services.block-producer-node = {
+            spo-anywhere.node = {
               enable = true;
               configFilesPath = "/etc/testnet";
             };

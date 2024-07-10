@@ -308,6 +308,26 @@
         "type": "github"
       }
     },
+    "disko": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1715217706,
+        "narHash": "sha256-yEB5SEHc+o3WJpUPw455OdLy9A+gffvCJX8DZ7NCkuo=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "8eb1b315eef89f3bdc5c9814d1b207c6d64f0046",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "disko",
+        "type": "github"
+      }
+    },
     "dmerge": {
       "inputs": {
         "nixlib": [
@@ -977,6 +997,57 @@
         "type": "github"
       }
     },
+    "nixos-2311": {
+      "locked": {
+        "lastModified": 1717017538,
+        "narHash": "sha256-S5kltvDDfNQM3xx9XcvzKEOyN2qk8Sa+aSOLqZ+1Ujc=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "64e468fd2652105710d86cd2ae3e65a5a6d58dec",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "release-23.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixos-images": {
+      "inputs": {
+        "nixos-2311": "nixos-2311",
+        "nixos-unstable": "nixos-unstable"
+      },
+      "locked": {
+        "lastModified": 1717040312,
+        "narHash": "sha256-yI/en4IxuCEClIUpIs3QTyYCCtmSPLOhwLJclfNwdeg=",
+        "owner": "nix-community",
+        "repo": "nixos-images",
+        "rev": "47bfb55316e105390dd761e0b6e8e0be09462b67",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixos-images",
+        "type": "github"
+      }
+    },
+    "nixos-unstable": {
+      "locked": {
+        "lastModified": 1716968199,
+        "narHash": "sha256-vYbYTeWF4YMKYu6lHLQH+OagpubB9aZ1+V630h6qJr4=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "c598bbfe379934e8f379bc474cc1914a7c34fbdc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable-small",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1642336556,
@@ -1300,9 +1371,11 @@
         "cardano-node": "cardano-node",
         "devour-flake": "devour-flake",
         "devshell": "devshell_2",
+        "disko": "disko",
         "flake-parts": "flake-parts",
         "flake-root": "flake-root",
         "hercules-ci-effects": "hercules-ci-effects",
+        "nixos-images": "nixos-images",
         "nixpkgs": "nixpkgs_9",
         "treefmt-nix": "treefmt-nix"
       }
