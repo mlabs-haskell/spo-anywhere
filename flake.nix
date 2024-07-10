@@ -24,6 +24,14 @@
       flake = false;
     };
     cardano-node.url = "github:intersectmbo/cardano-node?ref=8.1.2";
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixos-images = {
+      url = "github:nix-community/nixos-images";
+    };
   };
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {

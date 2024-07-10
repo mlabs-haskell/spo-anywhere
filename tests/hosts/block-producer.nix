@@ -36,7 +36,7 @@ in
         "Z /etc/testnet 700 cardano-node cardano-node - ${../local-testnet-config}"
       ];
 
-      spo-anywhere.cardano-node = {
+      spo-anywhere.node = {
         enable = true;
         configFilesPath = "/etc/testnet";
         block-producer-key-path = "/etc/testnet";

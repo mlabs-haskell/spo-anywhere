@@ -1,14 +1,14 @@
-{inputs, ...}: {
+{cardano-node, ...}: {
   config,
   lib,
   ...
 }: let
-  cfg = config.spo-anywhere.cardano-node;
+  cfg = config.spo-anywhere.node;
 in
   with lib;
   with types; {
     imports = [
-      inputs.cardano-node.nixosModules.cardano-node
+      cardano-node.nixosModules.cardano-node
     ];
 
     # TODO consider not using a wrapper module if it's not necessary (we'll see in the future as the project shapes up)
@@ -18,7 +18,7 @@ in
     #        Added with a demo usage and we're set.
 
     options = {
-      spo-anywhere.cardano-node = {
+      spo-anywhere.node = {
         enable = mkEnableOption "Enable cardano-node with some defaults. Provide necessary keys to run as a block producer.";
 
         # need to split from the rest of configs as this differentiates between a block producer and a relay

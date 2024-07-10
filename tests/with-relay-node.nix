@@ -42,7 +42,7 @@
                   topology = lib.mkForce topology;
                   hostAddr = lib.mkForce "0.0.0.0";
                 };
-                spo-anywhere.cardano-node = {
+                spo-anywhere.node = {
                   block-producer-key-path = lib.mkForce null;
                 };
               };
