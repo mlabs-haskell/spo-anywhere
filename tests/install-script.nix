@@ -23,6 +23,7 @@
             node = {
               enable = true;
               configFilesPath = ./local-testnet-config;
+              block-producer-key-path = ./local-testnet-config;
             };
           };
         };
