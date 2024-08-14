@@ -21,10 +21,10 @@ in
       spo-anywhere.node = {
         enable = mkEnableOption "Enable cardano-node with some defaults. Provide necessary keys to run as a block producer.";
 
-        # need to split from the rest of configs as this differentiates between a block producer and a relay
         block-producer-key-path = lib.mkOption {
           type = nullOr path;
-          description = "Path to the block producer keys directory. Warning: Secrets, don't provide /nix/store paths here.";
+          description = "Path to the block producer keys directory. Set to null for non-block-producer node. Warning: Secrets, don't provide /nix/store paths here.";
+          example = "/etc/spo/keys";
         };
 
         configFilesPath = lib.mkOption {
@@ -38,8 +38,6 @@ in
       services.cardano-node = mkMerge [
         {
           enable = true;
-          port = 3001;
-          hostAddr = "127.0.0.1"; # We don't want to expose the block producer
           nodeConfigFile = "${cfg.configFilesPath}/configuration.yaml";
           topology = "${cfg.configFilesPath}/topology-spo-1.json";
         }

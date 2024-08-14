@@ -9,7 +9,7 @@
         mkdir $out
         ${pkgs.openssh}/bin/ssh-keygen -f $out/my_key -P ""
       '';
-      installing = {
+      installing = {lib, ...}: {
         imports = [
           # self.nixosModules.default <- can't do, so:
           (import ../modules/install-script {inherit inputs;})
@@ -17,15 +17,33 @@
           (import ../modules/block-producer-node inputs)
         ];
         config = {
+          # services.openssh.enable = true;
+          # users.users.root.openssh.authorizedKeys.keyFiles = ["${ssh-keys}/my_key.pub"];
+
           networking.hostName = "spo-anywhere-welcomes";
           spo-anywhere = {
-            install-script.enable = true;
+            install-script.enable = true; # true by default
             node = {
               enable = true;
-              configFilesPath = ./local-testnet-config;
-              block-producer-key-path = ./local-testnet-config;
+              # configFilesPath = "/etc/spo/configs";
+              # block-producer-key-path = "/etc/spo-keys";
+              configFilesPath = "/spo/configs";
+              block-producer-key-path = "/spo-keys";
             };
           };
+          systemd.tmpfiles.rules = [
+            "C+ /etc/spo/configs - - - - ${./local-testnet-config}"
+            "Z /etc/spo/configs 700 cardano-node cardano-node - ${./local-testnet-config}"
+          ];
+
+          systemd.services.cardano-node.preStart = ''
+            NOW=$(date +%s -d "now + 5 seconds")
+            ${lib.getExe pkgs.yq-go} e -i ".startTime = $NOW" /etc/spo/configs/byron-gen-command/genesis.json
+          '';
+
+          environment.systemPackages = [
+            (import ./spend-utxo-testscript.nix {inherit inputs pkgs;} )
+          ];
         };
       };
       # TODO: how to test other systems?
@@ -71,9 +89,10 @@
                   install-script
                 ];
                 text = ''
-                  mkdir spo-keys
-                  touch spo-keys/some-key
-                  chmod -R 600 spo-keys
+                  mkdir -p spo-keys
+                  cp -r ${./local-testnet-config}/* spo-keys
+                  echo ls spo-keys
+                  ls spo-keys
 
                   spo-install-script --target root@installed --spo-keys ./spo-keys --ssh-key /root/.ssh/install_key
                 '';
@@ -93,6 +112,35 @@
           };
         };
         testScript = ''
+          def main():
+            start_all()
+
+            ssh_key_path = "/etc/ssh/ssh_host_ed25519_key.pub"
+            ssh_key_output = installer.wait_until_succeeds(f"""
+              ssh -i /root/.ssh/install_key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+                root@installed cat {ssh_key_path}
+            """)
+            print(installer.succeed("install-spo"))
+            try:
+              installed.shutdown()
+            except BrokenPipeError:
+              # qemu has already exited
+              pass
+            new_machine = create_test_machine(oldmachine=installed, args={ "name": "after_install"})
+            new_machine.start()
+            (_, hostname) = new_machine.execute("hostname")
+            hostname = hostname.strip()
+            assert "spo-anywhere-welcomes" == hostname, f"'spo-anywhere-welcomes' != '{hostname}'"
+            ssh_key_content = new_machine.succeed(f"cat {ssh_key_path}").strip()
+            assert ssh_key_content in ssh_key_output, "SSH host identity changed"
+
+            print(new_machine.systemctl("status cardano-node"))
+            print(new_machine.succeed("sleep 15"))
+            print(new_machine.systemctl("status cardano-node"))
+            print(new_machine.succeed("ls /"))
+            print(new_machine.succeed("ls /etc"))
+            print(new_machine.succeed("spend-utxo"))
+          
           def create_test_machine(oldmachine=None, args={}): # taken from <nixpkgs/nixos/tests/installer.nix>
               startCommand = "${pkgs.qemu_test}/bin/qemu-kvm"
               startCommand += " -cpu max -m 5000 -virtfs local,path=/nix/store,security_model=none,mount_tag=nix-store"
@@ -104,25 +152,8 @@
                 **args)
               driver.machines.append(machine)
               return machine
-          start_all()
-          ssh_key_path = "/etc/ssh/ssh_host_ed25519_key.pub"
-          ssh_key_output = installer.wait_until_succeeds(f"""
-            ssh -i /root/.ssh/install_key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-              root@installed cat {ssh_key_path}
-          """)
-          print(installer.succeed("install-spo"))
-          try:
-            installed.shutdown()
-          except BrokenPipeError:
-            # qemu has already exited
-            pass
-          new_machine = create_test_machine(oldmachine=installed, args={ "name": "after_install"})
-          new_machine.start()
-          (_, hostname) = new_machine.execute("hostname")
-          hostname = hostname.strip()
-          assert "spo-anywhere-welcomes" == hostname, f"'spo-anywhere-welcomes' != '{hostname}'"
-          ssh_key_content = new_machine.succeed(f"cat {ssh_key_path}").strip()
-          assert ssh_key_content in ssh_key_output, "SSH host identity changed"
+          
+          main()
         '';
       };
     };
