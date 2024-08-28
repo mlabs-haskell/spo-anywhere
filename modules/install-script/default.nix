@@ -6,10 +6,18 @@
   ...
 }: {
   options = {
-    spo-anywhere.install-script = {
+    spo-anywhere.install-script = with lib; with types;{
       enable =
-        lib.mkEnableOption "Create deployment script at `config.system.build.spoInstallScript`."
+        mkEnableOption "Create deployment script at `config.system.build.spoInstallScript`."
         // {default = config.spo-anywhere.enable or false;};
+      target-dns = mkOption {
+        type = nullOr str;
+        default = null;
+        example = "root@128.196.0.1";
+        description = ''
+          The target DNS address to deploy to. Overwritten by a command line argument.
+        '';
+      };
     };
   };
 
@@ -38,13 +46,18 @@
             rm -rf "$tmp_keys"
           }
 
-          # args="$(getopt --name spo-install-script -o 'h' --longoptions target:,ssh-key:,spo-keys: )"
-          args="$(getopt --name spo-install-script -o 'h' --longoptions target:,ssh-key:,spo-keys: -- "$@")"
+          target="${builtins.toString (config.spo-anywhere.install-script.target-dns or "")}"
+
+          todo: make target optional option
+
+          args="$(getopt --name spo-install-script -o 'h' --longoptions :target,ssh-key:,spo-keys: -- "$@")"
           eval set -- "$args"
           while true; do
             case "$1" in
               --target)
-                  target="$2"
+                  # todo: verify thats correct, namely is target set to ":" or "" or does it not appear as a case here?
+                  echo "$target" "$2"
+                  target="$2" 
                   shift 2
                     ;;
               --ssh-key)
