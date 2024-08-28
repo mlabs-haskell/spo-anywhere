@@ -40,17 +40,18 @@
     };
   };
   system = "x86_64-linux";
-  install-script-config = inputs.nixpkgs.lib.nixosSystem {
-    inherit system;
-    modules = [
-      installing
-    ];
-  };
-  install-script = install-script-config.config.system.build.spoInstallScript;
+  install-script-config = nixos-config:
+    inputs.nixpkgs.lib.nixosSystem {
+      inherit system;
+      modules = [
+        nixos-config
+      ];
+    };
+  install-script = nixos-config: (install-script-config nixos-config).config.system.build.spoInstallScript;
 
   systems = [system];
 
-  installer = {pkgs, ...}: {
+  installer = install-script: {pkgs, ...}: {
     virtualisation = {
       cores = 2;
       memorySize = 1512;
@@ -96,7 +97,7 @@
           cp ${./local-testnet-config}/pools/vrf1.skey spo-keys/vrf.skey
           cp ${./local-testnet-config}/pools/opcert1.cert spo-keys/opcert.cert
 
-          spo-install-script --spo-keys ./spo-keys --ssh-key /root/.ssh/install_key
+          spo-install-script --spo-keys ./spo-keys --ssh-key /root/.ssh/install_key --target
         '';
       })
     ];
@@ -161,13 +162,15 @@ in {
       module = _: {
         name = "install script overwriting target in cli";
         nodes = {
-          inherit installer;
-          installed = {
-            imports = [installed];
-            config = {
-              spo-anywhere.install-script.target-dns = "some-invalid-garbage";
-            };
-          };
+          inherit installed;
+          installer = installer (
+            install-script {
+              imports = [installing];
+              config = {
+                spo-anywhere.install-script.target-dns = "some-invalid-garbage";
+              };
+            }
+          );
         };
         testScript = testScript "print(installer.succeed(\"install-spo\"))";
       };
@@ -178,12 +181,14 @@ in {
         name = "install script target as nixos option";
         nodes = {
           inherit installed;
-          installer = {
-            imports = [installer];
-            config = {
-              spo-anywhere.install-script.target-dns = "root@installed";
-            };
-          };
+          installer = installer (
+            install-script {
+              imports = [installing];
+              config = {
+                spo-anywhere.install-script.target-dns = "root@installed";
+              };
+            }
+          );
         };
         testScript = testScript "print(installer.succeed(\"install-spo-no-target\"))";
       };
@@ -193,7 +198,8 @@ in {
       module = _: {
         name = "install script no target provided";
         nodes = {
-          inherit installed installer;
+          inherit installed;
+          installer = installer (install-script installing);
         };
         testScript = testScript ''
           print(installer.fail("install-spo-no-target"))

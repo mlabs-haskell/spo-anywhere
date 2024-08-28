@@ -49,16 +49,15 @@
 
           target="${builtins.toString (config.spo-anywhere.install-script.target-dns or "")}"
 
-          todo: make target optional option
+          # todo: make target optional option
 
-          args="$(getopt --name spo-install-script -o 'h' --longoptions :target,ssh-key:,spo-keys: -- "$@")"
+          args="$(getopt --name spo-install-script -o 'h' --longoptions target::,ssh-key:,spo-keys: -- "$@")"
           eval set -- "$args"
           while true; do
             case "$1" in
               --target)
                   # todo: verify thats correct, namely is target set to ":" or "" or does it not appear as a case here?
-                  echo "$target" "$2"
-                  target="$2"
+                  target="''${2:-''${target}}"
                   shift 2
                     ;;
               --ssh-key)
