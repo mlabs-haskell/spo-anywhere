@@ -50,7 +50,7 @@ in
       '';
 
       environment.systemPackages = [
-        (import ./spend-utxo-testscript.nix {inherit inputs pkgs;})
+        (import ../spend-utxo-testscript.nix {inherit inputs pkgs;})
       ];
     };
   }

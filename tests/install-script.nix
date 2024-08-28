@@ -113,48 +113,50 @@
     };
     users.users.root.openssh.authorizedKeys.keyFiles = ["${ssh-keys}/my_key.pub"];
   };
-  testScript = test-install: ''
-    def main():
-      start_all()
+  testScript = test-install:
+    tracing ''
+      def main():
+          start_all()
 
-      ssh_key_path = "/etc/ssh/ssh_host_ed25519_key.pub"
-      ssh_key_output = installer.wait_until_succeeds(f"""
-        ssh -i /root/.ssh/install_key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-          root@installed cat {ssh_key_path}
-      """)
-      ${test-install}
-      try:
-        installed.shutdown()
-      except BrokenPipeError:
-        # qemu has already exited
-        pass
-      new_machine = create_test_machine(oldmachine=installed, args={ "name": "after_install"})
-      new_machine.start()
-      (_, hostname) = new_machine.execute("hostname")
-      hostname = hostname.strip()
-      assert "spo-anywhere-welcomes" == hostname, f"'spo-anywhere-welcomes' != '{hostname}'"
-      ssh_key_content = new_machine.succeed(f"cat {ssh_key_path}").strip()
-      assert ssh_key_content in ssh_key_output, "SSH host identity changed"
+          ssh_key_path = "/etc/ssh/ssh_host_ed25519_key.pub"
+          ssh_key_output = installer.wait_until_succeeds(f"""
+            ssh -i /root/.ssh/install_key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+              root@installed cat {ssh_key_path}
+            """)
+          ${test-install}
+          try:
+              installed.shutdown()
+          except BrokenPipeError:
+              # qemu has already exited
+              pass
+          new_machine = create_test_machine(oldmachine=installed, args={ "name": "after_install"})
+          new_machine.start()
+          (_, hostname) = new_machine.execute("hostname")
+          hostname = hostname.strip()
+          assert "spo-anywhere-welcomes" == hostname, f"'spo-anywhere-welcomes' != '{hostname}'"
+          ssh_key_content = new_machine.succeed(f"cat {ssh_key_path}").strip()
+          assert ssh_key_content in ssh_key_output, "SSH host identity changed"
 
-      # print(new_machine.systemctl("status cardano-node"))
+          # print(new_machine.systemctl("status cardano-node"))
 
-      # below would fail because of the copy-keys bug
-      # print(new_machine.succeed("spend-utxo"))
+          # below would fail because of the copy-keys bug
+          # print(new_machine.succeed("spend-utxo"))
 
-    def create_test_machine(oldmachine=None, args={}): # taken from <nixpkgs/nixos/tests/installer.nix>
-        startCommand = "${pkgs.qemu_test}/bin/qemu-kvm"
-        startCommand += " -cpu max -m 5000 -virtfs local,path=/nix/store,security_model=none,mount_tag=nix-store"
-        startCommand += f' -drive file={oldmachine.state_dir}/installed.qcow2,id=drive1,if=none,index=1,werror=report'
-        startCommand += ' -device virtio-blk-pci,drive=drive1'
-        machine = create_machine(
-          start_command=startCommand,
-          keep_vm_state=True,
-          **args)
-        driver.machines.append(machine)
-        return machine
+      def create_test_machine(oldmachine=None, args={}): # taken from <nixpkgs/nixos/tests/installer.nix>
+          startCommand = "${pkgs.qemu_test}/bin/qemu-kvm"
+          startCommand += " -cpu max -m 5000 -virtfs local,path=/nix/store,security_model=none,mount_tag=nix-store"
+          startCommand += f' -drive file={oldmachine.state_dir}/installed.qcow2,id=drive1,if=none,index=1,werror=report'
+          startCommand += ' -device virtio-blk-pci,drive=drive1'
+          machine = create_machine(
+            start_command=startCommand,
+            keep_vm_state=True,
+            **args)
+          driver.machines.append(machine)
+          return machine
 
-    main()
-  '';
+      main()
+    '';
+  tracing = x: builtins.trace x x;
 in {
   spo-anywhere.tests = {
     install-script-overwrite-target = {
@@ -202,8 +204,7 @@ in {
           installer = installer (install-script installing);
         };
         testScript = testScript ''
-          print(installer.fail("install-spo-no-target"))
-          return None
+          print(installer.fail("install-spo-no-target")); return None
         '';
       };
     };

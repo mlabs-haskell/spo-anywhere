@@ -2,12 +2,20 @@
   description = "Example flake using cardano.nix";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    spo-anywhere.url = "github:mlabs-haskell/spo-anywhere/main";
+    spo-anywhere = {
+      url = "github:mlabs-haskell/spo-anywhere/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-utils.url = "github:numtide/flake-utils";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = {
     flake-utils,
     spo-anywhere,
+    disko,
     ...
   }:
     (
@@ -21,12 +29,24 @@
     // {
       nixosModules = {
         hardware = {
+          imports = [
+            (import ./modules/hardware.nix)
+            disko.nixosModules.disko
+          ];
         };
         default = {}: {
           imports = [
+            spo-anywhere.nixosModules.default
           ];
           config = {
+            spo-anywhere = {
+              node = {
+                enable = true;
+                block-producer-key-path = "/var/lib/spo";
+              };
+            };
             services.cardano-node = {
+              environment = "mainnet";
               # example overwrite
               stateDir = "/var/lib/cardano-node";
             };

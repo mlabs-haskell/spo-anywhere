@@ -33,4 +33,4 @@ nixosModules.pool = {
 };
 ```
 
-for full examples see [flake template](../../template/).
+for full examples see [flake template](../../template/). Check module reference in these docs. Notice that the disko part of the configuration defining the disk partitioning is necessary.
