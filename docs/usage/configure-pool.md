@@ -1,4 +1,3 @@
-
 ## Configure pool
 
 Define the nixos configuration:
@@ -11,7 +10,7 @@ nixosModules.pool = {
         node = {
           enable = true;
           # optional, alternatively define configurations directly in `services.cardano-node`
-          configFilesPath = "/etc/spo/configs"; 
+          configFilesPath = "/etc/spo/configs";
           block-producer-key-path = "/var/lib/spo";
         };
       };

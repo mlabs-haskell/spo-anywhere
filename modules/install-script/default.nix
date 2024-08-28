@@ -6,7 +6,8 @@
   ...
 }: {
   options = {
-    spo-anywhere.install-script = with lib; with types;{
+    spo-anywhere.install-script = with lib;
+    with types; {
       enable =
         mkEnableOption "Create deployment script at `config.system.build.spoInstallScript`."
         // {default = config.spo-anywhere.enable or false;};
@@ -57,7 +58,7 @@
               --target)
                   # todo: verify thats correct, namely is target set to ":" or "" or does it not appear as a case here?
                   echo "$target" "$2"
-                  target="$2" 
+                  target="$2"
                   shift 2
                     ;;
               --ssh-key)
@@ -118,7 +119,7 @@
           # setting ownership:
           # BUG: the extra-files keys dont appear on the machine
           # ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i "$ssh_key" "$target" chown -R ${builtins.toString config.users.users.cardano-node.uid} "''${target_key_path}" 2>&1
-          
+
           # echo "keys copied, shutdown in minute"
           ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i "$ssh_key" "$target" shutdown -r +1 2>&1
         '';

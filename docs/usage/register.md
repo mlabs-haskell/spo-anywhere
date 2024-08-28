@@ -1,4 +1,3 @@
-
 ## Register the pool
 
 A running node doesn't start mining blocks until it is registered as a pool. One also needs a registered stake address to collect the gains.

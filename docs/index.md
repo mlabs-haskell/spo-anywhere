@@ -12,7 +12,7 @@ By its nature, stake pool operation is a multistep process. `SPO-anywhere` guide
 The use of `Nix` makes the process easy to reproduce or introduce into a CI/CD pipeline.
 The package consists of:
 
- - `NixOs` module simplifying the definition of stake pool nodes
- - a deployment script for every one of your nodes
+- `NixOs` module simplifying the definition of stake pool nodes
+- a deployment script for every one of your nodes
 
 and importantly a documentation and an example that ties the process together.

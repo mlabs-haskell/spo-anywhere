@@ -1,4 +1,3 @@
-
 ## Overview
 
 Operating a Cardano stake pool consists of:
@@ -7,4 +6,3 @@ Operating a Cardano stake pool consists of:
 2. Generating keys.
 3. Deploying pool.
 4. Registering the stake address and pool by submitting registering transactions.
-

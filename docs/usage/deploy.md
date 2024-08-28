@@ -1,4 +1,3 @@
-
 ## Deploying
 
 Once we defined a configuration at `.#nixosConfigurations.pool`, then running:
