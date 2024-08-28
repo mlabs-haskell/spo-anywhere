@@ -17,23 +17,18 @@
           (import ../modules/block-producer-node inputs)
         ];
         config = {
-          # services.openssh.enable = true;
-          # users.users.root.openssh.authorizedKeys.keyFiles = ["${ssh-keys}/my_key.pub"];
-
           networking.hostName = "spo-anywhere-welcomes";
           spo-anywhere = {
             install-script.enable = true; # true by default
             node = {
               enable = true;
-              # configFilesPath = "/etc/spo/configs";
-              # block-producer-key-path = "/etc/spo-keys";
-              configFilesPath = "/spo/configs";
-              block-producer-key-path = "/spo-keys";
+              configFilesPath = "/etc/spo/configs";
+              block-producer-key-path = "/var/lib/spo";
             };
           };
           systemd.tmpfiles.rules = [
             "C+ /etc/spo/configs - - - - ${./local-testnet-config}"
-            "Z /etc/spo/configs 700 cardano-node cardano-node - ${./local-testnet-config}"
+            "Z /etc/spo/configs 700 cardano-node cardano-node - ${./local-testnet-config}" # z lines dont take argument fields, ignoring
           ];
 
           systemd.services.cardano-node.preStart = ''
@@ -46,7 +41,6 @@
           ];
         };
       };
-      # TODO: how to test other systems?
       system = "x86_64-linux";
       install-script-config = inputs.nixpkgs.lib.nixosSystem {
         inherit system;
@@ -90,9 +84,9 @@
                 ];
                 text = ''
                   mkdir -p spo-keys
-                  cp -r ${./local-testnet-config}/* spo-keys
-                  echo ls spo-keys
-                  ls spo-keys
+                  cp ${./local-testnet-config}/pools/kes1.skey spo-keys/kes.skey
+                  cp ${./local-testnet-config}/pools/vrf1.skey spo-keys/vrf.skey
+                  cp ${./local-testnet-config}/pools/opcert1.cert spo-keys/opcert.cert
 
                   spo-install-script --target root@installed --spo-keys ./spo-keys --ssh-key /root/.ssh/install_key
                 '';
@@ -103,7 +97,7 @@
             services.openssh.enable = true;
             networking.firewall.enable = false;
             virtualisation = {
-              memorySize = 1512;
+              memorySize = 3000;
               diskSize = 3500;
               cores = 2;
               writableStore = true;
@@ -134,11 +128,7 @@
             ssh_key_content = new_machine.succeed(f"cat {ssh_key_path}").strip()
             assert ssh_key_content in ssh_key_output, "SSH host identity changed"
 
-            print(new_machine.systemctl("status cardano-node"))
-            print(new_machine.succeed("sleep 15"))
-            print(new_machine.systemctl("status cardano-node"))
-            print(new_machine.succeed("ls /"))
-            print(new_machine.succeed("ls /etc"))
+            # print(new_machine.systemctl("status cardano-node"))
             print(new_machine.succeed("spend-utxo"))
           
           def create_test_machine(oldmachine=None, args={}): # taken from <nixpkgs/nixos/tests/installer.nix>

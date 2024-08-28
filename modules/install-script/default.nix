@@ -71,28 +71,13 @@
 
           # ### main ###
 
-          echo "rest of args:" "$@"
-
-
-          # prepare keys, copy to tmp dir and set permissions
-          # tmp_keys="$(mktemp -d --tmpdir=.)"
-          tmp_keys="my_tmp_keys"
+          # # prepare keys, copy to tmp dir and set permissions
+          tmp_keys="$(mktemp -d --tmpdir=.)"
           trap cleanup 0
-          # chmod +t "$tmp_keys" # only file owner access file inside
-          # target_key_path=/etc/spo-anywhere/block-producer-keys
           target_key_path=${config.spo-anywhere.node.block-producer-key-path}
           mkdir -p "''${tmp_keys}''${target_key_path}"
-          chmod 755 "''${tmp_keys}''${target_key_path}"
-          # umask 277
-          # cp --no-preserve=mode -r "''${spo_keys}"/* "''${tmp_keys}''${target_key_path}"
-          cp --no-preserve=mode,owner -r "''${spo_keys}"/* "''${tmp_keys}''${target_key_path}"
-          # cp -r "''${spo_keys}"/* "''${tmp_keys}''${target_key_path}"
-          # chown -R cardano-node "''${tmp_keys}"
-          # chmod -R u=rX,g=,o=w "''${tmp_keys}''${target_key_path}"
-          stat "''${tmp_keys}''${target_key_path}"
-
-          echo "$tmp_keys"
-          ls -1la "$tmp_keys"
+          umask 277
+          cp "''${spo_keys}"/* "''${tmp_keys}''${target_key_path}/"
 
           # here spo_keys should be of form dir/path/to/where/spo/expects/keys.
           # Options:
@@ -100,7 +85,6 @@
           #   2. make our key generation commands, generate the keys in a directory of this form
           #   3. Copy to tmp/dir/path/to/where/spo/expects/keys. set cleanup hook
           #   4. use scp instead
-          #             --extra-files "$spo_keys" \
           nixos-anywhere \
             --debug \
             --store-paths ${config.system.build.diskoScript} ${config.system.build.toplevel} \
@@ -109,23 +93,20 @@
             --copy-host-keys \
             --extra-files "$tmp_keys" \
             --no-reboot \
-            "$target" 2>&1
-          
+            "$target" "$@" 2>&1
+
           echo "installed"
-          # sleep 300
-          # rsync -e "ssh -i $ssh_key" --chmod=u=rX,g=,o= "$spo_keys" "$target":/etc/spo-anywhere/ 2>&1
-          # ssh -i "$ssh_key" "$target" chmod u=rX,g=,o= /etc/spo-anywhere 2>&1
 
-          # target="root@${config.networking.hostName}"
+          # some attempts at copying keys after nixos-anywhere
+          # rsync -rLpog --mkpath --chmod=Du=rx,Dg=,Do=,Fu=r,Fg=,Fo= -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $ssh_key" "''${tmp_keys}"/* "$target:$target_key_path/" 2>&1
+          # rsync -RrLpogz --chmod=Du=rx,Dg=,Do=,Fu=r,Fg=,Fo= -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $ssh_key" "''${tmp_keys}/./mnt''${target_key_path}" "''${target}:/" 2>&1
+          # tar -C "$tmp_keys" -cpf- . | ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i "$ssh_key" "$target" "tar -C / -xf- --no-same-owner" 2>&1
+
+          # setting ownership:
+          # BUG: the extra-files keys dont appear on the machine
+          # ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i "$ssh_key" "$target" chown -R ${builtins.toString config.users.users.cardano-node.uid} "''${target_key_path}" 2>&1
           
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i "$ssh_key" "$target" ls -1la / /etc /mnt /run /root 2>&1
-
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i "$ssh_key" "$target" chown -R ${builtins.toString config.users.users.cardano-node.uid} "''${target_key_path}" 2>&1
-
-            #   users.users.cardano-node = {
-            # description = "cardano-node node daemon user";
-            # uid = 1001;
-          echo "keys copied"
+          # echo "keys copied, shutdown in minute"
           ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i "$ssh_key" "$target" shutdown -r +1 2>&1
         '';
       };
