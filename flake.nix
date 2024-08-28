@@ -24,7 +24,6 @@
       flake = false;
     };
     cardano-node.url = "github:intersectmbo/cardano-node?ref=8.1.2";
-
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,6 +31,7 @@
     nixos-images = {
       url = "github:nix-community/nixos-images";
     };
+    cardano-nix.url = "github:mlabs-haskell/cardano.nix?ref=karol/share-renderDocs";
   };
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {
@@ -41,6 +41,7 @@
         ./lib
         ./checks
         ./ci
+        ./docs
         ./formatter
         ./shell
         ./modules
@@ -51,5 +52,9 @@
         "x86_64-linux"
         "x86_64-darwin"
       ];
+      flake.templates.default = {
+        path = ./template;
+        description = "Example flake using spo-anywhere";
+      };
     };
 }
