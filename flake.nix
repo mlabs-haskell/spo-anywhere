@@ -31,6 +31,9 @@
     nixos-images = {
       url = "github:nix-community/nixos-images";
     };
+    nixos-anywhere = {
+      url = "github:nix-community/nixos-anywhere/fad2f02f60e9203a6c9c004c41cbb4577855b11d";
+    };
     cardano-nix.url = "github:mlabs-haskell/cardano.nix?ref=karol/share-renderDocs";
   };
   outputs = inputs @ {flake-parts, ...}:

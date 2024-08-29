@@ -28,7 +28,9 @@ in
         };
 
         configFilesPath = lib.mkOption {
-          type = lib.types.path;
+          type = nullOr lib.types.path;
+          default = null;
+          example = "/etc/spo/configs";
           description = "Path to the network configuration directory";
         };
       };
@@ -38,9 +40,12 @@ in
       services.cardano-node = mkMerge [
         {
           enable = true;
+          # todo: add warning/trace/assertion about necessary options to include to define node config
+        }
+        (mkIf (cfg.configFilesPath != null) {
           nodeConfigFile = "${cfg.configFilesPath}/configuration.yaml";
           topology = "${cfg.configFilesPath}/topology-spo-1.json";
-        }
+        })
         (mkIf (cfg.block-producer-key-path != null) {
           signingKey = "${cfg.block-producer-key-path}/byron-gen-command/delegate-keys.000.key";
           delegationCertificate = "${cfg.block-producer-key-path}/byron-gen-command/delegation-cert.000.json";

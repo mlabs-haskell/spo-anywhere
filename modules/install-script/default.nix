@@ -11,7 +11,7 @@
       enable =
         mkEnableOption "Create deployment script at `config.system.build.spoInstallScript`."
         // {default = config.spo-anywhere.enable or false;};
-      target-dns = mkOption {
+      target-host = mkOption {
         type = nullOr str;
         default = null;
         example = "root@128.196.0.1";
@@ -28,7 +28,7 @@
     lib.mkIf cfg.enable {
       system.build.spoInstallScript = pkgs.writeShellApplication {
         name = "spo-install-script";
-        runtimeInputs = with pkgs; [nixos-anywhere getopt rsync];
+        runtimeInputs = with pkgs; [getopt rsync] ++ [inputs.nixos-anywhere.packages.${pkgs.stdenv.system}.nixos-anywhere];
         text = let
           kexec-installer =
             (builtins.toString
@@ -47,8 +47,8 @@
             rm -rf "$tmp_keys"
           }
 
-          target="${builtins.toString (config.spo-anywhere.install-script.target-dns or "")}"
-
+          target="${builtins.toString (cfg.target-host or "")}"
+          echo target = "$target"
           # todo: make target optional option
 
           args="$(getopt --name spo-install-script -o 'h' --longoptions target::,ssh-key:,spo-keys: -- "$@")"
@@ -56,7 +56,6 @@
           while true; do
             case "$1" in
               --target)
-                  # todo: verify thats correct, namely is target set to ":" or "" or does it not appear as a case here?
                   target="''${2:-''${target}}"
                   shift 2
                     ;;
@@ -91,6 +90,10 @@
           mkdir -p "''${tmp_keys}''${target_key_path}"
           umask 277
           cp "''${spo_keys}"/* "''${tmp_keys}''${target_key_path}/"
+
+          echo rest of args = "$@"
+          echo target = "$target"
+          echo nixos-anywhere --debug --store-paths ${config.system.build.diskoScript} ${config.system.build.toplevel} --kexec ${kexec-installer} -i "$ssh_key" --copy-host-keys --extra-files "$tmp_keys" --no-reboot "$target" "$@" 2>&1
 
           # here spo_keys should be of form dir/path/to/where/spo/expects/keys.
           # Options:
