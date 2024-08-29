@@ -48,8 +48,6 @@
           }
 
           target="${builtins.toString (cfg.target-host or "")}"
-          echo target = "$target"
-          # todo: make target optional option
 
           args="$(getopt --name spo-install-script -o 'h' --longoptions target::,ssh-key:,spo-keys: -- "$@")"
           eval set -- "$args"
@@ -89,11 +87,7 @@
           target_key_path=${config.spo-anywhere.node.block-producer-key-path}
           mkdir -p "''${tmp_keys}''${target_key_path}"
           umask 277
-          cp "''${spo_keys}"/* "''${tmp_keys}''${target_key_path}/"
-
-          echo rest of args = "$@"
-          echo target = "$target"
-          echo nixos-anywhere --debug --store-paths ${config.system.build.diskoScript} ${config.system.build.toplevel} --kexec ${kexec-installer} -i "$ssh_key" --copy-host-keys --extra-files "$tmp_keys" --no-reboot "$target" "$@" 2>&1
+          cp -r "''${spo_keys}"/* "''${tmp_keys}''${target_key_path}/"
 
           # here spo_keys should be of form dir/path/to/where/spo/expects/keys.
           # Options:
