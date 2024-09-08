@@ -8,14 +8,16 @@
     pkgs.jq
   ];
   runtimeEnv.CARDANO_NODE_SOCKET_PATH = "/run/cardano-node/node.socket";
-  text = ''
+  text = let
+    utxo-keys = "${./local-testnet-config}/utxo-keys";
+  in ''
     trap 'echo "# $BASH_COMMAND"' DEBUG
 
     cardano-cli query tip --testnet-magic 2
     cardano-cli query utxo --whole-utxo --testnet-magic 2
 
     cardano-cli address build \
-      --payment-verification-key-file "/etc/testnet/utxo-keys/utxo1.vkey" \
+      --payment-verification-key-file "${utxo-keys}/utxo1.vkey" \
       --out-file "/tmp/wallet.addr" \
       --testnet-magic 2
 
@@ -39,7 +41,7 @@
 
     cardano-cli transaction sign \
       --tx-body-file "/tmp/tx.body" \
-      --signing-key-file "/etc/testnet/utxo-keys/utxo1.skey" \
+      --signing-key-file "${utxo-keys}/utxo1.skey" \
       --testnet-magic 2 \
       --out-file "/tmp/tx.signed"
 
