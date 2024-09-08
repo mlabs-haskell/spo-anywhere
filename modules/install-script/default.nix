@@ -51,7 +51,7 @@
 
           # todo: make target optional option
 
-          args="$(getopt --name spo-install-script -o 'h' --longoptions target::,ssh-key:,spo-keys: -- "$@")"
+          args="$(getopt --name spo-install-script -o 'h' --longoptions target:,ssh-key:,spo-keys: -- "$@")"
           eval set -- "$args"
           while true; do
             case "$1" in
