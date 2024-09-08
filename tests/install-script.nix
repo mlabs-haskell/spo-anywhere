@@ -78,12 +78,16 @@
           install-script
         ];
         text = ''
-          mkdir -p spo-keys
-          cp ${./local-testnet-config}/pools/kes1.skey spo-keys/kes.skey
-          cp ${./local-testnet-config}/pools/vrf1.skey spo-keys/vrf.skey
-          cp ${./local-testnet-config}/pools/opcert1.cert spo-keys/opcert.cert
+          set -x
+          mkdir -p spo-keys/byron-gen-command spo-keys/pools
+          cp ${./local-testnet-config}/pools/kes1.skey spo-keys/pools/kes1.skey
+          cp ${./local-testnet-config}/pools/vrf1.skey spo-keys/pools/vrf1.skey
+          cp ${./local-testnet-config}/pools/opcert1.cert spo-keys/pools/opcert1.cert
+          cp ${./local-testnet-config}/byron-gen-command/delegate-keys.000.key spo-keys/byron-gen-command/delegate-keys.000.key
+          cp ${./local-testnet-config}/byron-gen-command/delegation-cert.000.json spo-keys/byron-gen-command/delegation-cert.000.json
 
-          spo-install-script --target root@installed --spo-keys ./spo-keys --ssh-key /root/.ssh/install_key
+          ls -laR ./spo-keys
+          sh -ex spo-install-script --target root@installed --spo-keys ./spo-keys --ssh-key /root/.ssh/install_key
         '';
       })
       (pkgs.writeShellApplication {
@@ -92,10 +96,12 @@
           install-script
         ];
         text = ''
-          mkdir -p spo-keys
-          cp ${./local-testnet-config}/pools/kes1.skey spo-keys/kes.skey
-          cp ${./local-testnet-config}/pools/vrf1.skey spo-keys/vrf.skey
-          cp ${./local-testnet-config}/pools/opcert1.cert spo-keys/opcert.cert
+          mkdir -p spo-keys/byron-gen-command spo-keys/pools
+          cp ${./local-testnet-config}/pools/kes1.skey spo-keys/pools/kes1.skey
+          cp ${./local-testnet-config}/pools/vrf1.skey spo-keys/pools/vrf1.skey
+          cp ${./local-testnet-config}/pools/opcert1.cert spo-keys/pools/opcert1.cert
+          cp ${./local-testnet-config}/byron-gen-command/delegate-keys.000.key spo-keys/byron-gen-command/delegate-keys.000.key
+          cp ${./local-testnet-config}/byron-gen-command/delegation-cert.000.json spo-keys/byron-gen-command/delegation-cert.000.json
 
           spo-install-script --spo-keys ./spo-keys --ssh-key /root/.ssh/install_key --target
         '';
@@ -137,10 +143,12 @@
           ssh_key_content = new_machine.succeed(f"cat {ssh_key_path}").strip()
           assert ssh_key_content in ssh_key_output, "SSH host identity changed"
 
-          # print(new_machine.systemctl("status cardano-node"))
+          # For easy debugging -- display rights for keys matherial
+          print(new_machine.succeed("ls -laR /var/lib/spo"))
+          new_machine.wait_for_unit("cardano-node")
+          new_machine.wait_until_succeeds("test -e /run/cardano-node/node.socket")
 
-          # below would fail because of the copy-keys bug
-          # print(new_machine.succeed("spend-utxo"))
+          print(new_machine.succeed("spend-utxo"))
 
       def create_test_machine(oldmachine=None, args={}): # taken from <nixpkgs/nixos/tests/installer.nix>
           startCommand = "${pkgs.qemu_test}/bin/qemu-kvm"
@@ -192,7 +200,7 @@ in {
             }
           );
         };
-        testScript = testScript "print(installer.succeed(\"install-spo-no-target\"))";
+        testScript = testScript "print(installer.succeed(\"install-spo\"))";
       };
     };
     install-script-target-missing = {
