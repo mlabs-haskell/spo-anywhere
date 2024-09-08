@@ -104,22 +104,9 @@
             -i "$ssh_key" \
             --copy-host-keys \
             --extra-files "$tmp_keys" \
-            --no-reboot \
             "$target" "$@" 2>&1
 
           echo "installed"
-
-          # some attempts at copying keys after nixos-anywhere
-          # rsync -rLpog --mkpath --chmod=Du=rx,Dg=,Do=,Fu=r,Fg=,Fo= -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $ssh_key" "''${tmp_keys}"/* "$target:$target_key_path/" 2>&1
-          # rsync -RrLpogz --chmod=Du=rx,Dg=,Do=,Fu=r,Fg=,Fo= -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $ssh_key" "''${tmp_keys}/./mnt''${target_key_path}" "''${target}:/" 2>&1
-          # tar -C "$tmp_keys" -cpf- . | ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i "$ssh_key" "$target" "tar -C / -xf- --no-same-owner" 2>&1
-
-          # setting ownership:
-          # BUG: the extra-files keys dont appear on the machine
-          # ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i "$ssh_key" "$target" chown -R ${builtins.toString config.users.users.cardano-node.uid} "''${target_key_path}" 2>&1
-
-          # echo "keys copied, shutdown in minute"
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i "$ssh_key" "$target" shutdown -r +1 2>&1
         '';
       };
     };
