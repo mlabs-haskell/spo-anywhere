@@ -89,8 +89,7 @@
           trap cleanup 0
           target_key_path=${config.spo-anywhere.node.block-producer-key-path}
           mkdir -p "''${tmp_keys}''${target_key_path}"
-          umask 277
-          cp "''${spo_keys}"/* "''${tmp_keys}''${target_key_path}/"
+          cp -vr "''${spo_keys}"/* "''${tmp_keys}''${target_key_path}/"
 
           # here spo_keys should be of form dir/path/to/where/spo/expects/keys.
           # Options:
