@@ -44,10 +44,14 @@ in
 
       # This is a workaround to set a new start time for the ephemeral testnet created by the test
       # This way the network will start from the slot 0
-      systemd.services.cardano-node.preStart = ''
-        NOW=$(date +%s -d "now + 5 seconds")
-        ${lib.getExe pkgs.yq-go} e -i ".startTime = $NOW" /etc/testnet/byron-gen-command/genesis.json
-      '';
+      systemd.services.cardano-node = {
+        serviceConfig.PermissionsStartOnly = true;
+        preStart = ''
+          NOW=$(date +%s -d "now + 5 seconds")
+          chmod +w /etc/testnet/byron-gen-command/genesis.json
+          ${lib.getExe pkgs.yq-go} e -i ".startTime = $NOW" /etc/testnet/byron-gen-command/genesis.json
+        '';
+      };
 
       environment.systemPackages = [
         (import ../spend-utxo-testscript.nix {inherit inputs pkgs;})
