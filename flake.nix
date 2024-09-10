@@ -2,7 +2,8 @@
   inputs = {
     # cardanoNix.url = "github:mlabs-haskell/cardano.nix";
 
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # FIXME more recent revisions breaks the docs
+    nixpkgs.url = "github:NixOS/nixpkgs/58a1abdbae3217ca6b702f03d3b35125d88a2994";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     # TODO: use upstream `hercules-ci-effects` once this is merged:
