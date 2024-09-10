@@ -37,7 +37,7 @@ in
     config = lib.mkIf cfg.enable {
       # Adjust permissions for uploaded SPO keys
       # Cardano node requires key to be _owned_ by cardano-node user
-      systemd.tmpfiles.rules = [
+      systemd.tmpfiles.rules = lib.mkIf (cfg.block-producer-key-path != null) [
         "z ${cfg.block-producer-key-path} 500 ${config.users.users.cardano-node.name} root"
         "z ${cfg.block-producer-key-path}/* 500 ${config.users.users.cardano-node.name} root"
         "Z ${cfg.block-producer-key-path}/*/* 400 ${config.users.users.cardano-node.name} root"
