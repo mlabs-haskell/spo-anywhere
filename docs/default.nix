@@ -5,7 +5,7 @@
   ...
 }: {
   imports = [
-    inputs.cardano-nix.flakeModules.renderDocs
+    inputs.cardano-nix.flakeModules.docs
   ];
 
   renderDocs = {

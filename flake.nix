@@ -32,7 +32,7 @@
     nixos-images = {
       url = "github:nix-community/nixos-images";
     };
-    cardano-nix.url = "github:mlabs-haskell/cardano.nix?ref=karol/share-renderDocs";
+    cardano-nix.url = "github:mlabs-haskell/cardano.nix";
   };
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {
