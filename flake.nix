@@ -20,7 +20,7 @@
       url = "github:srid/devour-flake";
       flake = false;
     };
-    cardano-node.url = "github:intersectmbo/cardano-node?ref=8.1.2";
+    cardano-node.url = "github:intersectmbo/cardano-node/9.1.1";
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
