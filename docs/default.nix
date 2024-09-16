@@ -19,7 +19,15 @@
       }
       {
         anchor = "services.cardano-node";
-        modules = [config.flake.nixosModules.block-producer-node];
+        modules = [
+          config.flake.nixosModules.block-producer-node
+          # FIXME Without this, using recent cardano-node
+          # versions, the documentation generation fails
+          # It doesn't seem to add any explicit network reference
+          {
+            services.cardano-node.environment = "mainnet"; # arbitrary value
+          }
+        ];
         namespaces = ["services.cardano-node"];
       }
     ];
