@@ -6,10 +6,19 @@
   ...
 }: {
   options = {
-    spo-anywhere.install-script = {
+    spo-anywhere.install-script = with lib;
+    with types; {
       enable =
-        lib.mkEnableOption "Create deployment script at `config.system.build.spoInstallScript`."
+        mkEnableOption "Create deployment script at `config.system.build.spoInstallScript`."
         // {default = config.spo-anywhere.enable or false;};
+      target-dns = mkOption {
+        type = nullOr str;
+        default = null;
+        example = "root@128.196.0.1";
+        description = ''
+          The target DNS address to deploy to. Overwritten by a command line argument.
+        '';
+      };
     };
   };
 
@@ -19,7 +28,7 @@
     lib.mkIf cfg.enable {
       system.build.spoInstallScript = pkgs.writeShellApplication {
         name = "spo-install-script";
-        runtimeInputs = with pkgs; [nixos-anywhere getopt];
+        runtimeInputs = with pkgs; [nixos-anywhere getopt rsync];
         text = let
           kexec-installer =
             (builtins.toString
@@ -31,15 +40,24 @@
           # ### command parsing ###
 
           usage() {
-            echo "Usage: spo-install-script --target <target> --ssh-key <filepath> --spo-keys <directory>"
+            echo "Usage: spo-install-script --target <target> --ssh-key <filepath> --spo-keys <directory> [-- <nixos-anywhere options>]"
           }
+
+          cleanup() {
+            rm -rf "$tmp_keys"
+          }
+
+          target="${builtins.toString (config.spo-anywhere.install-script.target-dns or "")}"
+
+          # todo: make target optional option
 
           args="$(getopt --name spo-install-script -o 'h' --longoptions target:,ssh-key:,spo-keys: -- "$@")"
           eval set -- "$args"
           while true; do
             case "$1" in
               --target)
-                  target="$2"
+                  # todo: verify thats correct, namely is target set to ":" or "" or does it not appear as a case here?
+                  target="''${2:-''${target}}"
                   shift 2
                     ;;
               --ssh-key)
@@ -66,6 +84,13 @@
 
           # ### main ###
 
+          # # prepare keys, copy to tmp dir and set permissions
+          tmp_keys="$(mktemp -d --tmpdir=.)"
+          trap cleanup 0
+          target_key_path=${config.spo-anywhere.node.block-producer-key-path}
+          mkdir -p "''${tmp_keys}''${target_key_path}"
+          cp -vr "''${spo_keys}"/* "''${tmp_keys}''${target_key_path}/"
+
           # here spo_keys should be of form dir/path/to/where/spo/expects/keys.
           # Options:
           #   1. leave to user to care
@@ -75,11 +100,13 @@
           nixos-anywhere \
             --debug \
             --store-paths ${config.system.build.diskoScript} ${config.system.build.toplevel} \
-            --extra-files "$spo_keys" \
-            -i "$ssh_key" \
             --kexec ${kexec-installer} \
+            -i "$ssh_key" \
             --copy-host-keys \
-            "$target" >&2
+            --extra-files "$tmp_keys" \
+            "$target" "$@" 2>&1
+
+          echo "installed"
         '';
       };
     };
