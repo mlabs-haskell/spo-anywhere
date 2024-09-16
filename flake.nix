@@ -1,7 +1,5 @@
 {
   inputs = {
-    # cardanoNix.url = "github:mlabs-haskell/cardano.nix";
-
     # FIXME more recent revisions breaks the docs
     nixpkgs.url = "github:NixOS/nixpkgs/58a1abdbae3217ca6b702f03d3b35125d88a2994";
     flake-parts.url = "github:hercules-ci/flake-parts";
