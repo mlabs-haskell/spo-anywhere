@@ -34,18 +34,18 @@
     ]
   },
   "executionPrices": {
-    "prMem": 5.77e-2,
-    "prSteps": 7.21e-5
+    "priceMemory": 5.77e-2,
+    "priceSteps": 7.21e-5
   },
   "lovelacePerUTxOWord": 34482,
   "maxBlockExUnits": {
-    "exUnitsMem": 80000000,
-    "exUnitsSteps": 40000000000
+    "memory": 80000000,
+    "steps": 40000000000
   },
   "maxCollateralInputs": 3,
   "maxTxExUnits": {
-    "exUnitsMem": 16000000,
-    "exUnitsSteps": 10000000000
+    "memory": 16000000,
+    "steps": 10000000000
   },
   "maxValueSize": 5000
 }
