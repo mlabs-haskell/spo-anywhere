@@ -978,11 +978,11 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1726487589,
-        "narHash": "sha256-UTTottGum9nx4j0o5yjisxCWIRr+9Q4MtFz3SlBoeKs=",
+        "lastModified": 1726490462,
+        "narHash": "sha256-68q+mmsK1Jz2NBVZsVgOEHeH6RvpYW2bJaMFxYXBw5M=",
         "owner": "mlabs-haskell",
         "repo": "cardano.nix",
-        "rev": "7fe37541ac3870361089c0de45e59fb499072e97",
+        "rev": "50d2065b0ed348c87272de7a1b296c3f85783b7c",
         "type": "github"
       },
       "original": {
