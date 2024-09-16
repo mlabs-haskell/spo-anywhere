@@ -36,4 +36,4 @@ A `.envrc` is also provided, using [direnv]() and [nix-direnv](https://github.co
 
 ## License information
 
-`cardano.nix` released under terms of [Apache-2.0](LICENSES/Apache-2.0.txt) license.
+`spo-anyhwere` released under terms of [Apache-2.0](LICENSES/Apache-2.0.txt) license.

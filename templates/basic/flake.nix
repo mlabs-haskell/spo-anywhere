@@ -1,5 +1,5 @@
 {
-  description = "Example flake using cardano.nix";
+  description = "Example flake using SPO-anywhere";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     spo-anywhere = {
