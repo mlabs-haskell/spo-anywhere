@@ -11,7 +11,6 @@
   renderDocs = {
     enable = true;
     name = "spo-anywhere";
-    mkdocsYamlFile = ./mkdocs.yml;
     sidebarOptions = [
       {
         anchor = "spo-anywhere.node";
