@@ -1,5 +1,3 @@
-## Generate pool keys
-
 We need 3 keys:
 
 - VRF key

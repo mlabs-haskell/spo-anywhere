@@ -19,4 +19,4 @@ There are several ways you can contribute.
 
 - You can verify that all checks pass with `nix flake check`
 
-Thank you for contributing to `cardano.nix`! Your help is greatly appreciated 😊
+Thank you for contributing to `spo-anywhere`! Your help is greatly appreciated 😊

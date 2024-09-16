@@ -11,17 +11,22 @@ $ nix develop
 
 [Tools]
 
-  build-all - Build all the checks
-  check     - Alias of `nix flake check`
-  fmt       - Format the source tree
+  build-all  - Build all the checks
+  check      - Alias of `nix flake check`
+  fmt        - Format the source tree
 
 [[general commands]]
 
-  menu      - prints this menu
+  menu       - prints this menu
+
+[documentation]
+
+  docs-build - build documentation
+  docs-serve - serve documentation web page
 
 [testing]
 
-  run-test  - Run tests
+  run-test   - Run tests
 ```
 
 A `.envrc` file is also provided, using [direnv](https://direnv.net/) and [nix-direnv](https://github.com/nix-community/nix-direnv) is suggested.

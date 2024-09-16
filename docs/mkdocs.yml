@@ -1,5 +1,5 @@
-site_name: cardano.nix
-site_description: Nix packages and NixOS modules for the Cardano ecosystem
+site_name: SPO-Anywhere
+site_description: Install Cardano nodes anywhere with the help of NixOS
 site_url: https://github.com/mlabs-haskell/spo-anywhere
 
 repo_url: https://github.com/mlabs-haskell/spo-anywhere
@@ -60,13 +60,12 @@ markdown_extensions:
 nav:
   - index.md
   - Getting Started:
-      - Installation: getting-started/installation.md
-      - Overview: getting-started/overview
+      - Overview: getting-started/overview.md
   - Usage:
       - Configure pool: usage/configure-pool.md
       - Generating keys: usage/generate-keys.md
       - Deploy: usage/deploy.md
-      - Register: usage/register.md
+      - Register: usage/register-the-pool.md
   - Development:
       - development/develop.md
       - development/contributing.md
@@ -76,11 +75,11 @@ nav:
 #      - reference/module-options/default.md
 
 extra:
-  homepage: https://mlabs-haskell.github.io/cardano.nix
+  homepage: https://mlabs-haskell.github.io/spo-anywhere
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/mlabs-haskell/cardano.nix
-      name: Cardano.nix on Github
+      link: https://github.com/mlabs-haskell/spo-anywhere
+      name: SPO-Anywhere on Github
   generator: false # hide the line "Made with Material for MkDocs"
 
 extra_css:

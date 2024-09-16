@@ -1,5 +1,3 @@
-## Configure pool
-
 Define the nixos configuration:
 
 ```nix

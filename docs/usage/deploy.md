@@ -1,9 +1,7 @@
-## Deploying
-
 Once we defined a configuration at `.#nixosConfigurations.pool`, then running:
 
 ```bash
-$ nix build .\#nixosConfigurations.pool.config.system.build.spoInstallScript
+$ nix build .#nixosConfigurations.pool.config.system.build.spoInstallScript
 ```
 
 builds a script for deploying the configuration to a chosen cloud server (by default to `result`). You need the node keys from step 2.
