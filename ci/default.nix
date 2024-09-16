@@ -39,5 +39,9 @@
         };
       };
     };
+    hercules-ci.github-pages.branch = "main";
+    perSystem = {config, ...}: {
+      hercules-ci.github-pages.settings.contents = config.packages.docs;
+    };
   };
 }
