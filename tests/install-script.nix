@@ -1,8 +1,4 @@
-{inputs, ...}: {
-  config,
-  pkgs,
-  ...
-}: let
+{inputs, ...}: {pkgs, ...}: let
   ssh-keys = pkgs.runCommand "install-test-ssh-keys" {} ''
     mkdir $out
     ${pkgs.openssh}/bin/ssh-keygen -f $out/my_key -P ""
@@ -175,7 +171,7 @@ in {
             install-script {
               imports = [installing];
               config = {
-                spo-anywhere.install-script.target-dns = "some-invalid-garbage";
+                spo-anywhere.install-script.target = "some-invalid-garbage";
               };
             }
           );
@@ -193,7 +189,7 @@ in {
             install-script {
               imports = [installing];
               config = {
-                spo-anywhere.install-script.target-dns = "root@installed";
+                spo-anywhere.install-script.target = "root@installed";
               };
             }
           );
