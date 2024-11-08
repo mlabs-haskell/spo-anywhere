@@ -99,6 +99,7 @@
           #   4. use scp instead
           nixos-anywhere \
             --debug \
+	    --store-paths ${config.system.build.diskoScript} ${config.system.build.toplevel} \
             --kexec ${kexec-installer} \
             -i "$ssh_key" \
             --copy-host-keys \
