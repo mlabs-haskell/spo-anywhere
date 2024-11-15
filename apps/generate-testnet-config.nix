@@ -40,7 +40,7 @@
 
         chmod 700 -R "$CONFIG"
 
-        cardano-cli genesis create-staked --genesis-dir "$CONFIG" \
+        cardano-cli latest genesis create-staked --genesis-dir "$CONFIG" \
           --testnet-magic "$NETWORK_MAGIC" \
           --gen-pools 1 \
           --supply $SUPPLY \

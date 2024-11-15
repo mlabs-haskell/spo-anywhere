@@ -11,7 +11,7 @@
   text = let
     utxo-keys = "${./local-testnet-config}/utxo-keys";
   in ''
-    trap 'echo "# $BASH_COMMAND"' DEBUG
+    set -x
 
     cardano-cli query tip --testnet-magic 2
     cardano-cli query utxo --whole-utxo --testnet-magic 2
@@ -31,7 +31,7 @@
     WALLET_ADDR="$(cat /tmp/wallet.addr)"
     TXOUT="$(cat "/tmp/wallet.addr")+$SEND_AMT"
 
-    cardano-cli transaction build \
+    cardano-cli latest transaction build \
       --testnet-magic 2 \
       --change-address "$WALLET_ADDR" \
       --tx-in "$TXIN" \
@@ -39,7 +39,7 @@
       --out-file "/tmp/tx.body" \
       --witness-override 2
 
-    cardano-cli transaction sign \
+    cardano-cli latest transaction sign \
       --tx-body-file "/tmp/tx.body" \
       --signing-key-file "${utxo-keys}/utxo1.skey" \
       --testnet-magic 2 \
@@ -57,7 +57,7 @@
       --out-file=/dev/stdout \
     | jq -e "length == 1"
 
-    cardano-cli transaction submit \
+    cardano-cli latest transaction submit \
       --tx-file "/tmp/tx.signed" \
       --testnet-magic 2
 
