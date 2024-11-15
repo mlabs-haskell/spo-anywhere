@@ -1,5 +1,5 @@
 # This module defines deployment script at `config.system.build.spoInstallScript`.
-{inputs}: {
+inputs: {
   pkgs,
   config,
   lib,
@@ -9,8 +9,7 @@
     spo-anywhere.install-script = with lib;
     with types; {
       enable =
-        mkEnableOption "Create deployment script at `config.system.build.spoInstallScript`."
-        // {default = config.spo-anywhere.enable or false;};
+        mkEnableOption "Create deployment script at `config.system.build.spoInstallScript`.";
       target-dns = mkOption {
         type = nullOr str;
         default = null;
