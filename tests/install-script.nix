@@ -174,7 +174,7 @@ in {
             install-script {
               imports = [installing];
               config = {
-                spo-anywhere.install-script.target-dns = "some-invalid-garbage";
+                spo-anywhere.install-script.target = "some-invalid-garbage";
               };
             }
           );
@@ -192,7 +192,7 @@ in {
             install-script {
               imports = [installing];
               config = {
-                spo-anywhere.install-script.target-dns = "root@installed";
+                spo-anywhere.install-script.target = "root@installed";
               };
             }
           );

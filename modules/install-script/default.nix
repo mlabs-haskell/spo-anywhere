@@ -10,12 +10,12 @@ inputs: {
     with types; {
       enable =
         mkEnableOption "Create deployment script at `config.system.build.spoInstallScript`.";
-      target-dns = mkOption {
+      target = mkOption {
         type = nullOr str;
         default = null;
         example = "root@128.196.0.1";
         description = ''
-          The target DNS address to deploy to. Overwritten by a command line argument.
+          The target address to deploy to, in the format <user>@<host>, where host is a DNS hostname. Overwritten by a command line argument.
         '';
       };
     };
@@ -46,7 +46,7 @@ inputs: {
             rm -rf "$tmp_keys"
           }
 
-          target="${builtins.toString (config.spo-anywhere.install-script.target-dns or "")}"
+          target="${builtins.toString (config.spo-anywhere.install-script.target or "")}"
 
           # todo: make target optional option
 
