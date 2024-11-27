@@ -1,8 +1,7 @@
 {config, ...}: {
   flake.templates = {
-    default = config.flake.templates.basic;
-    basic = {
-      path = ./basic;
+    default = {
+      path = ./default;
       description = "Example flake using spo-anywhere";
     };
   };

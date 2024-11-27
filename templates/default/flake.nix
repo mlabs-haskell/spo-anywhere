@@ -1,7 +1,6 @@
 {
   inputs = {
-    # spo-anywhere.url = "github:mlabs-haskell/spo-anywhere/aciceri/hetzner-template"; # TODO go back to `main` once merged
-    spo-anywhere.url = "../..";
+    spo-anywhere.url = "github:mlabs-haskell/spo-anywhere";
     srvos.url = "github:nix-community/srvos";
     nixpkgs.follows = "srvos/nixpkgs";
     disko.follows = "spo-anywhere/disko";

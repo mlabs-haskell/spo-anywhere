@@ -1,23 +1,19 @@
-{modulesPath, ...}: {
-  imports = [
-    (modulesPath + "/profiles/minimal.nix")
-  ];
-  hardware.enableAllFirmware = true;
-  # nixpkgs.config.allowUnfree = true;
+{
   disko.devices = {
     disk = {
-      vda = {
-        device = "/dev/vda";
+      main = {
         type = "disk";
+        device = "/dev/sda";
         content = {
           type = "gpt";
           partitions = {
             boot = {
               size = "1M";
               type = "EF02";
+              priority = 1;
             };
             ESP = {
-              size = "100M";
+              size = "512M";
               type = "EF00";
               content = {
                 type = "filesystem";
