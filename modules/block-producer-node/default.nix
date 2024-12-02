@@ -1,4 +1,4 @@
-{cardano-node, ...}: {
+inputs: {
   config,
   lib,
   ...
@@ -8,7 +8,7 @@ in
   with lib;
   with types; {
     imports = [
-      cardano-node.nixosModules.cardano-node
+      inputs.cardano-node.nixosModules.cardano-node
     ];
 
     # TODO consider not using a wrapper module if it's not necessary (we'll see in the future as the project shapes up)

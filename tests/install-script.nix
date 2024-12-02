@@ -1,4 +1,4 @@
-{inputs, ...}: {
+inputs: {
   config,
   pkgs,
   ...
@@ -9,8 +9,7 @@
   '';
   installing = {lib, ...}: {
     imports = [
-      # self.nixosModules.default <- can't do, so:
-      (import ../modules/install-script {inherit inputs;})
+      (import ../modules/install-script inputs)
       (import ./system-to-install.nix inputs)
       (import ../modules/block-producer-node inputs)
     ];

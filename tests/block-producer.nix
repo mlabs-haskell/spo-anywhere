@@ -1,4 +1,4 @@
-{inputs, ...}: {
+inputs: {
   perSystem.spo-anywhere.tests = {
     block-producer = {
       systems = ["x86_64-linux"];

@@ -1,12 +1,11 @@
 {inputs, ...}: {
   imports = [
-    (import ./block-producer.nix {inherit inputs;})
+    (import ./block-producer.nix inputs)
     (import ./with-relay-node.nix)
   ];
   perSystem = _: {
     imports = [
-      ./dummy.nix
-      (import ./install-script.nix {inherit inputs;})
+      (import ./install-script.nix inputs)
     ];
   };
 }

@@ -3,6 +3,7 @@
     pkgs,
     inputs',
     lib,
+    config,
     ...
   }: let
     # Runs the command but first checks if key files already exist.
@@ -27,7 +28,7 @@
     in {
       type = "app";
       program = pkgs.writeShellApplication {
-        runtimeInputs = [inputs'.cardano-node.packages.cardano-cli];
+        runtimeInputs = [config.packages.cardano-cli];
         inherit name;
         text = ''
           ${exitIfFilesExist}
