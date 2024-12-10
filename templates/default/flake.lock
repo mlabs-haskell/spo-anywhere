@@ -270,11 +270,13 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "haskellNix": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "haskellNix"
         ],
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "nixpkgs"
@@ -303,6 +305,7 @@
         "haskellNix": "haskellNix",
         "iohkNix": "iohkNix",
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-db-sync",
           "haskellNix",
@@ -352,7 +355,7 @@
         "crane": "crane",
         "devour-flake": "devour-flake",
         "devshell": "devshell_2",
-        "flake-parts": "flake-parts",
+        "flake-parts": "flake-parts_2",
         "flake-root": "flake-root",
         "hercules-ci-effects": "hercules-ci-effects",
         "nixpkgs": "nixpkgs_9",
@@ -386,12 +389,14 @@
         "hackageNix": "hackageNix_2",
         "haskellNix": "haskellNix_2",
         "hostNixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "nixpkgs"
         ],
         "iohkNix": "iohkNix_2",
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "haskellNix",
@@ -513,6 +518,7 @@
     "devshell": {
       "inputs": {
         "flake-utils": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -521,6 +527,7 @@
           "flake-utils"
         ],
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -546,6 +553,7 @@
     "devshell_2": {
       "inputs": {
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "nixpkgs"
         ]
@@ -567,6 +575,7 @@
     "devshell_3": {
       "inputs": {
         "nixpkgs": [
+          "spo-anywhere",
           "nixpkgs"
         ]
       },
@@ -587,6 +596,7 @@
     "disko": {
       "inputs": {
         "nixpkgs": [
+          "spo-anywhere",
           "nixpkgs"
         ]
       },
@@ -607,6 +617,7 @@
     "dmerge": {
       "inputs": {
         "nixlib": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -615,6 +626,7 @@
           "nixpkgs"
         ],
         "yants": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -640,18 +652,21 @@
     "dmerge_2": {
       "inputs": {
         "haumea": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",
           "haumea"
         ],
         "nixlib": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",
           "lib"
         ],
         "yants": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",
@@ -817,9 +832,8 @@
         "type": "github"
       },
       "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
+        "id": "flake-parts",
+        "type": "indirect"
       }
     },
     "flake-parts_2": {
@@ -842,7 +856,26 @@
     },
     "flake-parts_3": {
       "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_3"
+      },
+      "locked": {
+        "lastModified": 1730504689,
+        "narHash": "sha256-hgmguH29K2fvs9szpq2r3pz2/8cJd2LPS+b4tfNFCwE=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "506278e768c2a08bec68eb62932193e341f55c90",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_4": {
+      "inputs": {
         "nixpkgs-lib": [
+          "spo-anywhere",
           "hercules-ci-effects",
           "nixpkgs"
         ]
@@ -1024,6 +1057,7 @@
     "gitignore": {
       "inputs": {
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "pre-commit-hooks-nix",
           "nixpkgs"
@@ -1104,6 +1138,7 @@
         "flake-compat": "flake-compat_2",
         "ghc-8.6.5-iohk": "ghc-8.6.5-iohk",
         "hackage": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-db-sync",
           "hackageNix"
@@ -1122,6 +1157,7 @@
         "hydra": "hydra",
         "iserv-proxy": "iserv-proxy",
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-db-sync",
           "haskellNix",
@@ -1165,6 +1201,7 @@
         "ghc910X": "ghc910X",
         "ghc911": "ghc911",
         "hackage": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "hackageNix"
@@ -1182,6 +1219,7 @@
         "hydra": "hydra_2",
         "iserv-proxy": "iserv-proxy_2",
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "nixpkgs"
@@ -1215,6 +1253,7 @@
     "haumea": {
       "inputs": {
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",
@@ -1239,10 +1278,12 @@
     "hercules-ci-effects": {
       "inputs": {
         "flake-parts": [
+          "spo-anywhere",
           "cardano-nix",
           "flake-parts"
         ],
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "nixpkgs"
         ]
@@ -1264,7 +1305,7 @@
     },
     "hercules-ci-effects_2": {
       "inputs": {
-        "flake-parts": "flake-parts_3",
+        "flake-parts": "flake-parts_4",
         "nixpkgs": "nixpkgs_10"
       },
       "locked": {
@@ -1641,6 +1682,7 @@
       "inputs": {
         "nix": "nix",
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-db-sync",
           "haskellNix",
@@ -1666,6 +1708,7 @@
       "inputs": {
         "nix": "nix_2",
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "haskellNix",
@@ -1690,6 +1733,7 @@
     "incl": {
       "inputs": {
         "nixlib": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",
@@ -1714,6 +1758,7 @@
       "inputs": {
         "blst": "blst",
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-db-sync",
           "nixpkgs"
@@ -1739,6 +1784,7 @@
       "inputs": {
         "blst": "blst_2",
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "nixpkgs"
@@ -1861,6 +1907,7 @@
       "inputs": {
         "flake-utils": "flake-utils_4",
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -1908,6 +1955,7 @@
       "inputs": {
         "flake-compat": "flake-compat_3",
         "flake-utils": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -1917,6 +1965,7 @@
         ],
         "gomod2nix": "gomod2nix",
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -1924,6 +1973,7 @@
           "nixpkgs"
         ],
         "nixpkgs-lib": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -1988,6 +2038,7 @@
     "nixago": {
       "inputs": {
         "flake-utils": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -1996,6 +2047,7 @@
           "flake-utils"
         ],
         "nixago-exts": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -2004,6 +2056,7 @@
           "blank"
         ],
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -2357,6 +2410,18 @@
         "url": "https://github.com/NixOS/nixpkgs/archive/cc2f28000298e1269cea6612cd06ec9979dd5d7f.tar.gz"
       }
     },
+    "nixpkgs-lib_3": {
+      "locked": {
+        "lastModified": 1730504152,
+        "narHash": "sha256-lXvH/vOfb4aGYyvFmZK/HlsNsr/0CVWlwYvo2rxJk3s=",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/cc2f28000298e1269cea6612cd06ec9979dd5d7f.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/cc2f28000298e1269cea6612cd06ec9979dd5d7f.tar.gz"
+      }
+    },
     "nixpkgs-regression": {
       "locked": {
         "lastModified": 1643052045,
@@ -2449,6 +2514,22 @@
       "original": {
         "owner": "NixOS",
         "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_12": {
+      "locked": {
+        "lastModified": 1732527064,
+        "narHash": "sha256-7BUwAGmceiPGrIf6guxdO5mQdXkKzM7F1e/fObD/1uw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "61aa4ba718e145c50aa01aa868fe52bf5f34cc29",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable-small",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -2646,6 +2727,7 @@
     "oura": {
       "inputs": {
         "crane": [
+          "spo-anywhere",
           "cardano-nix",
           "crane"
         ],
@@ -2670,6 +2752,7 @@
       "inputs": {
         "call-flake": "call-flake",
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",
@@ -2677,6 +2760,7 @@
         ],
         "nosys": "nosys",
         "yants": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",
@@ -2720,10 +2804,12 @@
         "flake-compat": "flake-compat_6",
         "gitignore": "gitignore",
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "nixpkgs"
         ],
         "nixpkgs-stable": [
+          "spo-anywhere",
           "cardano-nix",
           "nixpkgs"
         ]
@@ -2744,20 +2830,17 @@
     },
     "root": {
       "inputs": {
-        "cardano-nix": "cardano-nix",
-        "cardano-node": [
-          "cardano-nix",
-          "cardano-node"
+        "disko": [
+          "spo-anywhere",
+          "disko"
         ],
-        "devour-flake": "devour-flake_2",
-        "devshell": "devshell_3",
-        "disko": "disko",
-        "flake-parts": "flake-parts_2",
-        "flake-root": "flake-root_2",
-        "hercules-ci-effects": "hercules-ci-effects_2",
-        "nixos-images": "nixos-images",
-        "nixpkgs": "nixpkgs_11",
-        "treefmt-nix": "treefmt-nix_2"
+        "flake-parts": "flake-parts",
+        "nixpkgs": [
+          "srvos",
+          "nixpkgs"
+        ],
+        "spo-anywhere": "spo-anywhere",
+        "srvos": "srvos"
       }
     },
     "secp256k1": {
@@ -2828,6 +2911,53 @@
         "type": "github"
       }
     },
+    "spo-anywhere": {
+      "inputs": {
+        "cardano-nix": "cardano-nix",
+        "cardano-node": [
+          "spo-anywhere",
+          "cardano-nix",
+          "cardano-node"
+        ],
+        "devour-flake": "devour-flake_2",
+        "devshell": "devshell_3",
+        "disko": "disko",
+        "flake-parts": "flake-parts_3",
+        "flake-root": "flake-root_2",
+        "hercules-ci-effects": "hercules-ci-effects_2",
+        "nixos-images": "nixos-images",
+        "nixpkgs": "nixpkgs_11",
+        "treefmt-nix": "treefmt-nix_2"
+      },
+      "locked": {
+        "lastModified": 0,
+        "narHash": "sha256-hFUGdSvIYC1G0FDAB7gd5NwWAYXMjY+KGtZzRkPSqxI=",
+        "path": "/nix/store/f9i3hnp5dg57kbi3pdk2nfcy9anix77j-source",
+        "type": "path"
+      },
+      "original": {
+        "path": "/nix/store/f9i3hnp5dg57kbi3pdk2nfcy9anix77j-source",
+        "type": "path"
+      }
+    },
+    "srvos": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_12"
+      },
+      "locked": {
+        "lastModified": 1732570520,
+        "narHash": "sha256-ANPZf+osgErYUs27N7ItYovc0d/TJKwOpMtlpk6W9+M=",
+        "owner": "nix-community",
+        "repo": "srvos",
+        "rev": "0ba8119cd4077eaea0f2406b8e1ec491429b8fc4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "srvos",
+        "type": "github"
+      }
+    },
     "stackage": {
       "flake": false,
       "locked": {
@@ -2867,6 +2997,7 @@
         "dmerge": "dmerge",
         "flake-utils": "flake-utils_3",
         "makes": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -2876,6 +3007,7 @@
         ],
         "mdbook-kroki-preprocessor": "mdbook-kroki-preprocessor",
         "microvm": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -2905,6 +3037,7 @@
     "std_2": {
       "inputs": {
         "arion": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",
@@ -2912,6 +3045,7 @@
         ],
         "blank": "blank_2",
         "devshell": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",
@@ -2922,24 +3056,28 @@
         "incl": "incl",
         "lib": "lib",
         "makes": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",
           "blank"
         ],
         "microvm": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",
           "blank"
         ],
         "n2c": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",
           "blank"
         ],
         "nixago": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",
@@ -2949,6 +3087,7 @@
         "paisano": "paisano",
         "paisano-tui": "paisano-tui",
         "terranix": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",
@@ -3003,6 +3142,7 @@
     "treefmt-nix": {
       "inputs": {
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "nixpkgs"
         ]
@@ -3024,6 +3164,7 @@
     "treefmt-nix_2": {
       "inputs": {
         "nixpkgs": [
+          "spo-anywhere",
           "nixpkgs"
         ]
       },
@@ -3046,6 +3187,7 @@
         "nix-nomad": "nix-nomad",
         "nix2container": "nix2container",
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -3136,6 +3278,7 @@
     "yants": {
       "inputs": {
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "cardano-automation",
@@ -3161,6 +3304,7 @@
     "yants_2": {
       "inputs": {
         "nixpkgs": [
+          "spo-anywhere",
           "cardano-nix",
           "cardano-node",
           "std",

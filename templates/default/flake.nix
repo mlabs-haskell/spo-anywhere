@@ -1,6 +1,7 @@
 {
   inputs = {
-    spo-anywhere.url = "github:mlabs-haskell/spo-anywhere";
+    # spo-anywhere.url = "github:mlabs-haskell/spo-anywhere";
+    spo-anywhere.url = "../..";
     srvos.url = "github:nix-community/srvos";
     nixpkgs.follows = "srvos/nixpkgs";
     disko.follows = "spo-anywhere/disko";
