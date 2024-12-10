@@ -11,7 +11,7 @@
       enable =
         mkEnableOption "Create deployment script at `config.system.build.spoInstallScript`."
         // {default = config.spo-anywhere.enable or false;};
-      target-dns = mkOption {
+      target = mkOption {
         type = nullOr str;
         default = null;
         example = "root@128.196.0.1";
@@ -47,7 +47,7 @@
             rm -rf "$tmp_keys"
           }
 
-          target="${builtins.toString (config.spo-anywhere.install-script.target-dns or "")}"
+          target="${builtins.toString (config.spo-anywhere.install-script.target or "")}"
 
           # todo: make target optional option
 
