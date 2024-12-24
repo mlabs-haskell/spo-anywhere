@@ -20,16 +20,31 @@
       systems = [
         "x86_64-linux"
       ];
-      flake.nixosConfigurations.spo-node-hetzner = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          spo-anywhere.nixosModules.default
-          srvos.nixosModules.server
-          srvos.nixosModules.hardware-hetzner-cloud
-          disko.nixosModules.disko
-          ./configuration.nix
-          ./disko.nix
-        ];
+      flake.nixosConfigurations = {
+        spo = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            spo-anywhere.nixosModules.default
+            srvos.nixosModules.server
+            srvos.nixosModules.hardware-hetzner-cloud
+            disko.nixosModules.disko
+            ./configuration.nix
+            ./disko.nix
+            ./common.nix
+          ];
+        };
+        relay = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            spo-anywhere.nixosModules.default
+            srvos.nixosModules.server
+            srvos.nixosModules.hardware-hetzner-cloud
+            disko.nixosModules.disko
+            ./relay.nix
+            ./disko.nix
+            ./common.nix
+          ];
+        };
       };
       perSystem = {...}: {
         packages = {

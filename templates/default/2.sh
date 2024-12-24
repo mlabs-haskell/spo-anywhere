@@ -21,9 +21,10 @@ cardano-cli latest transaction sign \
 
 cardano-cli latest transaction submit \
   --testnet-magic 2 \
-  --tx-file tx.signed 
+  --tx-file tx.signed
 
-# Wait a bit?
+# Wait a bit for the transaction to propagate
+sleep 60
 
 cardano-cli latest transaction build \
   --testnet-magic $TESTNET_MAGIC \
@@ -44,4 +45,4 @@ cardano-cli latest transaction sign \
 
 cardano-cli latest transaction submit \
   --testnet-magic $TESTNET_MAGIC \
-  --tx-file tx.signed 
+  --tx-file tx.signed

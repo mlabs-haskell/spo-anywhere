@@ -39,8 +39,8 @@ RequiresNetworkMagic: RequiresMagic
 # This protocol version number gets used by block producing nodes as part
 # of the system for agreeing on and synchronising protocol updates.
 LastKnownBlockVersion-Alt: 0
-LastKnownBlockVersion-Major: 7
-LastKnownBlockVersion-Minor: 0
+LastKnownBlockVersion-Major: 3
+LastKnownBlockVersion-Minor: 1
 
 # In the Byron era some software versions are also published on the chain.
 # We do this only for Byron compatibility now.
@@ -300,5 +300,6 @@ TestAllegraHardForkAtEpoch: 0
 TestMaryHardForkAtEpoch: 0
 TestAlonzoHardForkAtEpoch: 0
 TestBabbageHardForkAtEpoch: 0
-ExperimentalProtocolsEnabled: True
+TestConwayHardForkAtEpoch: 0
+ExperimentalProtocolsEnabled: False
 EnableP2P: True

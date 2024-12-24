@@ -12,7 +12,7 @@ echo '{
   "name": "Test",
   "description": "Test",
   "ticker": "TEST",
-  "homepage": "https://mlabs-haskell.github.io/spo-anywhere"
+  "homepage": "https://example.com"
 }' > $METADATA_FILE
 METADATA_HASH=`cardano-cli latest stake-pool metadata-hash --pool-metadata-file pool-metadata.json`
 RELAY_IPV4="87.227.245.188"

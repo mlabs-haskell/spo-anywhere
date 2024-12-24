@@ -2,14 +2,14 @@
   "activeSlotsCoeff": 0.05,
   "epochLength": 432000,
   "genDelegs": {
-    "d3ac8d52bd0e5ef13061e512a486b66c1d253885f5e0f3d599a915aa": {
-      "delegate": "d52532996c54e5a0c032f7ec3e9ad3c1442ea33fa5e144dda83f8aa9",
-      "vrf": "d0c8b978d5aabe74a2de36f407c1c2c01a9449d367c6481b71f900c83e7abdce"
+    "111497127e05af2ca80334359218fc9186796a973ac959b406083604": {
+      "delegate": "f628b780588a0df911990ed470070cde0477cd20b4fc2b559dc3a15c",
+      "vrf": "51c90f46828af955933cdf371886b0bc8db86d2b3966521056f38bd3279a5a1e"
     }
   },
   "initialFunds": {
-    "00830ada3321de89a48cca816bb5f1d3e2a8d11c2461db812138d3635d20647d10c3ff47a584e5350d1e4278fecb0ef3642aaf2fafbf47ecf4": 14802069666338596454,
-    "606e5e186483c5ce06fa21397c42a4d0b889874fc5145271c51686bc24": 14802069666338596454
+    "008273c57e9f96c3501010cff959490f4e7b7a04f3cfe44c849e794353e5f9e817a51568d511df0b8d9f21546be2a2fed97f5445a8c05c2592": 14802069666338596454,
+    "6065b53d79b3dc66e48d87bdb1d77c8b42e6071067a5dee037df1fedbb": 14802069666338596454
   },
   "maxKESEvolutions": 60,
   "maxLovelaceSupply": 18346744073709551615,
@@ -44,27 +44,27 @@
   "slotsPerKESPeriod": 129600,
   "staking": {
     "pools": {
-      "3041d070efb8e7397c454fb7e137a64ab4f00428358645a1f35bc5c2": {
+      "ed18c107cffc57d9bc1646a2344d79337d5f5fc4c34494917576f6de": {
         "cost": 0,
         "margin": 0,
         "metadata": null,
         "owners": [],
         "pledge": 0,
-        "publicKey": "3041d070efb8e7397c454fb7e137a64ab4f00428358645a1f35bc5c2",
+        "publicKey": "ed18c107cffc57d9bc1646a2344d79337d5f5fc4c34494917576f6de",
         "relays": [],
         "rewardAccount": {
           "credential": {
-            "keyHash": "db9124e203092215d56659ff7da5d62047771df725fb5f440175041f"
+            "keyHash": "82c91142840bb4780dba8c7b607068f6a6ec392a188bf8c4cd8f07ef"
           },
           "network": "Testnet"
         },
-        "vrf": "9614fba93c82599cb290741ceebb1a08540f4af9811d8308b1693a1f244ad78e"
+        "vrf": "0e7ea4d95250dd605cefb92871031472bc21870b1a8db606439efa810b6722f0"
       }
     },
     "stake": {
-      "20647d10c3ff47a584e5350d1e4278fecb0ef3642aaf2fafbf47ecf4": "3041d070efb8e7397c454fb7e137a64ab4f00428358645a1f35bc5c2"
+      "e5f9e817a51568d511df0b8d9f21546be2a2fed97f5445a8c05c2592": "ed18c107cffc57d9bc1646a2344d79337d5f5fc4c34494917576f6de"
     }
   },
-  "systemStart": "2024-09-16T14:25:08.403835345Z",
+  "systemStart": "2024-11-27T17:53:33.54344798Z",
   "updateQuorum": 2
 }
