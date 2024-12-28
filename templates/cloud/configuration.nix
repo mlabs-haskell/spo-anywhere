@@ -9,8 +9,7 @@
   system.stateVersion = "24.11";
 
   users.users.root.openssh.authorizedKeys.keys = [
-    builtins.throw
-    "Add your SSH key here"
+    (builtins.throw "Add your SSH key here")
   ];
 
   systemd.tmpfiles.rules = [

@@ -13,9 +13,9 @@
     name = "spo-anywhere";
     sidebarOptions = [
       {
-        anchor = "spo-anywhere.node";
-        modules = [config.flake.nixosModules.block-producer-node];
-        namespaces = ["spo-anywhere.node"];
+        anchor = "spo-anywhere";
+        modules = [config.flake.nixosModules.default];
+        namespaces = ["spo-anywhere"];
       }
       {
         anchor = "services.cardano-node";

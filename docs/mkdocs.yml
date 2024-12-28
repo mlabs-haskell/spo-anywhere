@@ -61,6 +61,8 @@ nav:
   - index.md
   - Getting Started:
       - Overview: getting-started/overview.md
+      - Installation: getting-started/installation.md
+      - Cloud Tutorial: getting-started/cloud-tutorial.md
   - Usage:
       - Configure pool: usage/configure-pool.md
       - Generating keys: usage/generate-keys.md
