@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://github.com/mlabs-haskell/spo-anywhere/reference/module-options/spo-anywhere.node/">
+        <link rel="canonical" href="https://github.com/mlabs-haskell/spo-anywhere/reference/module-options/spo-anywhere/">
       
       
         <link rel="prev" href="../services.cardano-node/">
@@ -22,7 +22,7 @@
     
     
       
-        <title>spo-anywhere.node - SPO-Anywhere</title>
+        <title>spo-anywhere - SPO-Anywhere</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#spo-anywherenodeenable" class="md-skip">
+        <a href="#spo-anywhereenable" class="md-skip">
           Skip to content
         </a>
       
@@ -111,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              spo-anywhere.node
+              spo-anywhere
             
           </span>
         </div>
@@ -335,6 +335,48 @@
   
   <span class="md-ellipsis">
     Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/cloud-tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cloud Tutorial
   </span>
   
 
@@ -673,7 +715,7 @@
           
   
   <span class="md-ellipsis">
-    spo-anywhere.node
+    spo-anywhere
   </span>
   
 
@@ -684,7 +726,7 @@
         
   
   <span class="md-ellipsis">
-    spo-anywhere.node
+    spo-anywhere
   </span>
   
 
@@ -702,6 +744,33 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#spo-anywhereenable" class="md-nav__link">
+    <span class="md-ellipsis">
+      spo-anywhere.enable
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spo-anywhereinstall-scriptenable" class="md-nav__link">
+    <span class="md-ellipsis">
+      spo-anywhere.install-script.enable
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spo-anywhereinstall-scripttarget" class="md-nav__link">
+    <span class="md-ellipsis">
+      spo-anywhere.install-script.target
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#spo-anywherenodeenable" class="md-nav__link">
@@ -771,6 +840,33 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#spo-anywhereenable" class="md-nav__link">
+    <span class="md-ellipsis">
+      spo-anywhere.enable
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spo-anywhereinstall-scriptenable" class="md-nav__link">
+    <span class="md-ellipsis">
+      spo-anywhere.install-script.enable
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spo-anywhereinstall-scripttarget" class="md-nav__link">
+    <span class="md-ellipsis">
+      spo-anywhere.install-script.target
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#spo-anywherenodeenable" class="md-nav__link">
     <span class="md-ellipsis">
       spo-anywhere.node.enable
@@ -812,7 +908,7 @@
                   
 
   
-    <a href="https://github.com/mlabs-haskell/spo-anywhere/edit/main/docs/reference/module-options/spo-anywhere.node.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/mlabs-haskell/spo-anywhere/edit/main/docs/reference/module-options/spo-anywhere.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -821,15 +917,45 @@
     
       
     
-    <a href="https://github.com/mlabs-haskell/spo-anywhere/raw/main/docs/reference/module-options/spo-anywhere.node.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/mlabs-haskell/spo-anywhere/raw/main/docs/reference/module-options/spo-anywhere.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
     </a>
   
 
 
-  <h1>spo-anywhere.node</h1>
+  <h1>spo-anywhere</h1>
 
+<h2 id="spo-anywhereenable">spo-anywhere.enable</h2>
+<p>Whether to enable Enable spo-anywhere.</p>
+<p><em>Type:</em>
+boolean</p>
+<p><em>Default:</em>
+<code>false</code></p>
+<p><em>Example:</em>
+<code>true</code></p>
+<p><em>Declared by:</em>
+ - <a href="https://github.com/mlabs-haskell/spo-anywhere/tree/main/modules, via option flake.nixosModules.spo-anywhere">https://github.com/mlabs-haskell/spo-anywhere/tree/main/modules, via option flake.nixosModules.spo-anywhere</a></p>
+<h2 id="spo-anywhereinstall-scriptenable">spo-anywhere.install-script.enable</h2>
+<p>Whether to enable Create deployment script at <code>config.system.build.spoInstallScript</code>…</p>
+<p><em>Type:</em>
+boolean</p>
+<p><em>Default:</em>
+<code>false</code></p>
+<p><em>Example:</em>
+<code>true</code></p>
+<p><em>Declared by:</em>
+ - <a href="https://github.com/mlabs-haskell/spo-anywhere/tree/main/modules, via option flake.nixosModules.install-script">https://github.com/mlabs-haskell/spo-anywhere/tree/main/modules, via option flake.nixosModules.install-script</a></p>
+<h2 id="spo-anywhereinstall-scripttarget">spo-anywhere.install-script.target</h2>
+<p>The target DNS address to deploy to. Overwritten by a command line argument.</p>
+<p><em>Type:</em>
+null or string</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Example:</em>
+<code>"root@128.196.0.1"</code></p>
+<p><em>Declared by:</em>
+ - <a href="https://github.com/mlabs-haskell/spo-anywhere/tree/main/modules, via option flake.nixosModules.install-script">https://github.com/mlabs-haskell/spo-anywhere/tree/main/modules, via option flake.nixosModules.install-script</a></p>
 <h2 id="spo-anywherenodeenable">spo-anywhere.node.enable</h2>
 <p>Whether to enable Enable cardano-node with some defaults. Provide necessary keys to run as a block producer…</p>
 <p><em>Type:</em>
