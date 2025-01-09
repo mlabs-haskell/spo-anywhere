@@ -11,7 +11,7 @@
       enable =
         mkEnableOption "Create deployment script at `config.system.build.spoInstallScript`."
         // {default = config.spo-anywhere.enable or false;};
-      target-dns = mkOption {
+      target = mkOption {
         type = nullOr str;
         default = null;
         example = "root@128.196.0.1";
@@ -47,7 +47,7 @@
             rm -rf "$tmp_keys"
           }
 
-          target="${builtins.toString (config.spo-anywhere.install-script.target-dns or "")}"
+          target="${builtins.toString (config.spo-anywhere.install-script.target or "")}"
 
           # todo: make target optional option
 
@@ -77,7 +77,7 @@
             esac
           done
 
-          if [ -z "''${target:+true}" ] || [ -z "''${spo_keys:+true}" ] || [ -z "''${ssh_key:+true}" ]; then
+          if [ -z "''${target:+true}" ] || [ -z "''${ssh_key:+true}" ]; then
             usage
             exit 1
           fi
@@ -89,7 +89,7 @@
           trap cleanup 0
           target_key_path=${config.spo-anywhere.node.block-producer-key-path}
           mkdir -p "''${tmp_keys}''${target_key_path}"
-          cp -vr "''${spo_keys}"/* "''${tmp_keys}''${target_key_path}/"
+          [ -n "''${spo_keys:-}" ] && cp -vr "''${spo_keys}"/* "''${tmp_keys}''${target_key_path}/"
 
           # here spo_keys should be of form dir/path/to/where/spo/expects/keys.
           # Options:
