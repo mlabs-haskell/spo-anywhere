@@ -62,6 +62,7 @@ nav:
   - Getting Started:
       - Overview: getting-started/overview.md
   - Usage:
+      - Setup: usage/setup.md
       - Configure pool: usage/configure-pool.md
       - Generating keys: usage/generate-keys.md
       - Deploy: usage/deploy.md

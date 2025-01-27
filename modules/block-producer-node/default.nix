@@ -28,8 +28,9 @@ in
         };
 
         configFilesPath = lib.mkOption {
-          type = lib.types.path;
-          description = "Path to the network configuration directory";
+          type = lib.types.nullOr lib.types.path;
+	        default = null;
+          description = "Path to the network configuration directory. Optional, will use cardano-node service configuration if set to null.";
         };
       };
     };
@@ -45,15 +46,17 @@ in
       services.cardano-node = mkMerge [
         {
           enable = true;
+        }
+	      (mkIf (cfg.configFilesPath != null) {
           nodeConfigFile = "${cfg.configFilesPath}/configuration.yaml";
           topology = "${cfg.configFilesPath}/topology-spo-1.json";
-        }
+        })
         (mkIf (cfg.block-producer-key-path != null) {
-          signingKey = "${cfg.block-producer-key-path}/byron-gen-command/delegate-keys.000.key";
-          delegationCertificate = "${cfg.block-producer-key-path}/byron-gen-command/delegation-cert.000.json";
-          vrfKey = "${cfg.block-producer-key-path}/pools/vrf1.skey";
-          kesKey = "${cfg.block-producer-key-path}/pools/kes1.skey";
-          operationalCertificate = "${cfg.block-producer-key-path}/pools/opcert1.cert";
+          # signingKey = "${cfg.block-producer-key-path}/byron-gen-command/delegate-keys.000.key";
+          # delegationCertificate = "${cfg.block-producer-key-path}/byron-gen-command/delegation-cert.000.json";
+          vrfKey = "${cfg.block-producer-key-path}/vrf.skey";
+          kesKey = "${cfg.block-producer-key-path}/kes.skey";
+          operationalCertificate = "${cfg.block-producer-key-path}/opcert.cert";
         })
       ];
     };
