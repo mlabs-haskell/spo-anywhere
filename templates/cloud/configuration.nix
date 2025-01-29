@@ -8,10 +8,22 @@
 
   system.stateVersion = "24.11";
 
-  users.users.root.openssh.authorizedKeys.keys = [
-    (builtins.throw "Add your SSH key here")
-  ];
+  services.cardano-node = {
+    environment = "preview";
+  };
 
+  spo-anywhere = {
+    node = {
+      enable = true;
+      configFilesPath = "/etc/testnet";
+      block-producer-key-path = "/etc/testnet";
+    };
+    install-script = {
+      enable = true;
+    };
+  };
+
+  # Copy local testnet configuration files and allow access
   systemd.tmpfiles.rules = [
     "C+ /etc/testnet - - - - ${inputs.spo-anywhere}/tests/local-testnet-config"
     "Z /etc/testnet 700 cardano-node cardano-node - ${inputs.spo-anywhere}/tests/local-testnet-config"
@@ -26,21 +38,5 @@
       chmod +w /etc/testnet/byron-gen-command/genesis.json
       ${lib.getExe pkgs.yq-go} e -i ".startTime = $NOW" /etc/testnet/byron-gen-command/genesis.json
     '';
-  };
-
-  spo-anywhere = {
-    node = {
-      enable = true;
-      configFilesPath = "/etc/testnet";
-      block-producer-key-path = "/etc/testnet";
-    };
-    install-script = {
-      enable = true;
-      target = builtins.throw "Add the target here e.g. root@X.X.X.X";
-    };
-  };
-
-  services.cardano-node = {
-    environment = "preview";
   };
 }
