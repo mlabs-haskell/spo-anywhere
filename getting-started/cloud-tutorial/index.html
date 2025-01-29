@@ -1018,7 +1018,7 @@
 <p>For this tutorial, we will use testing private keys included with the project and configured by default, which are suitable for testing but should not be used for public networks. For details on how to generate and configure different keys, see <a href="../../usage/configure-pool/">Configure Pool</a> and <a href="../../usage/generate-keys/">Generate Keys</a>.</p>
 <h3 id="install">Install</h3>
 <p>Install NixOS and start configuration with block producer node:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>nix<span class="w"> </span>run<span class="w"> </span>.#install
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>nix<span class="w"> </span>run<span class="w"> </span>.#install<span class="w"> </span>--<span class="w"> </span>--ssh-key<span class="w"> </span>&lt;private-key-path&gt;
 </span></code></pre></div></td></tr></table></div>
 <h3 id="check">Check</h3>
 <p>SSH into the machine and check the cardano-node logs:</p>
