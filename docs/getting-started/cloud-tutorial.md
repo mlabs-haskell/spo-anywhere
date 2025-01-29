@@ -53,7 +53,7 @@ For this tutorial, we will use testing private keys included with the project an
 Install NixOS and start configuration with block producer node:
 
 ```bash
-nix run .#install
+nix run .#install -- --ssh-key <private-key-path>
 ```
 
 ### Check
