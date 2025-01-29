@@ -993,7 +993,7 @@
 <li>SSH public key authentication configured for <code>root</code> user.</li>
 </ul>
 <p>In the case of public testnets and mainnet, there may be additional requirements, such as more RAM and disk space.</p>
-<p>Note down the IP address of the host. As an example, we will use an AWS host at IP <code>12.34.56.78</code>. Verify that SSH works:</p>
+<p>Note down the IP address of the host. As an example, we will use a Hetzner Cloud host at IP <code>12.34.56.78</code>. Verify that SSH works:</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
 <span class="normal"><a href="#__codelineno-0-2">2</a></span>
 <span class="normal"><a href="#__codelineno-0-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>ssh<span class="w"> </span>root@12.34.56.78
@@ -1010,35 +1010,40 @@
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>nix<span class="w"> </span>flake<span class="w"> </span>init<span class="w"> </span>--template<span class="w"> </span>github:mlabs-haskell/spo-anywhere#cloud
 </span></code></pre></div></td></tr></table></div>
 <h3 id="configure">Configure</h3>
-<p>Edit <code>configuration.nix</code>. Update your SSH public key and IP address by changing the following lines:</p>
-<div class="language-nix highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>  users<span class="o">.</span>users<span class="o">.</span>root<span class="o">.</span>openssh<span class="o">.</span>authorizedKeys<span class="o">.</span><span class="ss">keys</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;ssh-...&quot;</span> <span class="p">];</span>
-</span></code></pre></div></td></tr></table></div>
-<div class="language-nix highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>      <span class="ss">target</span> <span class="o">=</span> <span class="s2">&quot;root@12.34.56.78&quot;</span><span class="p">;</span>
+<p>Edit <code>target.nix</code>. Update your SSH public key and IP address by changing the following lines:</p>
+<div class="language-nix highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>  users<span class="o">.</span>users<span class="o">.</span>root<span class="o">.</span>openssh<span class="o">.</span>authorizedKeys<span class="o">.</span><span class="ss">keys</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;ssh-...&quot;</span> <span class="p">];</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>  spo-anywhere<span class="o">.</span>install-script<span class="o">.</span><span class="ss">target</span> <span class="o">=</span> <span class="s2">&quot;root@12.34.56.78&quot;</span><span class="p">;</span>
 </span></code></pre></div></td></tr></table></div>
 <p>For this tutorial, we will use testing private keys included with the project and configured by default, which are suitable for testing but should not be used for public networks. For details on how to generate and configure different keys, see <a href="../../usage/configure-pool/">Configure Pool</a> and <a href="../../usage/generate-keys/">Generate Keys</a>.</p>
 <h3 id="install">Install</h3>
 <p>Install NixOS and start configuration with block producer node:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>nix<span class="w"> </span>run<span class="w"> </span>.#install<span class="w"> </span>--<span class="w"> </span>--ssh-key<span class="w"> </span>&lt;private-key-path&gt;
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>nix<span class="w"> </span>run<span class="w"> </span>.#install<span class="w"> </span>--<span class="w"> </span>--ssh-key<span class="w"> </span>&lt;private-key-path&gt;
 </span></code></pre></div></td></tr></table></div>
 <h3 id="check">Check</h3>
 <p>SSH into the machine and check the cardano-node logs:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
-<span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>ssh<span class="w"> </span>root@12.34.56.78
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>journalctl<span class="w"> </span>-e<span class="w"> </span>-u<span class="w"> </span>cardano-node
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>ssh<span class="w"> </span>root@12.34.56.78
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>journalctl<span class="w"> </span>-e<span class="w"> </span>-u<span class="w"> </span>cardano-node
 </span></code></pre></div></td></tr></table></div>
 <p>When blocks are produced, logs like this should show up:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>TODO EXAMPLE
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>Jan 29 07:01:21 spo-anywhere-test cardano-node-start[938]: [spo-anyw:cardano.node.Forge:Info:52] [2025-01-29 07:01:21.00 UTC] fromList [(&quot;credentials&quot;,String &quot;Cardano&quot;),(&quot;val&quot;,Object (fromList [(&quot;block&quot;,String &quot;61c5de2ece6ceee1fca8716a94d38875ca3ed23c8d7b16b23b2933fa8cd1bff4&quot;),(&quot;blockNo&quot;,Number 30.0),(&quot;blockPrev&quot;,String &quot;6af1f332aac4adc1ab42f19b4750a6f47844a627532444f2fdf85f2c2f0f14a7&quot;),(&quot;kind&quot;,String &quot;TraceForgedBlock&quot;),(&quot;slot&quot;,Number 716.0)]))]
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>Jan 29 07:01:21 spo-anywhere-test cardano-node-start[938]: [spo-anyw:cardano.node.ChainDB:Notice:35] [2025-01-29 07:01:21.00 UTC] Chain extended, new tip: 61c5de2ece6ceee1fca8716a94d38875ca3ed23c8d7b16b23b2933fa8cd1bff4 at slot 716
 </span></code></pre></div></td></tr></table></div>
 <p>For public networks it may be necessary to <a href="../../usage/register-the-pool/">register the pool</a> first.</p>
 <h3 id="deploy">Deploy</h3>
 <p>To modify the configuration, edit e.g. <code>configration.nix</code> and deploy it with a <a href="https://github.com/nix-community/awesome-nix?tab=readme-ov-file#deployment-tools">deployment tool</a>, e.g. using <code>nixos-rebuild</code>:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>nix run nixpkgs#nixos-rebuild -- switch --flake .#spo-node --target-host root@12.34.56.78
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>nix run nixpkgs#nixos-rebuild -- switch --flake .#spo-node --target-host root@12.34.56.78
 </span></code></pre></div></td></tr></table></div>
 <h3 id="cloud-providers">Cloud Providers</h3>
 <p>Cloud provider support is provided by <a href="https://github.com/nix-community/srvos">srvos</a>.</p>
 <p>To use a different cloud provider, edit <code>flake.nix</code> and replace <code>nixosModules.hardware-amazon</code> with one of the modules listed in the <a href="https://nix-community.github.io/srvos/nixos/hardware/">srvos docs</a>, eg:</p>
-<div class="language-nix highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>nixosModules<span class="o">.</span>hardware-hetzner-cloud
+<div class="language-nix highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>nixosModules<span class="o">.</span>hardware-amazon
 </span></code></pre></div></td></tr></table></div>
+<p>You may also need to change <code>disko.nix</code> or remove it and configure <code>fileSystems</code> and <code>boot</code> directly.</p>
 <p>Then follow this tutorial from the beginning to provision, configure and install a host.</p>
 <h3 id="customize">Customize</h3>
 <p>To learn more, browse available <a href="https://search.nixos.org/options">NixOS options in nixpkgs</a> and <a href="../reference/module-options/spo-anywhere">NixOS options provided by spo-anywhere</a> (see other modules in the menu on the left). You can add these options to <code>configuration.nix</code> to configure the system and then deploy as above.</p>
