@@ -14,7 +14,7 @@ Creeate a cloud host for the block producer node in the cloud console, API, or v
 
 In the case of public testnets and mainnet, there may be additional requirements, such as more RAM and disk space.
 
-Note down the IP address of the host. As an example, we will use an AWS host at IP `12.34.56.78`. Verify that SSH works:
+Note down the IP address of the host. As an example, we will use a Hetzner Cloud host at IP `12.34.56.78`. Verify that SSH works:
 
 ```bash
 ssh root@12.34.56.78
@@ -36,14 +36,12 @@ nix flake init --template github:mlabs-haskell/spo-anywhere#cloud
 
 ### Configure
 
-Edit `configuration.nix`. Update your SSH public key and IP address by changing the following lines:
+Edit `target.nix`. Update your SSH public key and IP address by changing the following lines:
 
 ```nix
   users.users.root.openssh.authorizedKeys.keys = [ "ssh-..." ];
-```
 
-```nix
-      target = "root@12.34.56.78";
+  spo-anywhere.install-script.target = "root@12.34.56.78";
 ```
 
 For this tutorial, we will use testing private keys included with the project and configured by default, which are suitable for testing but should not be used for public networks. For details on how to generate and configure different keys, see [Configure Pool](../usage/configure-pool.md) and [Generate Keys](../usage/generate-keys.md).
@@ -68,7 +66,8 @@ journalctl -e -u cardano-node
 When blocks are produced, logs like this should show up:
 
 ```
-TODO EXAMPLE
+Jan 29 07:01:21 spo-anywhere-test cardano-node-start[938]: [spo-anyw:cardano.node.Forge:Info:52] [2025-01-29 07:01:21.00 UTC] fromList [("credentials",String "Cardano"),("val",Object (fromList [("block",String "61c5de2ece6ceee1fca8716a94d38875ca3ed23c8d7b16b23b2933fa8cd1bff4"),("blockNo",Number 30.0),("blockPrev",String "6af1f332aac4adc1ab42f19b4750a6f47844a627532444f2fdf85f2c2f0f14a7"),("kind",String "TraceForgedBlock"),("slot",Number 716.0)]))]
+Jan 29 07:01:21 spo-anywhere-test cardano-node-start[938]: [spo-anyw:cardano.node.ChainDB:Notice:35] [2025-01-29 07:01:21.00 UTC] Chain extended, new tip: 61c5de2ece6ceee1fca8716a94d38875ca3ed23c8d7b16b23b2933fa8cd1bff4 at slot 716
 ```
 
 For public networks it may be necessary to [register the pool](../usage/register-the-pool.md) first.
@@ -88,8 +87,10 @@ Cloud provider support is provided by [srvos](https://github.com/nix-community/s
 To use a different cloud provider, edit `flake.nix` and replace `nixosModules.hardware-amazon` with one of the modules listed in the [srvos docs](https://nix-community.github.io/srvos/nixos/hardware/), eg:
 
 ```nix
-nixosModules.hardware-hetzner-cloud
+nixosModules.hardware-amazon
 ```
+
+You may also need to change `disko.nix` or remove it and configure `fileSystems` and `boot` directly.
 
 Then follow this tutorial from the beginning to provision, configure and install a host.
 

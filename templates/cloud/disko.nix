@@ -1,9 +1,17 @@
-{
+{lib, ...}: let
+  disk = "sda";
+in {
+  fileSystems."/" = {
+    device = lib.mkForce "/dev/disk/by-partlabel/disk-main-root";
+  };
+  boot.loader.grub.device = lib.mkForce "/dev/${disk}";
+  boot.loader.grub.devices = lib.mkForce ["/dev/${disk}"];
+
   disko.devices = {
     disk = {
       main = {
         type = "disk";
-        device = "/dev/sda";
+        device = "/dev/${disk}";
         content = {
           type = "gpt";
           partitions = {

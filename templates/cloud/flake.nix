@@ -9,16 +9,24 @@
     nixosConfigurations.spo-node = inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        {_module.args = {inherit inputs;};}
-        ./configuration.nix
-        ./disko.nix
-        inputs.spo-anywhere.nixosModules.default
-        inputs.disko.nixosModules.disko
-        inputs.srvos.nixosModules.server
+        # Edit this module to configure the installation target
+        ./target.nix
 
         # To use a different cloud provider, change the line below to one of the moduels at
         # https://nix-community.github.io/srvos/nixos/hardware/
-        inputs.srvos.nixosModules.hardware-amazon
+        inputs.srvos.nixosModules.hardware-hetzner-cloud
+
+        # This module may need to be edited to match the cloud provider disk configuration
+        ./disko.nix
+
+        # System configuration
+        ./configuration.nix
+
+        # Modules imported from inputs
+        inputs.spo-anywhere.nixosModules.default
+        inputs.disko.nixosModules.disko
+        inputs.srvos.nixosModules.server
+        {_module.args = {inherit inputs;};}
       ];
     };
     packages.x86_64-linux.install = self.nixosConfigurations.spo-node.config.system.build.spoInstallScript;
